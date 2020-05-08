@@ -1,6 +1,7 @@
 body {
     background-color: #001733;
     color: white;
+    font-family: Play, sans-serif;
 }
 
 .pill {
@@ -23,4 +24,5 @@ body {
     position: absolute;
     width: 120px;
     margin-left: -20px;
+    font-size: 80%;
 }

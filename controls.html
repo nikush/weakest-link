@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+        <title>Controls</title>
+    </head>
+    <body class="bg-light">
+        <nav class="navbar navbar-light bg-white shadow-sm mb-5">
+            <div class="container">
+                <span class="navbar-brand mb-0 h1">Weakest Link Controls</span>
+            </div>
+        </nav>
+
+        <div class="container">
+            <h1>Controls</h1>
+            <div id="app">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <button class="btn btn-primary" v-on:click="sendIt">Send</button>
+                        <input type="text" class="form-control" v-model="message" />
+                        <button class="btn btn-secondary">Start Game</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script src="./js/controls.js"></script>
+    </body>
+</html>

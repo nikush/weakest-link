@@ -3,6 +3,10 @@ var app = new Vue({
     data: {
         bc: new BroadcastChannel('weakest_link'),
         message: 'Hello Vue!',
+
+        bank: 0,
+        round: 1,
+        kitty: 0
     },
     created: function () {
         this.bc.onmessage = this.receiveBroadcast;
@@ -10,6 +14,11 @@ var app = new Vue({
     methods: {
         receiveBroadcast: function (event) {
             this.message = event.data;
+        }
+    },
+    computed: {
+        timeFormatted: function () {
+            return '0:00'
         }
     }
 })

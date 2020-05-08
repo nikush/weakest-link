@@ -7,10 +7,11 @@
 
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="./css/app.css">
 
         <title>Weakest Link</title>
     </head>
-    <body class="bg-light">
+    <body>
         <nav class="navbar navbar-light bg-white shadow-sm mb-5">
             <div class="container">
                 <span class="navbar-brand mb-0 h1">Weakest Link</span>
@@ -18,12 +19,29 @@
         </nav>
 
         <div class="container">
-            <h1>Weakest Link</h1>
             <div id="app">
                 <h1>{{message}}</h1>
-                <h2>Timer: 9:59</h2>
-                <h2>Kitty: &pound;99</h2>
-                <h2>Bank: &pound;99</h2>
+                <div class="row">
+                    <div class="col">
+                        <ul>
+                            <li>&pound;50</li>
+                            <li>&pound;40</li>
+                            <li>&pound;30</li>
+                            <li>&pound;20</li>
+                            <li>&pound;15</li>
+                            <li>&pound;10</li>
+                            <li>&pound;5</li>
+                            <li>&pound;2</li>
+                            <li>&pound;1</li>
+                        </ul>
+                        <p class="pill mb-5" data-text="Bank">&pound{{bank}}</p>
+                    </div>
+                    <div class="col">
+                        <p class="pill mb-5" data-text="Round">{{round}}</p>
+                        <p class="pill mb-5" data-text="Time">{{timeFormatted}}</p>
+                        <p class="pill mb-5" data-text="Kitty">&pound;{{kitty}}</p>
+                    </div>
+                </div>
             </div>
         </div>
 

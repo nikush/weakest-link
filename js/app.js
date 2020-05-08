@@ -1,3 +1,41 @@
+Vue.component('Timer', {
+    template: `<p class="pill" data-text="Time">{{timeFormatted}}</p>`,
+    data: function () {
+        return {
+            time: 10,
+            timeInterval: null,
+        }
+    },
+    methods: {
+        tick: function () {
+            this.time--;
+            if (this.time == 0) {
+                this.stopTimer();
+                this.$emit('complete');
+            }
+        },
+        stopTimer: function () {
+            clearInterval(this.timeInterval);
+        },
+        startTimer: function () {
+            this.timeInterval = setInterval(this.tick, 1000);
+        }
+    },
+    computed: {
+        timeFormatted: function () {
+            let seconds = this.time % 60;
+            let mins = Math.floor(this.time / 60);
+            if (seconds < 10) {
+                seconds = "0" + seconds;
+            }
+            return `${mins}:${seconds}`
+        }
+    },
+    created: function () {
+        this.startTimer();
+    }
+});
+
 var app = new Vue({
     el: '#app',
     data: {
@@ -14,6 +52,9 @@ var app = new Vue({
     methods: {
         receiveBroadcast: function (event) {
             this.message = event.data;
+        },
+        endRound: function () {
+            console.log('time complete, ending round');
         }
     },
     computed: {

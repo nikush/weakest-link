@@ -40,7 +40,7 @@
                     </div>
                     <div class="col">
                         <p class="pill mb-5" data-text="Round">{{round}}</p>
-                        <p class="pill mb-5" data-text="Time">{{timeFormatted}}</p>
+                        <Timer class="mb-5" v-on:complete="endRound"></Timer>
                         <p class="pill mb-5" data-text="Kitty">&pound;{{kitty}}</p>
                     </div>
                 </div>

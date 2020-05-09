@@ -25,17 +25,7 @@
                 <h1>{{message}}</h1>
                 <div class="row">
                     <div class="col">
-                        <ul>
-                            <li>&pound;50</li>
-                            <li>&pound;40</li>
-                            <li>&pound;30</li>
-                            <li>&pound;20</li>
-                            <li>&pound;15</li>
-                            <li>&pound;10</li>
-                            <li>&pound;5</li>
-                            <li>&pound;2</li>
-                            <li>&pound;1</li>
-                        </ul>
+                        <Chain v-bind:links="[1,2,5,10,15,20,30,40,50]" class="mb-4"></Chain>
                         <p class="pill mb-5" data-text="Bank">&pound{{bank}}</p>
                     </div>
                     <div class="col">

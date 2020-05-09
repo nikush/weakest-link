@@ -1,3 +1,22 @@
+Vue.component('Chain', {
+    template: `
+        <ul class="list-unstyled mb-0">
+            <li v-for="link in linksSorted" class="pill mb-3">&pound;{{link}}</li>
+        </ul>
+    `,
+    props: {
+        links: {
+            type: Array,
+            required: true
+        }
+    },
+    computed: {
+        linksSorted: function () {
+            return this.links.reverse();
+        }
+    }
+});
+
 Vue.component('Timer', {
     template: `<p class="pill" data-text="Time">{{timeFormatted}}</p>`,
     data: function () {

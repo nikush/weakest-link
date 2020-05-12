@@ -2,8 +2,13 @@ const EventBus = new Vue();
 
 Vue.component('Chain', {
     template: `
-        <ul class="list-unstyled mb-0">
-            <li v-for="link in linksSorted" class="pill mb-3" :class="{active:link.active}">&pound;{{link.value}}</li>
+        <ul class="pill-list list-unstyled mb-0">
+            <li v-for="link in linksSorted"
+                class="pill mb-3"
+                :class="{active:link.active}"
+            >
+                &pound;{{link.value}}
+            </li>
         </ul>
     `,
     data: function () {
@@ -103,7 +108,7 @@ var app = new Vue({
         },
         keyPress: function (event) {
             console.log(event);
-            switch (event.key) {
+            switch (event.code) {
                 case 'ArrowUp':
                     EventBus.$emit('chain:forward');
                     break;

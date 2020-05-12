@@ -15,6 +15,7 @@ body {
     box-shadow: 0 7px 0 0 #2A4E7A, 0 10px 0 0 #2A4E7A;
     text-shadow: 0px 1px 2px black;
     text-transform: uppercase;
+    transition: all 0.5s;
 
     line-height: 1;
 }
@@ -25,4 +26,8 @@ body {
     width: 120px;
     margin-left: -20px;
     font-size: 80%;
+}
+.pill.active {
+    background-color: #820009;
+    box-shadow: 0 7px 0 0 #630505, 0 10px 0 0 #630505;
 }

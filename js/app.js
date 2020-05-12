@@ -1,19 +1,44 @@
+const EventBus = new Vue();
+
 Vue.component('Chain', {
     template: `
         <ul class="list-unstyled mb-0">
-            <li v-for="link in linksSorted" class="pill mb-3">&pound;{{link}}</li>
+            <li v-for="link in linksSorted" class="pill mb-3" :class="{active:link.active}">&pound;{{link.value}}</li>
         </ul>
     `,
+    data: function () {
+        return {
+            currentStep: null,
+        }
+    },
     props: {
         links: {
             type: Array,
             required: true
-        }
+        },
     },
     computed: {
         linksSorted: function () {
-            return this.links.reverse();
+            let linkObjs = this.links.map((link, index) => {
+                return {
+                    value: link,
+                    active: this.currentStep == index,
+                }
+            });
+            return linkObjs.reverse();
         }
+    },
+    methods: {
+        incrementStep: function () {
+            this.currentStep++;
+        },
+        decrementStep: function () {
+            this.currentStep--;
+        }
+    },
+    created: function () {
+        EventBus.$on('chain:forward', this.incrementStep);
+        EventBus.$on('chain:backward', this.decrementStep);
     }
 });
 
@@ -71,14 +96,26 @@ var app = new Vue({
     methods: {
         receiveBroadcast: function (event) {
             this.message = event.data;
+            EventBus.$emit(event.data);
         },
         endRound: function () {
             console.log('time complete, ending round');
+        },
+        keyPress: function (event) {
+            console.log(event);
+            switch (event.key) {
+                case 'ArrowUp':
+                    EventBus.$emit('chain:forward');
+                    break;
+                case 'ArrowDown':
+                    EventBus.$emit('chain:backward');
+                    break;
+            }
         }
     },
-    computed: {
-        timeFormatted: function () {
-            return '0:00'
-        }
-    }
 })
+
+// work around to add global key presses
+document.addEventListener('keyup', function (event) {
+    app.keyPress(event);
+});

@@ -5,8 +5,8 @@ var app = new Vue({
         message: 'Hello Vue!',
     },
     methods: {
-        sendIt: function () {
-            this.bc.postMessage(this.message);
-        }
+        broadcast: function (payload) {
+            this.bc.postMessage(payload);
+        },
     },
 })

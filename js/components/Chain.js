@@ -1,16 +1,20 @@
 Vue.component('Chain', {
     template: `
-        <ul class="pill-list list-unstyled mb-0">
-            <li v-for="link in linksSorted"
-                class="pill mb-3"
-                :class="{active:link.active}"
-            >
-                &pound;{{link.value}}
-            </li>
-        </ul>
+        <div>
+            <ul class="pill-list list-unstyled mb-0">
+                <li v-for="link in linksSorted"
+                    class="pill mb-3"
+                    :class="{active:link.active}"
+                >
+                    &pound;{{link.value}}
+                </li>
+            </ul>
+            <p class="pill mb-5" data-text="Bank">&pound{{bank}}</p>
+        </div>
     `,
     data: function () {
         return {
+            bank: 0,
             currentStep: 0,
         }
     },
@@ -58,10 +62,27 @@ Vue.component('Chain', {
         reset: function () {
             this.currentStep = 0;
         },
+        bankChain: function () {
+            let fullChain = this.currentStep == this.links.length;
+
+            this.bank += this.acquiredValue
+            this.reset();
+
+            if (fullChain) {
+                this.endChain();
+            }
+        },
+        endChain: function () {
+            EventBus.$emit('chain:end', this.bank);
+            this.bank = 0;
+            this.reset();
+        },
     },
     created: function () {
         EventBus.$on('chain:forward', this.incrementStep);
         EventBus.$on('chain:backward', this.decrementStep);
         EventBus.$on('chain:reset', this.reset);
+        EventBus.$on('chain:bank', this.bankChain);
+        EventBus.$on('timer:complete', this.endChain)
     }
 });

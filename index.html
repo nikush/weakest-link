@@ -24,12 +24,11 @@
             <div id="app">
                 <div class="row">
                     <div class="col">
-                        <Chain v-bind:links="[1,2,5,10,15,20,30,40,50]" ref="chain"  class="mb-4"></Chain>
-                        <p class="pill mb-5" data-text="Bank">&pound{{bank}}</p>
+                        <Chain v-bind:links="[1,2,5,10,15,20,30,40,50]" class="mb-4"></Chain>
                     </div>
                     <div class="col">
                         <p class="pill mb-5" data-text="Round">{{round}}</p>
-                        <Timer class="mb-5" v-on:complete="endRound"></Timer>
+                        <Timer class="mb-5"></Timer>
                         <p class="pill mb-5" data-text="Kitty">&pound;{{kitty}}</p>
                     </div>
                 </div>

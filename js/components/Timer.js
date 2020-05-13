@@ -11,7 +11,7 @@ Vue.component('Timer', {
             this.duration--;
             if (this.duration == 0) {
                 this.stopTimer();
-                this.$emit('complete');
+                EventBus.$emit('timer:complete');
             }
         },
         stopTimer: function () {

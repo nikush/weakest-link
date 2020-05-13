@@ -4,7 +4,6 @@ var app = new Vue({
     el: '#app',
     data: {
         bc: new BroadcastChannel('weakest_link'),
-        bank: 0,
         round: 1,
         kitty: 0,
         roundTimes: [180, 170, 160, 150, 140, 130, 120, 90],
@@ -13,7 +12,7 @@ var app = new Vue({
     created: function () {
         this.bc.onmessage = this.receiveBroadcast;
         EventBus.$on('round:start', this.startRound);
-        EventBus.$on('round:bank', this.roundBank);
+        EventBus.$on('chain:end', this.endRound);
     },
     methods: {
         receiveBroadcast: function (event) {
@@ -22,12 +21,8 @@ var app = new Vue({
         startRound: function () {
             EventBus.$emit('timer:start', this.roundTimes[this.round-1]);
         },
-        endRound: function () {
-            console.log('time complete, ending round');
-        },
-        roundBank: function () {
-            this.bank += this.$refs.chain.acquiredValue;
-            EventBus.$emit('chain:reset');
+        endRound: function (bank) {
+            this.kitty += bank;
         },
         keyPress: function (event) {
             const keyMap = {
@@ -36,7 +31,7 @@ var app = new Vue({
                 'KeyS': 'round:start',
                 'Space': 'chain:forward',
                 'Backspace': 'chain:reset',
-                'Enter': 'round:bank',
+                'Enter': 'chain:bank',
             }
             if (event.code in keyMap) {
                 EventBus.$emit(keyMap[event.code]);

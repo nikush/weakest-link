@@ -22,8 +22,6 @@
             <div id="app">
                 <div class="card shadow-sm">
                     <div class="card-body">
-                        <button class="btn btn-primary" v-on:click="broadcast(message)">Send</button>
-                        <input type="text" class="form-control" v-model="message" />
                         <button class="btn btn-secondary">Start Game</button>
                         <br/>
                         <button class="btn btn-primary" @click="broadcast('chain:forward')">Step Forward</button>

@@ -33,7 +33,6 @@ body {
 }
 
 .pill.active ~ .pill {
-    background-color: green;
 }
 
 .pill-list .pill:not(:first-child):not(.active){

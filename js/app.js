@@ -1,120 +1,47 @@
 const EventBus = new Vue();
 
-Vue.component('Chain', {
-    template: `
-        <ul class="pill-list list-unstyled mb-0">
-            <li v-for="link in linksSorted"
-                class="pill mb-3"
-                :class="{active:link.active}"
-            >
-                &pound;{{link.value}}
-            </li>
-        </ul>
-    `,
-    data: function () {
-        return {
-            currentStep: null,
-        }
-    },
-    props: {
-        links: {
-            type: Array,
-            required: true
-        },
-    },
-    computed: {
-        linksSorted: function () {
-            let linkObjs = this.links.map((link, index) => {
-                return {
-                    value: link,
-                    active: this.currentStep == index,
-                }
-            });
-            return linkObjs.reverse();
-        }
-    },
-    methods: {
-        incrementStep: function () {
-            this.currentStep++;
-        },
-        decrementStep: function () {
-            this.currentStep--;
-        }
-    },
-    created: function () {
-        EventBus.$on('chain:forward', this.incrementStep);
-        EventBus.$on('chain:backward', this.decrementStep);
-    }
-});
-
-Vue.component('Timer', {
-    template: `<p class="pill" data-text="Time">{{timeFormatted}}</p>`,
-    data: function () {
-        return {
-            time: 10,
-            timeInterval: null,
-        }
-    },
-    methods: {
-        tick: function () {
-            this.time--;
-            if (this.time == 0) {
-                this.stopTimer();
-                this.$emit('complete');
-            }
-        },
-        stopTimer: function () {
-            clearInterval(this.timeInterval);
-        },
-        startTimer: function () {
-            this.timeInterval = setInterval(this.tick, 1000);
-        }
-    },
-    computed: {
-        timeFormatted: function () {
-            let seconds = this.time % 60;
-            let mins = Math.floor(this.time / 60);
-            if (seconds < 10) {
-                seconds = "0" + seconds;
-            }
-            return `${mins}:${seconds}`
-        }
-    },
-    created: function () {
-        this.startTimer();
-    }
-});
-
 var app = new Vue({
     el: '#app',
     data: {
         bc: new BroadcastChannel('weakest_link'),
-        message: 'Hello Vue!',
-
         bank: 0,
         round: 1,
-        kitty: 0
+        kitty: 0,
+        roundTimes: [180, 170, 160, 150, 140, 130, 120, 90],
+        audio: document.getElementById('audio'),
     },
     created: function () {
         this.bc.onmessage = this.receiveBroadcast;
+        EventBus.$on('round:start', this.startRound);
+        EventBus.$on('round:bank', this.roundBank);
     },
     methods: {
         receiveBroadcast: function (event) {
-            this.message = event.data;
             EventBus.$emit(event.data);
+        },
+        startRound: function () {
+            EventBus.$emit('timer:start', this.roundTimes[this.round-1]);
         },
         endRound: function () {
             console.log('time complete, ending round');
         },
+        roundBank: function () {
+            this.bank += this.$refs.chain.acquiredValue;
+            EventBus.$emit('chain:reset');
+        },
         keyPress: function (event) {
-            console.log(event);
-            switch (event.code) {
-                case 'ArrowUp':
-                    EventBus.$emit('chain:forward');
-                    break;
-                case 'ArrowDown':
-                    EventBus.$emit('chain:backward');
-                    break;
+            const keyMap = {
+                'ArrowUp': 'chain:forward',
+                'ArrowDown': 'chain:backward',
+                'KeyS': 'round:start',
+                'Space': 'chain:forward',
+                'Backspace': 'chain:reset',
+                'Enter': 'round:bank',
+            }
+            if (event.code in keyMap) {
+                EventBus.$emit(keyMap[event.code]);
+            } else {
+                console.warn('Unrecognised key', event);
             }
         }
     },

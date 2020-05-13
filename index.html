@@ -22,10 +22,9 @@
 
         <div class="container">
             <div id="app">
-                <h1>{{message}}</h1>
                 <div class="row">
                     <div class="col">
-                        <Chain v-bind:links="[1,2,5,10,15,20,30,40,50]" class="mb-4"></Chain>
+                        <Chain v-bind:links="[1,2,5,10,15,20,30,40,50]" ref="chain"  class="mb-4"></Chain>
                         <p class="pill mb-5" data-text="Bank">&pound{{bank}}</p>
                     </div>
                     <div class="col">
@@ -37,7 +36,11 @@
             </div>
         </div>
 
+        <audio id="audio" src="audio/Round Win.mp3"></audio>
+
         <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script src="./js/components/Chain.js"></script>
+        <script src="./js/components/Timer.js"></script>
         <script src="./js/app.js"></script>
     </body>
 </html>

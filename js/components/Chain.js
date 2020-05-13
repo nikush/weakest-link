@@ -74,6 +74,7 @@ Vue.component('Chain', {
         },
         endChain: function () {
             EventBus.$emit('chain:end', this.bank);
+            EventBus.$emit('timer:stop');
             this.bank = 0;
             this.reset();
         },

@@ -16,6 +16,7 @@ Vue.component('Timer', {
         },
         stopTimer: function () {
             clearInterval(this.interval);
+            this.duration = 0;
         },
         startTimer: function (duration) {
             this.duration = duration;
@@ -29,10 +30,11 @@ Vue.component('Timer', {
             if (seconds < 10) {
                 seconds = "0" + seconds;
             }
-            return `${mins}:${seconds}`
+            return `${mins}:${seconds}`;
         }
     },
     created: function () {
-        EventBus.$on('timer:start', this.startTimer)
+        EventBus.$on('timer:start', this.startTimer);
+        EventBus.$on('timer:stop', this.stopTimer);
     }
 });

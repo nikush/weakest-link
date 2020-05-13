@@ -23,6 +23,7 @@ var app = new Vue({
         },
         endRound: function (bank) {
             this.kitty += bank;
+            this.round++;
         },
         keyPress: function (event) {
             const keyMap = {

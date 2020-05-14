@@ -25,6 +25,10 @@ var app = new Vue({
             this.kitty += bank;
             this.round++;
         },
+        /* TODO: contextually add/remove keys
+         *       eg. don't allow the chain to manipulated if the round hasn't
+         *       started
+         */
         keyPress: function (event) {
             const keyMap = {
                 'ArrowUp': 'chain:forward',

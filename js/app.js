@@ -8,6 +8,17 @@ var app = new Vue({
         kitty: 0,
         roundTimes: [180, 170, 160, 150, 140, 130, 120, 90],
         audio: document.getElementById('audio'),
+        audioTracks: [
+            'Round 1 - 9 people',
+            'Round 2 - 8 people',
+            'Round 3 - 7 people',
+            'Round 4 - 6 people',
+            'Round 5 - 5 people',
+            'Round 6 - 4 people',
+            'Round 7 - 3 people',
+            'Round 8 - 2 people',
+            'Round Win',
+        ],
     },
     created: function () {
         this.bc.onmessage = this.receiveBroadcast;
@@ -20,6 +31,10 @@ var app = new Vue({
         },
         startRound: function () {
             EventBus.$emit('timer:start', this.roundTimes[this.round-1]);
+
+            let track = this.audioTracks[this.round-1];
+            this.audio.src=`./audio/${track}.mp3`;
+            this.audio.play();
         },
         endRound: function (bank) {
             this.kitty += bank;

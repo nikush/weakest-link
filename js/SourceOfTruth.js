@@ -1,24 +1,22 @@
 const sourceOfTruth = {
     state: {
         linkValues: [1,2,5,10,15,20,30,40,50],
-        roundTimes: [180, 170, 160, 150, 140, 130, 120, 90],
+        rounds: [
+            { time: 180, track: 'Round 1 - 9 people' },
+            { time: 170, track: 'Round 2 - 8 people' },
+            { time: 160, track: 'Round 3 - 7 people' },
+            { time: 150, track: 'Round 4 - 6 people' },
+            { time: 140, track: 'Round 5 - 5 people' },
+            { time: 130, track: 'Round 6 - 4 people' },
+            { time: 120, track: 'Round 7 - 3 people' },
+            { time: 90,  track: 'Round 8 - 2 people' },
+        ],
+        roundWinTrackName: 'Round Win',
 
         round: 1,
         answerStreak: null,
         bank: 0,
         kitty: 0,
-
-        audioTracks: [
-            'Round 1 - 9 people',
-            'Round 2 - 8 people',
-            'Round 3 - 7 people',
-            'Round 4 - 6 people',
-            'Round 5 - 5 people',
-            'Round 6 - 4 people',
-            'Round 7 - 3 people',
-            'Round 8 - 2 people',
-            'Round Win',
-        ],
     },
 
     incrementAnswerStreak: function () {
@@ -50,25 +48,20 @@ const sourceOfTruth = {
 
             // interrupt the timer and audio
             EventBus.$emit('timer:stop');
-            this.playTrack(-1);
+            this.playTrack(this.state.roundWinTrackName);
         }
     },
 
-    playTrack: function (track) {
-        // -1 = play the Round Win track
-        if (track === -1) {
-            var trackName = this.state.audioTracks[this.state.audioTracks.length-1];
-        } else {
-            var trackName = this.state.audioTracks[this.state.round-1];
-        }
+    playTrack: function (trackName) {
         EventBus.$emit('audio:play', `./audio/${trackName}.mp3`);
     },
 
     startRound: function () {
         this.resetAnswerStreak();
-        EventBus.$emit('timer:start', this.state.roundTimes[this.state.round-1]);
 
-        this.playTrack();
+        const currentRound = this.state.rounds[this.state.round-1];
+        EventBus.$emit('timer:start', currentRound.time);
+        this.playTrack(currentRound.track);
     },
     // called by timer:complete event and bankAnswerStreak()
     endRound: function () {

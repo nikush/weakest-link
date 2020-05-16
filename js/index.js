@@ -17,6 +17,10 @@ var app = new Vue({
         EventBus.$on('chain:reset', () => Game.resetAnswerStreak());
 
         EventBus.$on('chain:bank', () => Game.bankAnswerStreak());
+
+        EventBus.$on('game:controls', function () {
+            window.open('controls.html', 'someWindowNow', 'height=500,width=600');
+        });
     },
     methods: {
         receiveBroadcast: function (event) {
@@ -31,6 +35,7 @@ var app = new Vue({
                 'Space': 'chain:forward',
                 'Backspace': 'chain:reset',
                 'Enter': 'chain:bank',
+                'KeyC': 'game:controls',
             }
             if (event.code in keyMap) {
                 EventBus.$emit(keyMap[event.code]);

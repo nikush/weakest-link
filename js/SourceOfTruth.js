@@ -71,6 +71,10 @@ const sourceOfTruth = {
         this.clearAnswerStreak();
 
         this.state.round++;
+
+        if (this.state.round > this.state.rounds.length) {
+            console.log('end of the game');
+        }
     },
 };
 

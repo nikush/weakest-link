@@ -8,7 +8,6 @@ const sourceOfTruth = {
         bank: 0,
         kitty: 0,
 
-        audio: document.getElementById('audio'),
         audioTracks: [
             'Round 1 - 9 people',
             'Round 2 - 8 people',
@@ -51,19 +50,25 @@ const sourceOfTruth = {
 
             // interrupt the timer and audio
             EventBus.$emit('timer:stop');
-            const track = this.state.audioTracks[this.state.audioTracks.length-1]
-            this.state.audio.src=`./audio/${track}.mp3`;
-            this.state.audio.play();
+            this.playTrack(-1);
         }
+    },
+
+    playTrack: function (track) {
+        // -1 = play the Round Win track
+        if (track === -1) {
+            var trackName = this.state.audioTracks[this.state.audioTracks.length-1];
+        } else {
+            var trackName = this.state.audioTracks[this.state.round-1];
+        }
+        EventBus.$emit('audio:play', `./audio/${trackName}.mp3`);
     },
 
     startRound: function () {
         this.resetAnswerStreak();
         EventBus.$emit('timer:start', this.state.roundTimes[this.state.round-1]);
 
-        let track = this.state.audioTracks[this.state.round-1];
-        this.state.audio.src=`./audio/${track}.mp3`;
-        this.state.audio.play();
+        this.playTrack();
     },
     // called by timer:complete event and bankAnswerStreak()
     endRound: function () {

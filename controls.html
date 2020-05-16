@@ -22,7 +22,7 @@
             <div id="app">
                 <div class="card shadow-sm">
                     <div class="card-body">
-                        <button class="btn btn-secondary">Start Game</button>
+                        <button class="btn btn-secondary" @click="broadcast('round:start')">Start Game</button>
                         <br/>
                         <button class="btn btn-primary" @click="broadcast('chain:forward')">Step Forward</button>
                         <button class="btn btn-secondary" @click="broadcast('chain:backward')">Step Backward</button>

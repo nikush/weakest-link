@@ -5,6 +5,14 @@ const sourceOfTruth = {
         answerStreak: null,
         linkValues: [1,2,5,10,15,20,30,40,50],
     },
+    incrementAnswerStreak: function () {
+        this.state.answerStreak++;
+    },
+    deccrementAnswerStreak: function () {
+        if (this.state.answerStreak > 0) {
+            this.state.answerStreak--;
+        }
+    },
 };
 
 var app = new Vue({
@@ -30,13 +38,19 @@ var app = new Vue({
     },
     created: function () {
         this.bc.onmessage = this.receiveBroadcast;
+
         EventBus.$on('round:start', this.startRound);
         EventBus.$on('chain:end', this.endRound);
+
+        EventBus.$on('chain:forward', this.incrementStep);
+        EventBus.$on('chain:backward', this.decrementStep);
+        EventBus.$on('chain:reset', this.reset);
     },
     methods: {
         receiveBroadcast: function (event) {
             EventBus.$emit(event.data);
         },
+
         startRound: function () {
             this.sharedState.answerStreak = 0;
 
@@ -51,6 +65,17 @@ var app = new Vue({
             this.kitty += bank;
             this.round++;
         },
+
+        incrementStep: function () {
+            sourceOfTruth.incrementAnswerStreak();
+        },
+        decrementStep: function () {
+            sourceOfTruth.deccrementAnswerStreak();
+        },
+        reset: function () {
+            this.sharedState.answerStreak = 0;
+        },
+
         /* TODO: contextually add/remove keys
          *       eg. don't allow the chain to manipulated if the round hasn't
          *       started

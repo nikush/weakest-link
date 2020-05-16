@@ -42,18 +42,6 @@ Vue.component('Chain', {
         },
     },
     methods: {
-        incrementStep: function () {
-            this.sharedState.answerStreak++;
-        },
-        decrementStep: function () {
-            if (this.sharedState.answerStreak > 0) {
-                this.sharedState.answerStreak--;
-            }
-
-        },
-        reset: function () {
-            this.sharedState.answerStreak = 0;
-        },
         bankChain: function () {
             let fullChain = this.currentStep == this.links.length;
 
@@ -72,9 +60,6 @@ Vue.component('Chain', {
         },
     },
     created: function () {
-        EventBus.$on('chain:forward', this.incrementStep);
-        EventBus.$on('chain:backward', this.decrementStep);
-        EventBus.$on('chain:reset', this.reset);
         EventBus.$on('chain:bank', this.bankChain);
         EventBus.$on('timer:complete', this.endChain)
     }

@@ -6,10 +6,6 @@ var app = new Vue({
         sharedState: sourceOfTruth.state,
         bc: new BroadcastChannel('weakest_link'),
 
-        round: 1,
-        kitty: 0,
-        roundTimes: [180, 170, 160, 150, 140, 130, 120, 90],
-
         audio: document.getElementById('audio'),
         audioTracks: [
             'Round 1 - 9 people',
@@ -26,33 +22,18 @@ var app = new Vue({
     created: function () {
         this.bc.onmessage = this.receiveBroadcast;
 
-        EventBus.$on('round:start', this.startRound);
-        EventBus.$on('timer:complete', this.endRound)
+        EventBus.$on('round:start', () => sourceOfTruth.startRound());
+        EventBus.$on('timer:complete', () => sourceOfTruth.endRound())
 
         EventBus.$on('chain:forward', () => sourceOfTruth.incrementAnswerStreak());
         EventBus.$on('chain:backward', () => sourceOfTruth.decrementAnswerStreak());
         EventBus.$on('chain:reset', () => sourceOfTruth.resetAnswerStreak());
 
-        EventBus.$on('chain:bank', () => sourceOfTruth.bankChain());
+        EventBus.$on('chain:bank', () => sourceOfTruth.bankAnswerStreak());
     },
     methods: {
         receiveBroadcast: function (event) {
             EventBus.$emit(event.data);
-        },
-
-        startRound: function () {
-            this.sharedState.answerStreak = 0;
-
-            EventBus.$emit('timer:start', this.roundTimes[this.round-1]);
-
-            let track = this.audioTracks[this.round-1];
-            this.audio.src=`./audio/${track}.mp3`;
-            this.audio.play();
-        },
-        endRound: function () {
-            this.kitty += this.sharedState.bank;
-            this.round++;
-            sourceOfTruth.clearAnswerStreak();
         },
 
         /* TODO: contextually add/remove keys

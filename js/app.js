@@ -5,13 +5,20 @@ const sourceOfTruth = {
         answerStreak: null,
         linkValues: [1,2,5,10,15,20,30,40,50],
     },
+
     incrementAnswerStreak: function () {
         this.state.answerStreak++;
     },
-    deccrementAnswerStreak: function () {
+    decrementAnswerStreak: function () {
         if (this.state.answerStreak > 0) {
             this.state.answerStreak--;
         }
+    },
+    resetAnswerStreak: function () {
+        this.state.answerStreak = 0;
+    },
+    clearAnswerStreak: function () {
+        this.state.answerStreak = null;
     },
 };
 
@@ -42,9 +49,9 @@ var app = new Vue({
         EventBus.$on('round:start', this.startRound);
         EventBus.$on('chain:end', this.endRound);
 
-        EventBus.$on('chain:forward', this.incrementStep);
-        EventBus.$on('chain:backward', this.decrementStep);
-        EventBus.$on('chain:reset', this.reset);
+        EventBus.$on('chain:forward', () => sourceOfTruth.incrementAnswerStreak());
+        EventBus.$on('chain:backward', () => sourceOfTruth.decrementAnswerStreak());
+        EventBus.$on('chain:reset', () => sourceOfTruth.resetAnswerStreak());
     },
     methods: {
         receiveBroadcast: function (event) {
@@ -64,16 +71,6 @@ var app = new Vue({
             this.sharedState.answerStreak = null;
             this.kitty += bank;
             this.round++;
-        },
-
-        incrementStep: function () {
-            sourceOfTruth.incrementAnswerStreak();
-        },
-        decrementStep: function () {
-            sourceOfTruth.deccrementAnswerStreak();
-        },
-        reset: function () {
-            this.sharedState.answerStreak = 0;
         },
 
         /* TODO: contextually add/remove keys

@@ -15,52 +15,44 @@ Vue.component('Chain', {
     data: function () {
         return {
             bank: 0,
-            currentStep: 0,
+            sharedState: sourceOfTruth.state,
         }
-    },
-    props: {
-        links: {
-            type: Array,
-            required: true
-        },
     },
     computed: {
         linksSorted: function () {
-            let linkObjs = this.links.map((link, index) => {
+            let linkObjs = this.sharedState.linkValues.map((link, index) => {
                 return {
                     value: link,
-                    active: this.displayStep == index,
+                    active: this.displayStep === index,
                 }
             });
             return linkObjs.reverse();
         },
         acquiredValue: function () {
-            return this.links[this.currentStep - 1] || 0;
+            return this.staredState.linkValues[this.sharedState.answerStreak - 1] || 0;
         },
         // current step is allowed to exceed the number of links by 1
         // this is a wrapper around that to not exceed the last item for
         // display purposes
         displayStep: function () {
-            return Math.min(this.currentStep, this.links.length-1);
+            if (this.sharedState.answerStreak === null) {
+                return null;
+            }
+            return Math.min(this.sharedState.answerStreak, this.sharedState.linkValues.length-1);
         },
     },
     methods: {
         incrementStep: function () {
-            // allow the steps to exceed the number of links by 1
-            // because players have to surpass the last link and answer
-            // correctly to earn it
-            if (this.currentStep < this.links.length) {
-                this.currentStep++;
-            }
+            this.sharedState.answerStreak++;
         },
         decrementStep: function () {
-            if (this.currentStep > 0) {
-                this.currentStep--;
+            if (this.sharedState.answerStreak > 0) {
+                this.sharedState.answerStreak--;
             }
 
         },
         reset: function () {
-            this.currentStep = 0;
+            this.sharedState.answerStreak = 0;
         },
         bankChain: function () {
             let fullChain = this.currentStep == this.links.length;

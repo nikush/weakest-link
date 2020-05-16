@@ -1,8 +1,16 @@
 const EventBus = new Vue();
 
+const sourceOfTruth = {
+    state: {
+        answerStreak: null,
+        linkValues: [1,2,5,10,15,20,30,40,50],
+    },
+};
+
 var app = new Vue({
     el: '#app',
     data: {
+        sharedState: sourceOfTruth.state,
         bc: new BroadcastChannel('weakest_link'),
         round: 1,
         kitty: 0,
@@ -30,6 +38,8 @@ var app = new Vue({
             EventBus.$emit(event.data);
         },
         startRound: function () {
+            this.sharedState.answerStreak = 0;
+
             EventBus.$emit('timer:start', this.roundTimes[this.round-1]);
 
             let track = this.audioTracks[this.round-1];
@@ -37,6 +47,7 @@ var app = new Vue({
             this.audio.play();
         },
         endRound: function (bank) {
+            this.sharedState.answerStreak = null;
             this.kitty += bank;
             this.round++;
         },

@@ -3,20 +3,20 @@ const EventBus = new Vue();
 var app = new Vue({
     el: '#app',
     data: {
-        sharedState: sourceOfTruth.state,
+        sharedState: Game.state,
         bc: new BroadcastChannel('weakest_link'),
     },
     created: function () {
         this.bc.onmessage = this.receiveBroadcast;
 
-        EventBus.$on('round:start', () => sourceOfTruth.startRound());
-        EventBus.$on('timer:complete', () => sourceOfTruth.endRound())
+        EventBus.$on('round:start', () => Game.startRound());
+        EventBus.$on('timer:complete', () => Game.endRound())
 
-        EventBus.$on('chain:forward', () => sourceOfTruth.incrementAnswerStreak());
-        EventBus.$on('chain:backward', () => sourceOfTruth.decrementAnswerStreak());
-        EventBus.$on('chain:reset', () => sourceOfTruth.resetAnswerStreak());
+        EventBus.$on('chain:forward', () => Game.incrementAnswerStreak());
+        EventBus.$on('chain:backward', () => Game.decrementAnswerStreak());
+        EventBus.$on('chain:reset', () => Game.resetAnswerStreak());
 
-        EventBus.$on('chain:bank', () => sourceOfTruth.bankAnswerStreak());
+        EventBus.$on('chain:bank', () => Game.bankAnswerStreak());
     },
     methods: {
         receiveBroadcast: function (event) {

@@ -11,7 +11,7 @@ Vue.component('Chain', {
     `,
     data: function () {
         return {
-            sharedState: sourceOfTruth.state,
+            sharedState: Game.state,
         }
     },
     computed: {

@@ -1,4 +1,4 @@
-const sourceOfTruth = {
+const Game = {
     state: {
         linkValues: [1,2,5,10,15,20,30,40,50],
         rounds: [

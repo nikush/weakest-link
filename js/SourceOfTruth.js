@@ -18,6 +18,7 @@ const sourceOfTruth = {
     },
     clearAnswerStreak: function () {
         this.state.answerStreak = null;
+        this.state.bank = 0;
     },
 
     bankChain: function () {
@@ -29,7 +30,7 @@ const sourceOfTruth = {
         this.state.bank += acquiredValue;
         this.resetAnswerStreak();
 
-        // end the round if it's a full chain
+        // TODO: end the round if it's a full chain
     },
 };
 

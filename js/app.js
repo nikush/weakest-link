@@ -27,14 +27,13 @@ var app = new Vue({
         this.bc.onmessage = this.receiveBroadcast;
 
         EventBus.$on('round:start', this.startRound);
-        EventBus.$on('chain:end', this.endRound);
+        EventBus.$on('timer:complete', this.endRound)
 
         EventBus.$on('chain:forward', () => sourceOfTruth.incrementAnswerStreak());
         EventBus.$on('chain:backward', () => sourceOfTruth.decrementAnswerStreak());
         EventBus.$on('chain:reset', () => sourceOfTruth.resetAnswerStreak());
 
         EventBus.$on('chain:bank', () => sourceOfTruth.bankChain());
-        EventBus.$on('timer:complete', this.endChain)
     },
     methods: {
         receiveBroadcast: function (event) {
@@ -50,17 +49,10 @@ var app = new Vue({
             this.audio.src=`./audio/${track}.mp3`;
             this.audio.play();
         },
-        endRound: function (bank) {
-            this.sharedState.answerStreak = null;
-            this.kitty += bank;
+        endRound: function () {
+            this.kitty += this.sharedState.bank;
             this.round++;
-        },
-
-        endChain: function () {
-            EventBus.$emit('chain:end', this.bank);
-            EventBus.$emit('timer:stop');
-            this.bank = 0;
-            this.reset();
+            sourceOfTruth.clearAnswerStreak();
         },
 
         /* TODO: contextually add/remove keys

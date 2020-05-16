@@ -5,19 +5,6 @@ var app = new Vue({
     data: {
         sharedState: sourceOfTruth.state,
         bc: new BroadcastChannel('weakest_link'),
-
-        audio: document.getElementById('audio'),
-        audioTracks: [
-            'Round 1 - 9 people',
-            'Round 2 - 8 people',
-            'Round 3 - 7 people',
-            'Round 4 - 6 people',
-            'Round 5 - 5 people',
-            'Round 6 - 4 people',
-            'Round 7 - 3 people',
-            'Round 8 - 2 people',
-            'Round Win',
-        ],
     },
     created: function () {
         this.bc.onmessage = this.receiveBroadcast;

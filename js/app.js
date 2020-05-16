@@ -1,35 +1,15 @@
 const EventBus = new Vue();
 
-const sourceOfTruth = {
-    state: {
-        answerStreak: null,
-        linkValues: [1,2,5,10,15,20,30,40,50],
-    },
-
-    incrementAnswerStreak: function () {
-        this.state.answerStreak++;
-    },
-    decrementAnswerStreak: function () {
-        if (this.state.answerStreak > 0) {
-            this.state.answerStreak--;
-        }
-    },
-    resetAnswerStreak: function () {
-        this.state.answerStreak = 0;
-    },
-    clearAnswerStreak: function () {
-        this.state.answerStreak = null;
-    },
-};
-
 var app = new Vue({
     el: '#app',
     data: {
         sharedState: sourceOfTruth.state,
         bc: new BroadcastChannel('weakest_link'),
+
         round: 1,
         kitty: 0,
         roundTimes: [180, 170, 160, 150, 140, 130, 120, 90],
+
         audio: document.getElementById('audio'),
         audioTracks: [
             'Round 1 - 9 people',
@@ -52,6 +32,9 @@ var app = new Vue({
         EventBus.$on('chain:forward', () => sourceOfTruth.incrementAnswerStreak());
         EventBus.$on('chain:backward', () => sourceOfTruth.decrementAnswerStreak());
         EventBus.$on('chain:reset', () => sourceOfTruth.resetAnswerStreak());
+
+        EventBus.$on('chain:bank', () => sourceOfTruth.bankChain());
+        EventBus.$on('timer:complete', this.endChain)
     },
     methods: {
         receiveBroadcast: function (event) {
@@ -73,6 +56,13 @@ var app = new Vue({
             this.round++;
         },
 
+        endChain: function () {
+            EventBus.$emit('chain:end', this.bank);
+            EventBus.$emit('timer:stop');
+            this.bank = 0;
+            this.reset();
+        },
+
         /* TODO: contextually add/remove keys
          *       eg. don't allow the chain to manipulated if the round hasn't
          *       started
@@ -88,8 +78,6 @@ var app = new Vue({
             }
             if (event.code in keyMap) {
                 EventBus.$emit(keyMap[event.code]);
-            } else {
-                console.warn('Unrecognised key', event);
             }
         }
     },

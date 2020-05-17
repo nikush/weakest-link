@@ -15,8 +15,10 @@ Vue.component('Sound', {
         stop: function () {
         },
         pause: function () {
+            this.$el.pause();
         },
         resume: function () {
+            this.$el.play();
         },
         mute: function () {
             this.$el.volume = 0;
@@ -27,9 +29,9 @@ Vue.component('Sound', {
     },
     created: function () {
         EventBus.$on('audio:play', this.play);
-        EventBus.$on('audio:pause', this.play);
-        EventBus.$on('audio:stop', this.play);
-        EventBus.$on('audio:resume', this.play);
+        EventBus.$on('audio:pause', this.pause);
+        EventBus.$on('audio:stop', this.stop);
+        EventBus.$on('audio:resume', this.resume);
         EventBus.$on('audio:mute', this.mute);
         EventBus.$on('audio:unmute', this.unmute);
     },

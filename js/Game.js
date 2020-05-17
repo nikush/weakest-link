@@ -19,6 +19,7 @@ const Game = {
         kitty: 0,
 
         muted: false,
+        roundState: 'ended', // ended, started, paused
     },
 
     incrementAnswerStreak: function () {

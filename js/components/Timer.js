@@ -15,13 +15,11 @@ Vue.component('Timer', {
             }
         },
         stopTimer: function () {
-            //clearInterval(this.interval);
             this.pauseTimer();
             this.duration = 0;
         },
         startTimer: function (duration) {
             this.duration = duration;
-            //this.interval = setInterval(this.tick, 1000);
             this.resumeTimer();
         },
         pauseTimer: function () {

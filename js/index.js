@@ -9,12 +9,12 @@ var app = new Vue({
         EventBus.$on('round:start', () => Game.startRound());
         EventBus.$on('timer:complete', () => Game.endRound());
         EventBus.$on('round:pause', () => {
-            console.log('pausing the round');
             EventBus.$emit('timer:pause');
+            EventBus.$emit('audio:pause');
         });
         EventBus.$on('round:resume', () => {
-            console.log('resume the round');
             EventBus.$emit('timer:resume');
+            EventBus.$emit('audio:resume');
         });
 
         EventBus.$on('chain:forward', () => Game.incrementAnswerStreak());
@@ -23,7 +23,35 @@ var app = new Vue({
 
         EventBus.$on('chain:bank', () => Game.bankAnswerStreak());
     },
+    computed: {
+        gameStateCopy: function () {
+            switch (this.sharedState.roundState) {
+                case 'ended':
+                    return 'Start';
+                case 'started':
+                    return 'Pause';
+                case 'paused':
+                    return 'Resume';
+            }
+        }
+    },
     methods: {
+        toggleGameState: function () {
+            switch (this.sharedState.roundState) {
+                case 'ended':
+                    this.sharedState.roundState = 'started';
+                    EventBus.$emit('round:start');
+                    break;
+                case 'started':
+                    this.sharedState.roundState = 'paused';
+                    EventBus.$emit('round:pause');
+                    break;
+                case 'paused':
+                    this.sharedState.roundState = 'started';
+                    EventBus.$emit('round:resume');
+                    break;
+            }
+        },
         toggleSounds: function () {
             EventBus.$emit(this.sharedState.muted?'audio:unmute':'audio:mute');
             this.sharedState.muted = !this.sharedState.muted;

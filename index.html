@@ -32,6 +32,15 @@
                         <Timer class="mb-5"></Timer>
                         <p class="pill mb-5" data-text="Kitty">&pound;{{sharedState.kitty}}</p>
                     </div>
+                    <div class="col">
+                        <div class="card shadow-sm mb-4 bg-dark">
+                            <div class="card-body">
+                                <button class="btn btn-outline-primary btn-block" @click="toggleRound">{{roundButtonCopy}} Round</button>
+                                <button class="btn btn-outline-secondary btn-block">Mute Sounds</button>
+                                <button class="btn btn-outline-secondary btn-block">Undo Last Action</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <Sound></Sound>
             </div>

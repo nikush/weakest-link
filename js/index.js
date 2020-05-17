@@ -4,11 +4,8 @@ var app = new Vue({
     el: '#app',
     data: {
         sharedState: Game.state,
-        bc: new BroadcastChannel('weakest_link'),
     },
     created: function () {
-        this.bc.onmessage = this.receiveBroadcast;
-
         EventBus.$on('round:start', () => Game.startRound());
         EventBus.$on('timer:complete', () => Game.endRound());
         EventBus.$on('round:pause', () => {
@@ -31,10 +28,6 @@ var app = new Vue({
         });
     },
     methods: {
-        receiveBroadcast: function (event) {
-            EventBus.$emit(event.data);
-        },
-
         keyPress: function (event) {
             const keyMap = {
                 'ArrowUp': 'chain:forward',

@@ -22,6 +22,13 @@ const Game = {
         roundState: 'ended', // ended, started, paused
     },
 
+    questionCorrect: function () {
+        this.incrementAnswerStreak();
+    },
+    questionIncorrect: function () {
+        this.resetAnswerStreak();
+    },
+
     incrementAnswerStreak: function () {
         this.state.answerStreak++;
     },

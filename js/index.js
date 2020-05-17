@@ -9,6 +9,9 @@ var app = new Vue({
         EventBus.$on('round:toggle', () => Game.toggleGameState());
         EventBus.$on('timer:complete', () => Game.endRound());
 
+        EventBus.$on('question:correct', () => Game.questionCorrect());
+        EventBus.$on('question:incorrect', () => Game.questionIncorrect());
+
         EventBus.$on('chain:bank', () => Game.bankAnswerStreak());
         EventBus.$on('chain:reset', () => Game.resetAnswerStreak());
         EventBus.$on('chain:forward', () => Game.incrementAnswerStreak());
@@ -17,11 +20,11 @@ var app = new Vue({
     methods: {
         keyPress: function (event) {
             const keyMap = {
-                //'ArrowUp': 'chain:forward',
-                //'ArrowDown': 'chain:backward',
+                'ArrowUp': 'chain:forward',
+                'ArrowDown': 'chain:backward',
                 'KeyS': 'round:toggle',
-                'Space': 'chain:forward',
-                'Backspace': 'chain:reset',
+                'Space': 'question:correct',
+                'Backspace': 'question:incorrect',
                 'Enter': 'chain:bank',
             }
             if (event.code in keyMap) {

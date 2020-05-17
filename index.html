@@ -33,13 +33,7 @@
                         <p class="pill mb-5" data-text="Kitty">&pound;{{sharedState.kitty}}</p>
                     </div>
                     <div class="col">
-                        <div class="card shadow-sm mb-4 bg-dark">
-                            <div class="card-body">
-                                <button class="btn btn-outline-primary btn-block" @click="toggleGameState">{{gameStateCopy}} Round</button>
-                                <button class="btn btn-outline-secondary btn-block" @click="toggleSounds">{{sharedState.muted?'Unmute':'Mute'}} Sounds</button>
-                                <button class="btn btn-outline-secondary btn-block" disabled>Undo Last Action</button>
-                            </div>
-                        </div>
+                        <Controls></Controls>
                     </div>
                 </div>
                 <Sound></Sound>
@@ -47,8 +41,9 @@
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-        <script src="./js/components/Sound.js"></script>
         <script src="./js/components/Chain.js"></script>
+        <script src="./js/components/Controls.js"></script>
+        <script src="./js/components/Sound.js"></script>
         <script src="./js/components/Timer.js"></script>
         <script src="./js/Game.js"></script>
         <script src="./js/index.js"></script>

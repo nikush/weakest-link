@@ -60,14 +60,26 @@ const Game = {
     },
 
     startRound: function () {
+        this.state.roundState = 'started';
         this.resetAnswerStreak();
 
         const currentRound = this.state.rounds[this.state.round-1];
         EventBus.$emit('timer:start', currentRound.time);
         this.playTrack(currentRound.track);
     },
+    pauseRound: function () {
+        this.state.roundState = 'paused';
+        EventBus.$emit('timer:pause');
+        EventBus.$emit('audio:pause');
+    },
+    resumeRound: function () {
+        this.state.roundState = 'started';
+        EventBus.$emit('timer:resume');
+        EventBus.$emit('audio:resume');
+    },
     // called by timer:complete event and bankAnswerStreak()
     endRound: function () {
+        this.state.roundState = 'ended';
         this.state.kitty += this.state.bank;
         this.state.bank = 0;
 

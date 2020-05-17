@@ -4,6 +4,22 @@ var app = new Vue({
     el: '#app',
     data: {
         sharedState: Game.state,
+        stateKeyMap: {
+            'ended': {
+                'KeyS': 'round:toggle',
+            },
+            'started': {
+                'KeyS': 'round:toggle',
+                'Space': 'question:correct',
+                'Backspace': 'question:incorrect',
+                'Enter': 'chain:bank',
+                'ArrowUp': 'chain:forward',
+                'ArrowDown': 'chain:backward',
+            },
+            'paused': {
+                'KeyS': 'round:toggle',
+            },
+        },
     },
     created: function () {
         EventBus.$on('round:toggle', () => Game.toggleGameState());
@@ -19,16 +35,9 @@ var app = new Vue({
     },
     methods: {
         keyPress: function (event) {
-            const keyMap = {
-                'ArrowUp': 'chain:forward',
-                'ArrowDown': 'chain:backward',
-                'KeyS': 'round:toggle',
-                'Space': 'question:correct',
-                'Backspace': 'question:incorrect',
-                'Enter': 'chain:bank',
-            }
-            if (event.code in keyMap) {
-                EventBus.$emit(keyMap[event.code]);
+            const currentKeyMap = this.stateKeyMap[this.sharedState.roundState];
+            if (event.code in currentKeyMap) {
+                EventBus.$emit(currentKeyMap[event.code]);
             }
         }
     },

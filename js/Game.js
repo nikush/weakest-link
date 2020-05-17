@@ -17,6 +17,8 @@ const Game = {
         answerStreak: null,
         bank: 0,
         kitty: 0,
+
+        muted: false,
     },
 
     incrementAnswerStreak: function () {

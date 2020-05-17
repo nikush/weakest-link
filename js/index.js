@@ -28,6 +28,11 @@ var app = new Vue({
         });
     },
     methods: {
+        toggleSounds: function () {
+            EventBus.$emit(this.sharedState.muted?'audio:unmute':'audio:mute');
+            this.sharedState.muted = !this.sharedState.muted;
+        },
+
         keyPress: function (event) {
             const keyMap = {
                 'ArrowUp': 'chain:forward',

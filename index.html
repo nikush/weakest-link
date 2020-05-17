@@ -35,8 +35,8 @@
                     <div class="col">
                         <div class="card shadow-sm mb-4 bg-dark">
                             <div class="card-body">
-                                <button class="btn btn-outline-primary btn-block" @click="toggleRound">{{roundButtonCopy}} Round</button>
-                                <button class="btn btn-outline-secondary btn-block">Mute Sounds</button>
+                                <button class="btn btn-outline-primary btn-block">Start Round</button>
+                                <button class="btn btn-outline-secondary btn-block" @click="toggleSounds">{{sharedState.muted?'Unmute':'Mute'}} Sounds</button>
                                 <button class="btn btn-outline-secondary btn-block">Undo Last Action</button>
                             </div>
                         </div>

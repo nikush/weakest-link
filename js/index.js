@@ -10,7 +10,15 @@ var app = new Vue({
         this.bc.onmessage = this.receiveBroadcast;
 
         EventBus.$on('round:start', () => Game.startRound());
-        EventBus.$on('timer:complete', () => Game.endRound())
+        EventBus.$on('timer:complete', () => Game.endRound());
+        EventBus.$on('round:pause', () => {
+            console.log('pausing the round');
+            EventBus.$emit('timer:pause');
+        });
+        EventBus.$on('round:resume', () => {
+            console.log('resume the round');
+            EventBus.$emit('timer:resume');
+        });
 
         EventBus.$on('chain:forward', () => Game.incrementAnswerStreak());
         EventBus.$on('chain:backward', () => Game.decrementAnswerStreak());

@@ -31,8 +31,7 @@
                                 Round
                             </div>
                             <div class="card-body">
-                                <button class="btn btn-outline-primary btn-block" @click="broadcast('round:start')">Start Round</button>
-                                <button class="btn btn-outline-primary btn-block">Pause/Resume Round</button>
+                                <button class="btn btn-outline-primary btn-block" @click="toggleRound">{{roundButtonCopy}} Round</button>
                             </div>
                         </div>
                     </div> <!-- /.col -->
@@ -45,6 +44,8 @@
                             <div class="card-body">
                                 <button class="btn btn-success btn-block">Correct Answer</button>
                                 <button class="btn btn-danger btn-block">Incorrect Answer</button>
+                                <button class="btn btn-outline-primary btn-block">Bank</button>
+                                <button class="btn btn-outline-secondary btn-block">Undo Last Action</button>
                             </div>
                         </div>
                     </div> <!-- /.col -->

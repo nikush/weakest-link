@@ -15,11 +15,19 @@ Vue.component('Timer', {
             }
         },
         stopTimer: function () {
-            clearInterval(this.interval);
+            //clearInterval(this.interval);
+            this.pauseTimer();
             this.duration = 0;
         },
         startTimer: function (duration) {
             this.duration = duration;
+            //this.interval = setInterval(this.tick, 1000);
+            this.resumeTimer();
+        },
+        pauseTimer: function () {
+            clearInterval(this.interval);
+        },
+        resumeTimer: function () {
             this.interval = setInterval(this.tick, 1000);
         }
     },
@@ -36,5 +44,7 @@ Vue.component('Timer', {
     created: function () {
         EventBus.$on('timer:start', this.startTimer);
         EventBus.$on('timer:stop', this.stopTimer);
+        EventBus.$on('timer:pause', this.pauseTimer);
+        EventBus.$on('timer:resume', this.resumeTimer);
     }
 });

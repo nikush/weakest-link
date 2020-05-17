@@ -1,6 +1,6 @@
 Vue.component('Controls', {
     template: `
-        <div class="card shadow-sm mb-4 bg-dark">
+        <div class="card shadow mb-4 bg-dark">
             <div class="card-body">
                 <button class="btn btn-outline-primary btn-block" @click="toggleGameState">
                     {{gameStateCopy}} Round

@@ -5,14 +5,11 @@ Vue.component('Sound', {
     data: function () {
         return {
             src: null,
-            sharedState: Game.state,
         }
     },
     methods: {
         play: function (track) {
             this.src = track;
-        },
-        stop: function () {
         },
         pause: function () {
             this.$el.pause();
@@ -30,7 +27,6 @@ Vue.component('Sound', {
     created: function () {
         EventBus.$on('audio:play', this.play);
         EventBus.$on('audio:pause', this.pause);
-        EventBus.$on('audio:stop', this.stop);
         EventBus.$on('audio:resume', this.resume);
         EventBus.$on('audio:mute', this.mute);
         EventBus.$on('audio:unmute', this.unmute);

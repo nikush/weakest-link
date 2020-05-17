@@ -4,6 +4,7 @@ var app = new Vue({
     el: '#app',
     data: {
         sharedState: Game.state,
+        showControls: false,
         stateKeyMap: {
             'ended': {
                 'KeyS': 'round:toggle',

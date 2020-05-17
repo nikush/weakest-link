@@ -14,26 +14,26 @@
         <title>Weakest Link</title>
     </head>
     <body>
-        <nav class="navbar navbar-dark shadow-sm mb-5">
-            <div class="container justify-content-center">
-                <span class="mb-0 h1">Weakest Link</span>
-            </div>
-        </nav>
+        <div id="app">
+            <nav class="navbar navbar-dark shadow-sm mb-5 mt-4">
+                <div class="container justify-content-center">
+                    <span class="mb-0 h1" @click="showControls=!showControls" style="cursor:pointer">Weakest Link</span>
+                </div>
+            </nav>
 
-        <div class="container">
-            <div id="app">
+            <div class="container">
                 <div class="row">
                     <div class="col d-flex flex-column align-items-center">
                         <Chain class="mb-4"></Chain>
                         <p class="pill mb-5" data-text="Bank">&pound{{sharedState.bank}}</p>
                     </div>
+                    <div class="col" :class="{'d-none':!showControls}">
+                        <Controls></Controls>
+                    </div>
                     <div class="col d-flex flex-column align-items-center">
                         <p class="pill mb-5" data-text="Round">{{sharedState.round}}</p>
                         <Timer class="mb-5"></Timer>
                         <p class="pill mb-5" data-text="Kitty">&pound;{{sharedState.kitty}}</p>
-                    </div>
-                    <div class="col">
-                        <Controls></Controls>
                     </div>
                 </div>
                 <Sound></Sound>

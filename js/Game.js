@@ -91,5 +91,18 @@ const Game = {
             console.log('end of the game');
         }
     },
+    toggleGameState: function () {
+        switch (this.state.roundState) {
+            case 'ended':
+                this.startRound();
+                break;
+            case 'started':
+                this.pauseRound();
+                break;
+            case 'paused':
+                this.resumeRound();
+                break;
+        }
+    },
 };
 

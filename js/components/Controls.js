@@ -20,27 +20,16 @@ Vue.component('Controls', {
         }
     },
     methods: {
-        toggleGameState: function () {
-            switch (this.sharedState.roundState) {
-                case 'ended':
-                    EventBus.$emit('round:start');
-                    break;
-                case 'started':
-                    EventBus.$emit('round:pause');
-                    break;
-                case 'paused':
-                    EventBus.$emit('round:resume');
-                    break;
-            }
-        },
         toggleSounds: function () {
             EventBus.$emit(this.sharedState.muted?'audio:unmute':'audio:mute');
             this.sharedState.muted = !this.sharedState.muted;
         },
+        toggleGameState: function () {
+            EventBus.$emit('round:toggle');
+        }
     },
     computed: {
         gameStateCopy: function () {
-            console.log(this.sharedState.roundState);
             switch (this.sharedState.roundState) {
                 case 'ended':
                     return 'Start';

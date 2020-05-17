@@ -6,9 +6,7 @@ var app = new Vue({
         sharedState: Game.state,
     },
     created: function () {
-        EventBus.$on('round:start', () => Game.startRound());
-        EventBus.$on('round:pause', () => Game.pauseRound());
-        EventBus.$on('round:resume', () => Game.resumeRound());
+        EventBus.$on('round:toggle', () => Game.toggleGameState());
         EventBus.$on('timer:complete', () => Game.endRound());
 
         EventBus.$on('chain:bank', () => Game.bankAnswerStreak());
@@ -21,7 +19,7 @@ var app = new Vue({
             const keyMap = {
                 //'ArrowUp': 'chain:forward',
                 //'ArrowDown': 'chain:backward',
-                'KeyS': 'round:start',
+                'KeyS': 'round:toggle',
                 'Space': 'chain:forward',
                 'Backspace': 'chain:reset',
                 'Enter': 'chain:bank',

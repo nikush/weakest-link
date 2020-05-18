@@ -27,7 +27,7 @@
                         <Chain class="mb-4"></Chain>
                         <p class="pill mb-5" data-text="Bank">&pound{{sharedState.bank}}</p>
                     </div>
-                    <div class="col" :class="{'d-none':!showControls}">
+                    <div class="col" v-if="showControls">
                         <Controls></Controls>
                     </div>
                     <div class="col d-flex flex-column align-items-center">

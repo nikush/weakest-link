@@ -20,12 +20,16 @@ const Game = {
 
         muted: false,
         roundState: 'ended', // ended, started, paused
+
+        history: {},
     },
 
     questionCorrect: function () {
+        this.logHistory();
         this.incrementAnswerStreak();
     },
     questionIncorrect: function () {
+        this.logHistory();
         this.resetAnswerStreak();
     },
 
@@ -45,6 +49,8 @@ const Game = {
     },
 
     bankAnswerStreak: function () {
+        this.logHistory();
+
         const fullChain = this.state.answerStreak >= this.state.linkValues.length;
 
         const maxValue = Math.min(this.state.answerStreak, this.state.linkValues.length);
@@ -94,6 +100,8 @@ const Game = {
 
         this.state.round++;
 
+        this.clearHistory();
+
         if (this.state.round > this.state.rounds.length) {
             console.log('end of the game');
         }
@@ -110,5 +118,26 @@ const Game = {
                 this.resumeRound();
                 break;
         }
+    },
+
+    logHistory: function () {
+        const newHistory = {
+            answerStreak: this.state.answerStreak,
+            bank: this.state.bank,
+        };
+        Vue.set(Game.state, 'history', newHistory);
+    },
+    clearHistory: function () {
+        Vue.set(Game.state, 'history', {});
+    },
+    undoLastAction: function () {
+        if (Object.keys(this.state.history).length === 0) {
+            return;
+        }
+
+        this.state.answerStreak = this.state.history.answerStreak;
+        this.state.bank = this.state.history.bank;
+
+        this.clearHistory();
     },
 };

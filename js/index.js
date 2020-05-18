@@ -16,9 +16,11 @@ var app = new Vue({
                 'Enter': 'chain:bank',
                 'ArrowUp': 'chain:forward',
                 'ArrowDown': 'chain:backward',
+                'KeyZ': 'history:undo',
             },
             'paused': {
                 'KeyS': 'round:toggle',
+                'KeyZ': 'history:undo',
             },
         },
     },
@@ -33,6 +35,8 @@ var app = new Vue({
         EventBus.$on('chain:reset', () => Game.resetAnswerStreak());
         EventBus.$on('chain:forward', () => Game.incrementAnswerStreak());
         EventBus.$on('chain:backward', () => Game.decrementAnswerStreak());
+
+        EventBus.$on('history:undo', () => Game.undoLastAction());
     },
     methods: {
         keyPress: function (event) {

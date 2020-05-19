@@ -39,6 +39,10 @@ var app = new Vue({
         EventBus.$on('history:undo', () => Game.undoLastAction());
     },
     methods: {
+        submitNames: function (names) {
+            console.log(names);
+        },
+
         keyPress: function (event) {
             const currentKeyMap = this.stateKeyMap[this.sharedState.roundState];
             if (event.code in currentKeyMap) {

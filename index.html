@@ -22,6 +22,13 @@
             </nav>
 
             <div class="container">
+
+                <div class="row mb-4">
+                    <div class="col col-4 offset-4">
+                        <Names @submit="submitNames"></Names>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col d-flex flex-column align-items-center">
                         <Chain class="mb-4"></Chain>
@@ -43,6 +50,7 @@
         <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
         <script src="./js/components/Chain.js"></script>
         <script src="./js/components/Controls.js"></script>
+        <script src="./js/components/Names.js"></script>
         <script src="./js/components/Sound.js"></script>
         <script src="./js/components/Timer.js"></script>
         <script src="./js/Game.js"></script>

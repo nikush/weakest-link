@@ -38,3 +38,14 @@ body {
 .pill-list .pill:not(:first-child):not(.active){
     color: #bbb;
 }
+
+.players > li {
+    background-color: hsla(0, 0%, 100%, 0.1);
+}
+.players > li.eliminated {
+    opacity: 0.4;
+    text-decoration: line-through;
+}
+.players > li.active {
+    border: 1px solid white;
+}

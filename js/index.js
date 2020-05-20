@@ -6,10 +6,10 @@ var app = new Vue({
         sharedState: Game.state,
         showControls: false,
         stateKeyMap: {
-            'ended': {
+            'round:ended': {
                 'KeyS': 'round:toggle',
             },
-            'started': {
+            'round:started': {
                 'KeyS': 'round:toggle',
                 'Space': 'question:correct',
                 'Backspace': 'question:incorrect',
@@ -18,7 +18,7 @@ var app = new Vue({
                 'ArrowDown': 'chain:backward',
                 'KeyZ': 'history:undo',
             },
-            'paused': {
+            'round:paused': {
                 'KeyS': 'round:toggle',
                 'KeyZ': 'history:undo',
             },
@@ -40,11 +40,19 @@ var app = new Vue({
     },
     methods: {
         submitNames: function (names) {
+            Game.setPlayers(names);
+            Game.startGame();
+
             console.log(names);
         },
 
         keyPress: function (event) {
-            const currentKeyMap = this.stateKeyMap[this.sharedState.roundState];
+            console.log(this.sharedState.gameState);
+            if (!this.stateKeyMap.hasOwnProperty(this.sharedState.gameState)) {
+                return;
+            }
+
+            const currentKeyMap = this.stateKeyMap[this.sharedState.gameState];
             if (event.code in currentKeyMap) {
                 EventBus.$emit(currentKeyMap[event.code]);
             }

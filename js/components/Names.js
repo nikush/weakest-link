@@ -32,7 +32,8 @@ Vue.component('Names', {
         submit: function () {
             const nonEmptyNames = this.players.filter(player => player.name);
             const sanitisedNames = nonEmptyNames.map(player => player.name.trim());
-            this.$emit('submit', sanitisedNames);
+            const sortedNames = sanitisedNames.sort();
+            this.$emit('submit', sortedNames);
         },
     },
 });

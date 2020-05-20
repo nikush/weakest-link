@@ -19,7 +19,19 @@ const Game = {
         kitty: 0,
 
         muted: false,
-        roundState: 'ended', // ended, started, paused
+        //gameState: 'names',
+        gameState: 'round:ended', // names, round:ended, round:started, round:paused, ended
+
+        //players: {},
+        activePlayer: null,
+        players: {
+            'one':{name:'one',questions:{total:0,correct:0}},
+            'two':{name:'two',questions:{total:0,correct:0}},
+            'three':{name:'three',questions:{total:0,correct:0}},
+            'four':{name:'four',questions:{total:0,correct:0}},
+            'five':{name:'five',questions:{total:0,correct:0}},
+        },
+        remainingPlayers: ['one','two','three','four','five'],
 
         history: {},
     },
@@ -27,10 +39,19 @@ const Game = {
     questionCorrect: function () {
         this.logHistory();
         this.incrementAnswerStreak();
+        this.nextPlayer();
     },
     questionIncorrect: function () {
         this.logHistory();
         this.resetAnswerStreak();
+        this.nextPlayer();
+    },
+    nextPlayer: function () {
+        if (this.state.activePlayer == this.state.remainingPlayers.length -1) {
+            this.state.activePlayer = 0;
+        } else {
+            this.state.activePlayer++;
+        }
     },
 
     incrementAnswerStreak: function () {
@@ -73,7 +94,8 @@ const Game = {
     },
 
     startRound: function () {
-        this.state.roundState = 'started';
+        this.state.gameState = 'round:started';
+        this.state.activePlayer = 0;
         this.resetAnswerStreak();
 
         const currentRound = this.state.rounds[this.state.round-1];
@@ -81,20 +103,21 @@ const Game = {
         this.playTrack(currentRound.track);
     },
     pauseRound: function () {
-        this.state.roundState = 'paused';
+        this.state.gameState = 'round:paused';
         EventBus.$emit('timer:pause');
         EventBus.$emit('audio:pause');
     },
     resumeRound: function () {
-        this.state.roundState = 'started';
+        this.state.gameState = 'round:started';
         EventBus.$emit('timer:resume');
         EventBus.$emit('audio:resume');
     },
     // called by timer:complete event and bankAnswerStreak()
     endRound: function () {
-        this.state.roundState = 'ended';
+        this.state.gameState = 'round:ended';
         this.state.kitty += this.state.bank;
         this.state.bank = 0;
+        this.state.activePlayer = null;
 
         this.clearAnswerStreak();
 
@@ -107,14 +130,14 @@ const Game = {
         }
     },
     toggleGameState: function () {
-        switch (this.state.roundState) {
-            case 'ended':
+        switch (this.state.gameState) {
+            case 'round:ended':
                 this.startRound();
                 break;
-            case 'started':
+            case 'round:started':
                 this.pauseRound();
                 break;
-            case 'paused':
+            case 'round:paused':
                 this.resumeRound();
                 break;
         }
@@ -139,5 +162,22 @@ const Game = {
         this.state.bank = this.state.history.bank;
 
         this.clearHistory();
+    },
+
+    setPlayers: function (names) {
+        this.players = names.map(name => {
+            return {
+                name: name,
+                active: false,
+                eliminated: false,
+                questions: {
+                    total: 0,
+                    correct: 0,
+                }
+            };
+        });
+    },
+    startGame: function () {
+        this.state.gameState = 'round:started';
     },
 };

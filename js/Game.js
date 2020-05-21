@@ -30,8 +30,12 @@ const Game = {
             'three':{name:'three',questions:{total:0,correct:0}},
             'four':{name:'four',questions:{total:0,correct:0}},
             'five':{name:'five',questions:{total:0,correct:0}},
+            'six':{name:'six',questions:{total:0,correct:0}},
+            'seven':{name:'seven',questions:{total:0,correct:0}},
+            'eight':{name:'eight',questions:{total:0,correct:0}},
+            'nine':{name:'nine',questions:{total:0,correct:0}},
         },
-        remainingPlayers: ['one','two','three','four','five'],
+        remainingPlayers: ['one','two','three','four','five','six','seven','eight','nine'],
 
         history: {},
     },

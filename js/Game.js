@@ -147,6 +147,7 @@ const Game = {
         const newHistory = {
             answerStreak: this.state.answerStreak,
             bank: this.state.bank,
+            activePlayer: this.state.activePlayer,
         };
         Vue.set(Game.state, 'history', newHistory);
     },
@@ -160,6 +161,7 @@ const Game = {
 
         this.state.answerStreak = this.state.history.answerStreak;
         this.state.bank = this.state.history.bank;
+        this.state.activePlayer = this.state.history.activePlayer;
 
         this.clearHistory();
     },

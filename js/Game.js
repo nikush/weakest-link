@@ -37,6 +37,8 @@ const Game = {
         },
         remainingPlayers: ['one','two','three','four','five','six','seven','eight','nine'],
 
+        showModal: false,
+
         history: {},
     },
 
@@ -128,6 +130,8 @@ const Game = {
         this.state.round++;
 
         this.clearHistory();
+
+        this.state.showModal = true;
 
         if (this.state.round > this.state.rounds.length) {
             console.log('end of the game');

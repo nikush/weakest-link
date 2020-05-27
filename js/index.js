@@ -42,8 +42,6 @@ var app = new Vue({
         submitNames: function (names) {
             Game.setPlayers(names);
             Game.startGame();
-
-            console.log(names);
         },
 
         keyPress: function (event) {

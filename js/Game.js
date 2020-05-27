@@ -19,11 +19,15 @@ const Game = {
         kitty: 0,
 
         muted: false,
-        //gameState: 'names',
-        gameState: 'round:ended', // names, round:ended, round:started, round:paused, ended
+        gameState: 'names',
+        //gameState: 'round:ended', // names, round:ended, round:started, round:paused, ended
 
-        //players: {},
+        minPlayers: 3,
+        maxPlayers: 9,
+        players: {},
+        remainingPlayers: [],
         activePlayer: null,
+        /*
         players: {
             'one':{name:'one',questions:{total:0,correct:0}},
             'two':{name:'two',questions:{total:0,correct:0}},
@@ -35,7 +39,8 @@ const Game = {
             'eight':{name:'eight',questions:{total:0,correct:0}},
             'nine':{name:'nine',questions:{total:0,correct:0}},
         },
-        remainingPlayers: ['one','two','three','four','five','six','seven','eight','nine'],
+        */
+        //remainingPlayers: ['one','two','three','four','five','six','seven','eight','nine'],
 
         showModal: false,
 
@@ -175,19 +180,19 @@ const Game = {
     },
 
     setPlayers: function (names) {
-        this.players = names.map(name => {
-            return {
+        for (name of names) {
+            this.state.players[name] = {
                 name: name,
-                active: false,
-                eliminated: false,
                 questions: {
                     total: 0,
                     correct: 0,
                 }
             };
-        });
+        }
+        this.state.remainingPlayers = names;
+        this.state.round = (this.state.maxPlayers - this.state.remainingPlayers.length) + 1;
     },
     startGame: function () {
-        this.state.gameState = 'round:started';
+        this.state.gameState = 'round:ended';
     },
 };

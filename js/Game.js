@@ -134,7 +134,7 @@ const Game = {
         this.state.showModal = true;
 
         if (this.state.round > this.state.rounds.length) {
-            console.log('end of the game');
+            this.state.gameState = 'ended';
         }
     },
     toggleGameState: function () {

@@ -47,7 +47,6 @@ var app = new Vue({
         },
 
         keyPress: function (event) {
-            console.log(this.sharedState.gameState);
             if (!this.stateKeyMap.hasOwnProperty(this.sharedState.gameState)) {
                 return;
             }

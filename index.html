@@ -50,6 +50,10 @@
 
                 </div>
 
+                <div class="text-center" v-if="sharedState.gameState == 'ended'">
+                    <h1>Congratulations {{sharedState.remainingPlayers[0]}}!</h1>
+                </div>
+
             </div>
 
             <Sound></Sound>

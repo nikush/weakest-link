@@ -22,8 +22,6 @@ const Game = {
         maxPlayers: 9,
         players: {},
         remainingPlayers: [],
-
-        showModal: false,
     },
 
     setPlayers: function (names) {

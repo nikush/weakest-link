@@ -1,22 +1,12 @@
 Vue.component('elimination-list', {
+    props: ['players'],
     template: `
         <div>
-            <button v-for="player in sharedState.remainingPlayers"
+            <button v-for="player in players"
                 class="btn btn-outline-primary btn-block"
-                @click="eliminate(player)"
-                v-text="player"></button>
+                @click="$emit('selected', player)"
+                v-text="player">
+            </button>
         </div>
     `,
-    data: function () {
-        return {
-            sharedState: Game.state,
-        }
-    },
-    methods: {
-        eliminate: function (player) {
-            const i = this.sharedState.remainingPlayers.indexOf(player);
-            this.sharedState.remainingPlayers.splice(i, 1);
-            this.sharedState.showModal = false;
-        },
-    }
 });

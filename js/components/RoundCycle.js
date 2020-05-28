@@ -13,6 +13,10 @@ Vue.component('round-cycle', {
                 <Timer class="mb-5"></Timer>
                 <p class="pill mb-5" data-text="Kitty">&pound;{{sharedState.kitty}}</p>
             </div>
+
+            <Modal title="Eliminate Player" :display="showModal">
+                <elimination-list @selected="eliminatePlayer" :players="sharedState.remainingPlayers"></elimination-list>
+            </Modal>
         </div>
     `,
     data: function () {
@@ -22,6 +26,8 @@ Vue.component('round-cycle', {
             answerStreak: null,
             activePlayer: null,
             bank: 0,
+
+            showModal: false,
 
             history: {},
         };
@@ -126,7 +132,7 @@ Vue.component('round-cycle', {
 
             this.clearHistory();
 
-            //this.state.showModal = true;
+            this.showModal = true;
 
             if (this.sharedState.round > this.sharedState.rounds.length) {
                 this.sharedState.gameState = 'ended';
@@ -158,6 +164,12 @@ Vue.component('round-cycle', {
             this.activePlayer = this.history.activePlayer;
 
             this.clearHistory();
+        },
+
+        eliminatePlayer: function (player) {
+            const i = this.sharedState.remainingPlayers.indexOf(player);
+            this.sharedState.remainingPlayers.splice(i, 1);
+            this.showModal = false;
         },
     },
 

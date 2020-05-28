@@ -37,11 +37,6 @@
 
                 <div v-if="sharedState.gameState.startsWith('round:')">
                     <round-cycle></round-cycle>
-
-                    <Modal title="Eliminate Player">
-                        <elimination-list><elimination-list>
-                    </Modal>
-
                 </div>
 
                 <div class="text-center" v-if="sharedState.gameState == 'ended'">

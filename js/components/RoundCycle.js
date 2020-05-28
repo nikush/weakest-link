@@ -10,7 +10,7 @@ Vue.component('round-cycle', {
             </div>
             <div class="col d-flex flex-column align-items-center">
                 <p class="pill mb-5" data-text="Round">{{sharedState.round}}</p>
-                <Timer class="mb-5"></Timer>
+                <Timer class="mb-5" @complete="endRound"></Timer>
                 <p class="pill mb-5" data-text="Kitty">&pound;{{sharedState.kitty}}</p>
             </div>
 
@@ -119,7 +119,7 @@ Vue.component('round-cycle', {
             EventBus.$emit('timer:resume');
             EventBus.$emit('audio:resume');
         },
-        // called by timer:complete event and bankAnswerStreak()
+        // called by timer "complete" event and bankAnswerStreak()
         endRound: function () {
             this.sharedState.gameState = 'round:ended';
             this.sharedState.kitty += this.bank;

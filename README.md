@@ -1,8 +1,4 @@
 #TODO
-- round history
-- get round elimination working again
-- timer shouldn't need to emit it's event using the event bus
-
 - Draw out the states of the game
   - enter names
   - ---

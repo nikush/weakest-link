@@ -1,4 +1,5 @@
 Vue.component('Players', {
+    props: ['active'],
     template: `
         <ul class="players list-unstyled">
             <li v-for="player in formattedPlayers" v-text="player.name"
@@ -15,7 +16,7 @@ Vue.component('Players', {
     },
     computed: {
         formattedPlayers: function () {
-            const activePlayerName = this.sharedState.remainingPlayers[this.sharedState.activePlayer];
+            const activePlayerName = this.sharedState.remainingPlayers[this.active];
             let playerList = [];
 
             for (playerName in this.sharedState.players) {

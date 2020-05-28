@@ -1,4 +1,5 @@
 Vue.component('Chain', {
+    props: ['links', 'progress'],
     template: `
         <ul class="pill-list list-unstyled mb-0">
             <li v-for="link in linksSorted"
@@ -11,12 +12,11 @@ Vue.component('Chain', {
     `,
     data: function () {
         return {
-            sharedState: Game.state,
         }
     },
     computed: {
         linksSorted: function () {
-            let linkObjs = this.sharedState.linkValues.map((link, index) => {
+            let linkObjs = this.links.map((link, index) => {
                 return {
                     value: link,
                     active: this.displayStreak === index,
@@ -24,13 +24,13 @@ Vue.component('Chain', {
             });
             return linkObjs.reverse();
         },
-        // answer streak can be infinite, but we only go as far as highlighting
+        // progress can be infinite, but we only go as far as highlighting
         // the last link in the chain
         displayStreak: function () {
-            if (this.sharedState.answerStreak === null) {
+            if (this.progress === null) {
                 return null;
             }
-            return Math.min(this.sharedState.answerStreak, this.sharedState.linkValues.length-1);
+            return Math.min(this.progress, this.links.length-1);
         },
     },
 });

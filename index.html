@@ -23,26 +23,20 @@
 
             <div class="container">
 
+                <div class="row" v-if="showControls">
+                    <div class="col-4 offset-4">
+                        <Controls></Controls>
+                    </div>
+                </div>
+
                 <div class="row mb-4" v-if="sharedState.gameState == 'names'">
                     <div class="col col-4 offset-4">
                         <Names @submit="submitNames"></Names>
                     </div>
                 </div>
 
-                <div class="row" v-if="sharedState.gameState.startsWith('round:')">
-                    <div class="col d-flex flex-column align-items-center">
-                        <Chain class="mb-4"></Chain>
-                        <p class="pill mb-5" data-text="Bank">&pound{{sharedState.bank}}</p>
-                    </div>
-                    <div class="col">
-                        <Controls v-if="showControls"></Controls>
-                        <Players></Players>
-                    </div>
-                    <div class="col d-flex flex-column align-items-center">
-                        <p class="pill mb-5" data-text="Round">{{sharedState.round}}</p>
-                        <Timer class="mb-5"></Timer>
-                        <p class="pill mb-5" data-text="Kitty">&pound;{{sharedState.kitty}}</p>
-                    </div>
+                <div v-if="sharedState.gameState.startsWith('round:')">
+                    <round-cycle></round-cycle>
 
                     <Modal title="Eliminate Player">
                         <elimination-list><elimination-list>
@@ -67,6 +61,7 @@
         <script src="./js/components/Modal.js"></script>
         <script src="./js/components/Names.js"></script>
         <script src="./js/components/Players.js"></script>
+        <script src="./js/components/RoundCycle.js"></script>
         <script src="./js/components/Sound.js"></script>
         <script src="./js/components/Timer.js"></script>
         <script src="./js/Game.js"></script>

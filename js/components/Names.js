@@ -6,7 +6,7 @@ Vue.component('Names', {
             </div>
             <div class="card-body">
                 <div class="form-group" v-for="(player,index) in players">
-                    <input v-model="player.name" :key="index" type="text" class="form-control" @keydown="addField"/>
+                    <input v-model="player.name" :key="index" type="text" class="form-control" @input="addField"/>
                 </div>
                 <button class="btn btn-primary" @click="submit">Start Game</button>
             </div>

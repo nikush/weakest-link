@@ -1,4 +1,5 @@
 Vue.component('Names', {
+    props: ['min', 'max'],
     template: `
         <div class="card shadow-sm bg-dark">
             <div class="card-header">
@@ -15,13 +16,11 @@ Vue.component('Names', {
     data: function () {
         return {
             players: [{name:null}],
-            maxPlayers: 9,
-            minPlayers: 3,
         };
     },
     methods: {
         addField: function () {
-            if (this.players.length == this.maxPlayers) {
+            if (this.players.length == this.max) {
                 return;
             }
 
@@ -35,8 +34,8 @@ Vue.component('Names', {
             const sanitisedNames = nonEmptyNames.map(player => player.name.trim());
             const sortedNames = sanitisedNames.sort();
 
-            if (sortedNames.length < this.minPlayers) {
-                alert(`A minimum of ${this.minPlayers} is required. Only ${sortedNames.length} players have been provided.`);
+            if (sortedNames.length < this.min) {
+                alert(`A minimum of ${this.min} players is required. Only ${sortedNames.length} players have been provided.`);
                 return;
             }
 

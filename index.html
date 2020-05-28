@@ -31,7 +31,7 @@
 
                 <div class="row mb-4" v-if="sharedState.gameState == 'names'">
                     <div class="col col-4 offset-4">
-                        <Names @submit="submitNames"></Names>
+                        <Names @submit="submitNames" :min="sharedState.minPlayers" :max="sharedState.maxPlayers"></Names>
                     </div>
                 </div>
 

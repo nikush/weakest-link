@@ -14,8 +14,19 @@ Vue.component('round-cycle', {
                 <p class="pill mb-5" data-text="Kitty">&pound;{{sharedState.kitty}}</p>
             </div>
 
-            <Modal title="Eliminate Player" :display="showModal">
-                <elimination-list @selected="eliminatePlayer" :players="sharedState.remainingPlayers"></elimination-list>
+            <Modal :title="modalTitles[roundState]" :display="['summary','eliminate'].includes(roundState)">
+                <div v-if="roundState == 'summary'">
+                    <table class="table table-dark w-75 mx-auto">
+                        <tbody>
+                            <tr><th>Round</th><td class="text-right">{{sharedState.round}}</td></tr>
+                            <tr><th>Bank</th> <td class="text-right">&pound;{{bank}}</td></tr>
+                            <tr><th>Kitty</th><td class="text-right">&pound;{{sharedState.kitty}}</td></tr>
+                            <tr><th>Total</th><td class="text-right">&pound;{{sharedState.kitty + bank}}</td></tr>
+                        </tbody>
+                    </table>
+                    <button class="btn btn-outline-primary" @click="roundState = 'eliminate'">Eliminate Players</button>
+                </div>
+                <elimination-list v-if="roundState == 'eliminate'" @selected="eliminatePlayer" :players="sharedState.remainingPlayers"></elimination-list>
             </Modal>
         </div>
     `,
@@ -26,8 +37,6 @@ Vue.component('round-cycle', {
             answerStreak: null,
             activePlayer: null,
             bank: 0,
-
-            showModal: false,
 
             history: {},
 
@@ -47,6 +56,11 @@ Vue.component('round-cycle', {
                     'KeyS': this.toggleGameState,
                     'KeyZ': this.undoLastAction,
                 },
+            },
+
+            modalTitles: {
+                summary: 'Round Summary',
+                eliminate: 'Eliminate Player',
             },
         };
     },
@@ -139,18 +153,12 @@ Vue.component('round-cycle', {
         },
         // called by timer "complete" event and bankAnswerStreak()
         endRound: function () {
-            this.roundState = 'inactive';
-            this.sharedState.kitty += this.bank;
-            this.bank = 0;
+            this.roundState = 'summary';
             this.activePlayer = null;
 
             this.clearAnswerStreak();
 
-            this.sharedState.round++;
-
             this.clearHistory();
-
-            this.showModal = true;
 
             if (this.sharedState.round > this.sharedState.rounds.length) {
                 this.sharedState.gameState = 'ended';
@@ -187,7 +195,12 @@ Vue.component('round-cycle', {
         eliminatePlayer: function (player) {
             const i = this.sharedState.remainingPlayers.indexOf(player);
             this.sharedState.remainingPlayers.splice(i, 1);
-            this.showModal = false;
+
+            this.roundState = 'inactive';
+
+            this.sharedState.kitty += this.bank;
+            this.bank = 0;
+            this.sharedState.round++;
         },
 
         keyPress: function (event) {

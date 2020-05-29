@@ -16,7 +16,7 @@ const Game = {
         kitty: 0,
 
         muted: false,
-        gameState: 'names', // names, round:ended, round:started, round:paused, ended
+        gameState: 'names', // names, round, head_to_head, tie_breaker, ended
 
         minPlayers: 3,
         maxPlayers: 9,
@@ -39,6 +39,6 @@ const Game = {
     },
 
     startGame: function () {
-        this.state.gameState = 'round:ended';
+        this.state.gameState = 'round';
     },
 };

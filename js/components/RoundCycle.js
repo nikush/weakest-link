@@ -31,18 +31,19 @@ Vue.component('round-cycle', {
 
             history: {},
 
+            roundState: 'inactive', // inactive, active, paused, summary, eliminate
             stateKeyMap: {
-                'round:ended': {
+                'inactive': {
                     'KeyS': this.toggleGameState,
                 },
-                'round:started': {
+                'active': {
                     'KeyS': this.toggleGameState,
                     'Space': this.questionCorrect,
                     'Backspace': this.questionIncorrect,
                     'Enter': this.bankAnswerStreak,
                     'KeyZ': this.undoLastAction,
                 },
-                'round:paused': {
+                'paused': {
                     'KeyS': this.toggleGameState,
                     'KeyZ': this.undoLastAction,
                 },
@@ -105,20 +106,20 @@ Vue.component('round-cycle', {
         },
 
         toggleGameState: function () {
-            switch (this.sharedState.gameState) {
-                case 'round:ended':
+            switch (this.roundState) {
+                case 'inactive':
                     this.startRound();
                     break;
-                case 'round:started':
+                case 'active':
                     this.pauseRound();
                     break;
-                case 'round:paused':
+                case 'paused':
                     this.resumeRound();
                     break;
             }
         },
         startRound: function () {
-            this.sharedState.gameState = 'round:started';
+            this.roundState = 'active';
             this.activePlayer = 0;
             this.resetAnswerStreak();
 
@@ -127,18 +128,18 @@ Vue.component('round-cycle', {
             this.playTrack(currentRound.track);
         },
         pauseRound: function () {
-            this.sharedState.gameState = 'round:paused';
+            this.roundState = 'paused';
             EventBus.$emit('timer:pause');
             EventBus.$emit('audio:pause');
         },
         resumeRound: function () {
-            this.sharedState.gameState = 'round:started';
+            this.roundState = 'active';
             EventBus.$emit('timer:resume');
             EventBus.$emit('audio:resume');
         },
         // called by timer "complete" event and bankAnswerStreak()
         endRound: function () {
-            this.sharedState.gameState = 'round:ended';
+            this.roundState = 'inactive';
             this.sharedState.kitty += this.bank;
             this.bank = 0;
             this.activePlayer = null;
@@ -190,11 +191,11 @@ Vue.component('round-cycle', {
         },
 
         keyPress: function (event) {
-            if (!this.stateKeyMap.hasOwnProperty(this.sharedState.gameState)) {
+            if (!this.stateKeyMap.hasOwnProperty(this.roundState)) {
                 return;
             }
 
-            const currentKeyMap = this.stateKeyMap[this.sharedState.gameState];
+            const currentKeyMap = this.stateKeyMap[this.roundState];
             if (event.code in currentKeyMap) {
                 currentKeyMap[event.code]();
             }

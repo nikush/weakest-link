@@ -26,7 +26,12 @@ Vue.component('round-cycle', {
                     </table>
                     <button class="btn btn-outline-primary" @click="roundState = 'eliminate'">Eliminate Players</button>
                 </div>
-                <elimination-list v-if="roundState == 'eliminate'" @selected="eliminatePlayer" :players="sharedState.remainingPlayers"></elimination-list>
+                <elimination-list v-if="roundState == 'eliminate'"
+                    @selected="eliminatePlayer"
+                    :players="sharedState.remainingPlayers"
+                    :scores="scores"
+                >
+                </elimination-list>
             </Modal>
         </div>
     `,
@@ -37,6 +42,8 @@ Vue.component('round-cycle', {
             answerStreak: null,
             activePlayer: null,
             bank: 0,
+
+            scores: {},
 
             history: {},
 
@@ -83,11 +90,18 @@ Vue.component('round-cycle', {
 
         questionCorrect: function () {
             this.logHistory();
+
+            this.scores[this.activePlayerName].correct++;
+            this.scores[this.activePlayerName].total++;
+
             this.incrementAnswerStreak();
             this.nextPlayer();
         },
         questionIncorrect: function () {
             this.logHistory();
+
+            this.scores[this.activePlayerName].total++;
+
             this.resetAnswerStreak();
             this.nextPlayer();
         },
@@ -137,6 +151,14 @@ Vue.component('round-cycle', {
             this.activePlayer = 0;
             this.resetAnswerStreak();
 
+            this.scores = {};
+            for (player of this.sharedState.remainingPlayers) {
+                this.scores[player] = {
+                    correct: 0,
+                    total: 0,
+                };
+            }
+
             const currentRound = this.sharedState.rounds[this.sharedState.round-1];
             EventBus.$emit('timer:start', currentRound.time);
             this.playTrack(currentRound.track);
@@ -174,6 +196,8 @@ Vue.component('round-cycle', {
                 answerStreak: this.answerStreak,
                 bank: this.bank,
                 activePlayer: this.activePlayer,
+                // scores is reactive so deep clone it without the reactive references
+                scores: JSON.parse(JSON.stringify(this.scores)),
             };
             Vue.set(this, 'history', newHistory);
         },
@@ -185,9 +209,11 @@ Vue.component('round-cycle', {
                 return;
             }
 
+            console.log(this.history);
             this.answerStreak = this.history.answerStreak;
             this.bank = this.history.bank;
             this.activePlayer = this.history.activePlayer;
+            this.scores = this.history.scores;
 
             this.clearHistory();
         },
@@ -215,11 +241,19 @@ Vue.component('round-cycle', {
         }
     },
 
+    computed: {
+        activePlayerName: function () {
+            if (this.activePlayer === null) {
+                return null;
+            }
+            return this.sharedState.remainingPlayers[this.activePlayer];
+        },
+    },
+
     created: function () {
         document.addEventListener('keyup', this.keyPress);
     },
     beforeDestroy: function () {
         document.removeEventListener('keyup', this.keyPress);
-        console.log('destroyed RoundCycle component');
     },
 });

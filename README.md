@@ -1,4 +1,7 @@
 #TODO
+- change elimination choice to using a select drop down
+- start each round with the strongest link
+- move into the head-to-head round
 - Draw out the states of the game
   - enter names
   - ---

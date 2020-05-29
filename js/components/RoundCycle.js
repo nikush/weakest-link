@@ -30,6 +30,23 @@ Vue.component('round-cycle', {
             showModal: false,
 
             history: {},
+
+            stateKeyMap: {
+                'round:ended': {
+                    'KeyS': this.toggleGameState,
+                },
+                'round:started': {
+                    'KeyS': this.toggleGameState,
+                    'Space': this.questionCorrect,
+                    'Backspace': this.questionIncorrect,
+                    'Enter': this.bankAnswerStreak,
+                    'KeyZ': this.undoLastAction,
+                },
+                'round:paused': {
+                    'KeyS': this.toggleGameState,
+                    'KeyZ': this.undoLastAction,
+                },
+            },
         };
     },
 
@@ -171,17 +188,24 @@ Vue.component('round-cycle', {
             this.sharedState.remainingPlayers.splice(i, 1);
             this.showModal = false;
         },
+
+        keyPress: function (event) {
+            if (!this.stateKeyMap.hasOwnProperty(this.sharedState.gameState)) {
+                return;
+            }
+
+            const currentKeyMap = this.stateKeyMap[this.sharedState.gameState];
+            if (event.code in currentKeyMap) {
+                currentKeyMap[event.code]();
+            }
+        }
     },
 
     created: function () {
-        EventBus.$on('round:toggle', () => this.toggleGameState());
-        EventBus.$on('timer:complete', () => this.endRound());
-
-        EventBus.$on('question:correct', () => this.questionCorrect());
-        EventBus.$on('question:incorrect', () => this.questionIncorrect());
-
-        EventBus.$on('chain:bank', () => this.bankAnswerStreak());
-
-        EventBus.$on('history:undo', () => this.undoLastAction());
+        document.addEventListener('keyup', this.keyPress);
+    },
+    beforeDestroy: function () {
+        document.removeEventListener('keyup', this.keyPress);
+        console.log('destroyed RoundCycle component');
     },
 });

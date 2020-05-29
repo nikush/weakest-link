@@ -4,6 +4,7 @@
   - ---
   - round:inactive
   - round:active
+  - round:summary
   - eliminate player
   - ---
   - final round (8)

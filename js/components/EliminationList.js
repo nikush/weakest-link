@@ -29,6 +29,7 @@ Vue.component('elimination-list', {
     `,
     data: function () {
         return {
+            sharedState: Game.state,
             selectedPlayer: '',
         };
     },
@@ -45,7 +46,11 @@ Vue.component('elimination-list', {
                 });
             }
 
-            return mappedScores.sort((a,b) => a.percent - b.percent).reverse();
+            const rankedPlayers = mappedScores.sort((a,b) => a.percent - b.percent).reverse();
+
+            this.sharedState.strongestPlayer = rankedPlayers[0].name;
+
+            return rankedPlayers;
         },
     },
 });

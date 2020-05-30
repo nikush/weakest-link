@@ -40,7 +40,7 @@ Vue.component('round-cycle', {
             sharedState: Game.state,
             linkValues: [1,2,5,10,15,20,30,40,50],
             answerStreak: null,
-            activePlayer: null,
+            activePlayer: 0,
             bank: 0,
 
             scores: {},
@@ -148,7 +148,6 @@ Vue.component('round-cycle', {
         },
         startRound: function () {
             this.roundState = 'active';
-            this.activePlayer = 0;
             this.resetAnswerStreak();
 
             this.scores = {};
@@ -176,7 +175,6 @@ Vue.component('round-cycle', {
         // called by timer "complete" event and bankAnswerStreak()
         endRound: function () {
             this.roundState = 'summary';
-            this.activePlayer = null;
 
             this.clearAnswerStreak();
 
@@ -209,7 +207,6 @@ Vue.component('round-cycle', {
                 return;
             }
 
-            console.log(this.history);
             this.answerStreak = this.history.answerStreak;
             this.bank = this.history.bank;
             this.activePlayer = this.history.activePlayer;
@@ -227,6 +224,13 @@ Vue.component('round-cycle', {
             this.sharedState.kitty += this.bank;
             this.bank = 0;
             this.sharedState.round++;
+
+            this.activePlayer = this.sharedState.remainingPlayers.indexOf(this.sharedState.strongestPlayer);
+            // if the strongest player happens to have been eliminated
+            // then fall back to whoever is first in the list
+            if (this.activePlayer === -1) {
+                this.activePlayer = 0;
+            }
         },
 
         keyPress: function (event) {
@@ -243,9 +247,6 @@ Vue.component('round-cycle', {
 
     computed: {
         activePlayerName: function () {
-            if (this.activePlayer === null) {
-                return null;
-            }
             return this.sharedState.remainingPlayers[this.activePlayer];
         },
     },

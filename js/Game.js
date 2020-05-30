@@ -22,6 +22,7 @@ const Game = {
         maxPlayers: 9,
         players: {},
         remainingPlayers: [],
+        strongestPlayer: null,
     },
 
     setPlayers: function (names) {

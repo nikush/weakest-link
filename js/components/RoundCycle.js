@@ -15,18 +15,15 @@ Vue.component('round-cycle', {
             </div>
 
             <Modal :title="modalTitles[roundState]" :display="['summary','eliminate'].includes(roundState)">
-                <div v-if="roundState == 'summary'">
-                    <table class="h3 table table-dark w-75 mx-auto">
-                        <tbody>
-                            <tr><th>Round</th><td class="text-right">{{sharedState.round}}</td></tr>
-                            <tr><th>Bank</th> <td class="text-right">&pound;{{bank}}</td></tr>
-                            <tr><th>Kitty</th><td class="text-right">&pound;{{sharedState.kitty}}</td></tr>
-                            <tr><th>Total</th><td class="text-right">&pound;{{sharedState.kitty + bank}}</td></tr>
-                        </tbody>
-                    </table>
-                    <button class="btn btn-primary" @click="roundState = 'eliminate'">Eliminate Players</button>
-                </div>
-                <elimination-list v-if="roundState == 'eliminate'"
+                <round-summary v-if="roundState === 'summary'"
+                    :round="sharedState.round"
+                    :kitty="sharedState.kitty"
+                    :bank="bank"
+                    :is-final="sharedState.round === sharedState.rounds.length"
+                    @click="proceedToNextRound"
+                >
+                </round-summary>
+                <elimination-list v-if="roundState === 'eliminate'"
                     @selected="eliminatePlayer"
                     :players="sharedState.remainingPlayers"
                     :scores="scores"
@@ -182,6 +179,14 @@ Vue.component('round-cycle', {
 
             if (this.sharedState.round > this.sharedState.rounds.length) {
                 this.sharedState.gameState = 'ended';
+            }
+        },
+
+        proceedToNextRound: function () {
+            if (this.sharedState.round == this.sharedState.rounds.length) {
+                console.log('moving into the final round');
+            } else {
+                this.roundState = 'eliminate';
             }
         },
 

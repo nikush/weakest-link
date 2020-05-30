@@ -1,6 +1,7 @@
 #TODO
-- start each round with the strongest link
 - move into the head-to-head round
+- break down the round cycle component further
+
 - Draw out the states of the game
   - enter names
   - ---

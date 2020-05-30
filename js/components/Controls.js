@@ -5,11 +5,8 @@ Vue.component('Controls', {
                 <button class="btn btn-outline-secondary btn-block" @click="toggleSounds">
                     {{sharedState.muted?'Unmute':'Mute'}} Sounds
                 </button>
-                <button class="btn btn-outline-secondary btn-block" @click="showHelp=!showHelp">
-                    Help
-                </button>
-                <ul class="list-unstyled mb-0 mt-3" v-if="showHelp">
-                    <li><kbd>s</kbd> start the round</li>
+                <ul class="list-unstyled mb-0 mt-3 text-left text-light">
+                    <li><kbd>s</kbd> start/pause the round</li>
                     <li><kbd>space</kbd> correct answer, step chain forward</li>
                     <li><kbd>backspace</kbd> incorrect answer, break chain</li>
                     <li><kbd>enter</kbd> bank</li>
@@ -21,7 +18,6 @@ Vue.component('Controls', {
     data: function () {
         return {
             sharedState: Game.state,
-            showHelp: false,
         }
     },
     methods: {

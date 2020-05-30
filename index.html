@@ -18,17 +18,15 @@
         <div id="app">
             <nav class="navbar navbar-dark shadow-sm mb-5 mt-4">
                 <div class="container justify-content-center">
-                    <span class="mb-0 h1" @click="showControls=!showControls" style="cursor:pointer">Weakest Link</span>
+                    <span class="mb-0 h1" style="cursor:pointer;user-select:none" @click="showControls=!showControls">
+                        Weakest Link
+                    </span>
                 </div>
             </nav>
 
             <div class="container">
 
-                <div class="row" v-if="showControls">
-                    <div class="col-4 offset-4">
-                        <Controls></Controls>
-                    </div>
-                </div>
+                <Controls v-if="showControls" class="w-50 mx-auto"></Controls>
 
                 <div class="row mb-4" v-if="sharedState.gameState == 'names'">
                     <div class="col col-4 offset-4">

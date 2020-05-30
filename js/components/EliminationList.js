@@ -2,14 +2,13 @@ Vue.component('elimination-list', {
     props: ['players', 'scores'],
     template: `
         <div>
-            <button v-for="player in players"
-                class="btn btn-outline-primary btn-block"
-                @click="$emit('selected', player)"
-                v-text="player">
-            </button>
-            <details class="mt-5">
-                <summary><h3 class="h5 d-inline-block">Scores</h3></summary>
-                <table class="table table-dark">
+            <select class="form-control mb-4" v-model="selectedPlayer">
+                <option disabled value="">Select Player</option>
+                <option v-for="player in players">{{player}}</option>
+            </select>
+            <details class="mb-4">
+                <summary><h3 class="h5 d-inline-block">Reveal Scores</h3></summary>
+                <table class="table table-dark h5">
                     <tbody>
                         <tr v-for="(player,index) in formattedScores">
                             <th>{{index+1}}</th>
@@ -20,8 +19,19 @@ Vue.component('elimination-list', {
                     </tbody>
                 </table>
             </details>
+            <button class="btn btn-danger"
+                :disabled="!selectedPlayer"
+                @click="$emit('selected', selectedPlayer)"
+            >
+                Eliminate {{selectedPlayer}}
+            </button>
         </div>
     `,
+    data: function () {
+        return {
+            selectedPlayer: '',
+        };
+    },
     computed: {
         formattedScores: function () {
             let mappedScores = [];

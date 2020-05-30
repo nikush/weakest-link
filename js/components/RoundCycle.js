@@ -16,7 +16,7 @@ Vue.component('round-cycle', {
 
             <Modal :title="modalTitles[roundState]" :display="['summary','eliminate'].includes(roundState)">
                 <div v-if="roundState == 'summary'">
-                    <table class="table table-dark w-75 mx-auto">
+                    <table class="h3 table table-dark w-75 mx-auto">
                         <tbody>
                             <tr><th>Round</th><td class="text-right">{{sharedState.round}}</td></tr>
                             <tr><th>Bank</th> <td class="text-right">&pound;{{bank}}</td></tr>
@@ -24,7 +24,7 @@ Vue.component('round-cycle', {
                             <tr><th>Total</th><td class="text-right">&pound;{{sharedState.kitty + bank}}</td></tr>
                         </tbody>
                     </table>
-                    <button class="btn btn-outline-primary" @click="roundState = 'eliminate'">Eliminate Players</button>
+                    <button class="btn btn-primary" @click="roundState = 'eliminate'">Eliminate Players</button>
                 </div>
                 <elimination-list v-if="roundState == 'eliminate'"
                     @selected="eliminatePlayer"

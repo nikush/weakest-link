@@ -16,7 +16,7 @@ const Game = {
         kitty: 0,
 
         muted: false,
-        gameState: 'names', // names, round, head_to_head, tie_breaker, ended
+        gameState: 'names', // names, round, head_to_head
 
         minPlayers: 3,
         maxPlayers: 9,

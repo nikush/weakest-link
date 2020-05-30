@@ -184,7 +184,7 @@ Vue.component('round-cycle', {
 
         proceedToNextRound: function () {
             if (this.sharedState.round == this.sharedState.rounds.length) {
-                console.log('moving into the final round');
+                this.sharedState.gameState = 'head_to_head';
             } else {
                 this.roundState = 'eliminate';
             }

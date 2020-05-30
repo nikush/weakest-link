@@ -40,8 +40,8 @@
                     <round-cycle></round-cycle>
                 </div>
 
-                <div class="text-center" v-if="sharedState.gameState == 'ended'">
-                    <h1>Congratulations {{sharedState.remainingPlayers[0]}}!</h1>
+                <div v-if="sharedState.gameState == 'head_to_head'">
+                    <head-to-head :players="sharedState.remainingPlayers"></head-to-head>
                 </div>
 
             </div>
@@ -54,6 +54,7 @@
         <script src="./js/components/Chain.js"></script>
         <script src="./js/components/Controls.js"></script>
         <script src="./js/components/EliminationList.js"></script>
+        <script src="./js/components/HeadToHead.js"></script>
         <script src="./js/components/Modal.js"></script>
         <script src="./js/components/Names.js"></script>
         <script src="./js/components/Players.js"></script>

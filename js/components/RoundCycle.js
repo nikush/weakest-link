@@ -257,6 +257,7 @@ Vue.component('round-cycle', {
     },
 
     created: function () {
+        this.activePlayer = this.sharedState.remainingPlayers.indexOf(this.sharedState.strongestPlayer);
         document.addEventListener('keyup', this.keyPress);
     },
     beforeDestroy: function () {

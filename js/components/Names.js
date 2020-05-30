@@ -32,14 +32,13 @@ Vue.component('Names', {
         submit: function () {
             const nonEmptyNames = this.players.filter(player => player.name);
             const sanitisedNames = nonEmptyNames.map(player => player.name.trim());
-            const sortedNames = sanitisedNames.sort();
 
-            if (sortedNames.length < this.min) {
-                alert(`A minimum of ${this.min} players is required. Only ${sortedNames.length} players have been provided.`);
+            if (sanitisedNames.length < this.min) {
+                alert(`A minimum of ${this.min} players is required. Only ${sanitisedNames.length} players have been provided.`);
                 return;
             }
 
-            this.$emit('submit', sortedNames);
+            this.$emit('submit', sanitisedNames);
         },
     },
 });

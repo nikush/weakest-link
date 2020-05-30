@@ -37,6 +37,7 @@ const Game = {
         }
         this.state.remainingPlayers = names;
         this.state.round = (this.state.maxPlayers - this.state.remainingPlayers.length) + 1;
+        this.state.strongestPlayer = Array.from(names).sort()[0];
     },
 
     startGame: function () {

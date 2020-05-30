@@ -4,7 +4,7 @@ Vue.component('elimination-list', {
         <div>
             <select class="form-control mb-4" v-model="selectedPlayer">
                 <option disabled value="">Select Player</option>
-                <option v-for="player in players">{{player}}</option>
+                <option v-for="player in sortedPlayers">{{player}}</option>
             </select>
             <details class="mb-4">
                 <summary><h3 class="h5 d-inline-block">Reveal Scores</h3></summary>
@@ -34,6 +34,9 @@ Vue.component('elimination-list', {
         };
     },
     computed: {
+        sortedPlayers: function () {
+            return Array.from(this.players).sort();
+        },
         formattedScores: function () {
             let mappedScores = [];
 

@@ -18,7 +18,7 @@ const Game = {
         muted: false,
         gameState: 'names', // names, round, head_to_head
 
-        minPlayers: 3,
+        minPlayers: 2,
         maxPlayers: 9,
         players: {},
         remainingPlayers: [],

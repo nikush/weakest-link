@@ -11,7 +11,7 @@ Vue.component('round-summary', {
                 </tbody>
             </table>
 
-            <button class="btn btn-primary" @click="$emit('click')">
+            <button class="btn btn-block btn-primary" @click="$emit('click')">
                 {{ isFinal ? 'Final Round' : 'Eliminate Players' }}
             </button>
         </div>

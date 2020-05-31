@@ -19,7 +19,7 @@ Vue.component('elimination-list', {
                     </tbody>
                 </table>
             </details>
-            <button class="btn btn-danger"
+            <button class="btn btn-block btn-danger"
                 :disabled="!selectedPlayer"
                 @click="$emit('selected', selectedPlayer)"
             >

@@ -9,7 +9,7 @@ Vue.component('Names', {
                 <div class="form-group" v-for="(player,index) in players">
                     <input v-model="player.name" :key="index" type="text" class="form-control" @input="addField"/>
                 </div>
-                <button class="btn btn-primary" @click="submit">Start Game</button>
+                <button class="btn btn-block btn-primary" @click="submit">Start Game</button>
             </div>
         </div>
     `,

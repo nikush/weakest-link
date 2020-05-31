@@ -172,6 +172,10 @@ Vue.component('round-cycle', {
         },
         // called by timer "complete" event and bankAnswerStreak()
         endRound: function () {
+            if (this.sharedState.round == this.sharedState.rounds.length) {
+                this.bank *= 3;
+            }
+
             this.roundState = 'summary';
 
             this.clearAnswerStreak();

@@ -8,9 +8,9 @@ body {
     font-weight: bold;
     font-size: 30px;
     background-color: #487EC1;
-    width: 100px;
+    width: 120px;
     text-align: center;
-    border-radius: 75px / 30px;
+    border-radius: 75px / 20px;
     padding: 3px 10px;
     box-shadow: 0 7px 0 0 #2A4E7A, 0 10px 0 0 #2A4E7A;
     text-shadow: 0px 1px 2px black;
@@ -24,7 +24,7 @@ body {
     display: block;
     position: absolute;
     width: 120px;
-    margin-left: -20px;
+    margin-left: -10px;
     font-size: 80%;
 }
 .pill.active {

@@ -6,7 +6,7 @@ Vue.component('Chain', {
                 class="pill mb-3"
                 :class="{active:link.active}"
             >
-                &pound;{{link.value}}
+                &pound;{{link.value.toFixed(2)}}
             </li>
         </ul>
     `,

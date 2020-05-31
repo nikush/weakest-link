@@ -35,7 +35,7 @@ Vue.component('round-cycle', {
     data: function () {
         return {
             sharedState: Game.state,
-            linkValues: [1,2,5,10,15,20,30,40,50],
+            linkValues: [0.2,0.5,1,2,3,4.5,6,8,10],
             answerStreak: null,
             activePlayer: 0,
             bank: 0,

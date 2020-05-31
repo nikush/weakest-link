@@ -2,7 +2,7 @@ The Weakest Link
 ================
 The Weakest Link game in your browser.
 
-https://nikush.github.io/weakest-link/index.html
+https://nikush.github.io/weakest-link/
 
 
 TODO

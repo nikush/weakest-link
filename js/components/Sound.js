@@ -25,6 +25,9 @@ Vue.component('Sound', {
         },
     },
     created: function () {
+        // TODO: pass this in using props
+        this.$el.volume = 0;
+
         EventBus.$on('audio:play', this.play);
         EventBus.$on('audio:pause', this.pause);
         EventBus.$on('audio:resume', this.resume);

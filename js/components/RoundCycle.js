@@ -114,15 +114,15 @@ Vue.component('round-cycle', {
         bankAnswerStreak: function () {
             this.logHistory();
 
-            const fullChain = this.answerStreak >= this.linkValues.length;
-
             const maxValue = Math.min(this.answerStreak, this.linkValues.length);
             const acquiredValue = this.linkValues[maxValue-1] || 0;
 
             this.bank += acquiredValue;
             this.resetAnswerStreak();
 
-            if (fullChain) {
+            const maxLinkValue = this.linkValues[this.linkValues.length-1];
+            if (this.bank >= maxLinkValue) {
+                this.bank = Math.min(this.bank, maxLinkValue);
                 this.endRound();
 
                 // interrupt the timer and audio

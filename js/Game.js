@@ -15,7 +15,7 @@ const Game = {
         round: 1,
         kitty: 0,
 
-        muted: false,
+        muted: true,
         gameState: 'names', // names, round, head_to_head
 
         minPlayers: 2,

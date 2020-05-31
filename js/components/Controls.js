@@ -9,7 +9,7 @@ Vue.component('Controls', {
                     <li><kbd>s</kbd> start/pause the round</li>
                     <li><kbd>space</kbd> correct answer, step chain forward</li>
                     <li><kbd>backspace</kbd> incorrect answer, break chain</li>
-                    <li><kbd>enter</kbd> bank</li>
+                    <li><kbd>enter</kbd>/<kbd>b</kbd> bank</li>
                     <li><kbd>z</kbd> undo the last correct/incorrect answer/bank</li>
                 </ul>
             </div>

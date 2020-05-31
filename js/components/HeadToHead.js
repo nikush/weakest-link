@@ -1,8 +1,10 @@
 Vue.component('head-to-head', {
-    props: ['players'],
+    props: ['players', 'kitty'],
     template: `
         <div class="row">
             <div class="col-8 offset-2 text-center">
+                <h1 class="display-4 mb-0">&pound;{{kitty.toFixed(2)}}</h1>
+                <p class="mb-4 h4" style="text-transform:uppercase">Kitty</p>
                 <div class="row">
 
                     <div v-for="(player, playerIndex) in playerScores" class="col d-flex flex-column align-items-center">

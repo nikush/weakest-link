@@ -9,7 +9,10 @@ Vue.component('Names', {
                 <div class="form-group" v-for="(player,index) in players">
                     <input v-model="player.name" :key="index" type="text" class="form-control" @input="addField"/>
                 </div>
-                <button class="btn btn-block btn-primary" @click="submit">Start Game</button>
+                <button class="btn btn-block btn-primary"
+                    @click="submit"
+                    :disabled="sanitisedNames.length < 2"
+                >Start Game</button>
             </div>
         </div>
     `,
@@ -17,6 +20,14 @@ Vue.component('Names', {
         return {
             players: [{name:null}],
         };
+    },
+    computed: {
+        nonEmptyNames: function () {
+            return this.players.filter(player => player.name);
+        },
+        sanitisedNames: function () {
+            return this.nonEmptyNames.map(player => player.name.trim());
+        },
     },
     methods: {
         addField: function () {
@@ -30,15 +41,7 @@ Vue.component('Names', {
             }
         },
         submit: function () {
-            const nonEmptyNames = this.players.filter(player => player.name);
-            const sanitisedNames = nonEmptyNames.map(player => player.name.trim());
-
-            if (sanitisedNames.length < this.min) {
-                alert(`A minimum of ${this.min} players is required. Only ${sanitisedNames.length} players have been provided.`);
-                return;
-            }
-
-            this.$emit('submit', sanitisedNames);
+            this.$emit('submit', this.sanitisedNames);
         },
     },
 });

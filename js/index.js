@@ -7,10 +7,7 @@ const _currencyFormatter = new Intl.NumberFormat(
         currency: 'GBP',
     }
 );
-
-Vue.filter('currency', function (number) {
-    return _currencyFormatter.format(number);
-});
+Vue.filter('currency', (number) => _currencyFormatter.format(number));
 
 var app = new Vue({
     el: '#app',

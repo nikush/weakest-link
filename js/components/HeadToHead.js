@@ -1,5 +1,5 @@
 Vue.component('head-to-head', {
-    props: ['players', 'kitty'],
+    props: ['players', 'kitty', 'strongestPlayer'],
     template: `
         <div class="row">
             <div class="col-8 offset-2 text-center">
@@ -8,7 +8,7 @@ Vue.component('head-to-head', {
                 <div class="row">
 
                     <div v-for="(player, playerIndex) in playerScores" class="col d-flex flex-column align-items-center">
-                        <h2 class="mb-4">{{player.name}}</h2>
+                        <h2 class="mb-4">{{ strong(player.name) }}</h2>
                         <ul class="list-unstyled" style="cursor:pointer;user-select:none">
                             <li v-for="(score, scoreIndex) in player.scores"
                                 class="pill mb-4"
@@ -39,6 +39,13 @@ Vue.component('head-to-head', {
         toggleScore: function (playerIndex, scoreIndex) {
             const currentScore = this.playerScores[playerIndex].scores[scoreIndex];;
             Vue.set(this.playerScores[playerIndex].scores, scoreIndex, !currentScore);
+        },
+        strong: function(name) {
+            if (name == this.strongestPlayer) {
+                return name + " 🏅";
+            }
+
+            return name;
         },
     },
 

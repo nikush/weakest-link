@@ -2,16 +2,18 @@ Vue.component('Controls', {
     template: `
         <div class="card shadow mb-4 bg-dark">
             <div class="card-body">
-                <button class="btn btn-outline-secondary btn-block" @click="toggleSounds">
+                <button class="btn btn-outline-secondary btn-block mb-3" @click="toggleSounds">
                     {{sharedState.muted?'Unmute':'Mute'}} Sounds
                 </button>
-                <ul class="list-unstyled mb-0 mt-3 text-left text-light">
-                    <li><kbd>s</kbd> start/pause the round</li>
-                    <li><kbd>space</kbd> correct answer, step chain forward</li>
-                    <li><kbd>backspace</kbd> incorrect answer, break chain</li>
-                    <li><kbd>enter</kbd>/<kbd>b</kbd> bank</li>
-                    <li><kbd>z</kbd> undo the last correct/incorrect answer/bank</li>
-                </ul>
+                <table class="table table-dark mb-0">
+                    <tbody>
+                        <tr> <td><kbd>s</kbd></td> <td>start/pause the round</td> </tr>
+                        <tr> <td><kbd>space</kbd></td> <td>correct answer, step chain forward</td> </tr>
+                        <tr> <td><kbd>backspace</kbd></td> <td>incorrect answer, break chain</td> </tr>
+                        <tr> <td><kbd>enter</kbd>/<kbd>b</kbd></td> <td>bank</td> </tr>
+                        <tr> <td><kbd>z</kbd></td> <td>undo the last correct/incorrect answer/bank</td> </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     `,

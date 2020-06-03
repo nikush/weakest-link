@@ -3,7 +3,7 @@ Vue.component('round-cycle', {
         <div class="row"">
             <div class="col d-flex flex-column align-items-center">
                 <Chain class="mb-4" :links="linkValues" :progress="answerStreak"></Chain>
-                <p class="pill mb-5" data-text="Bank">&pound{{bank.toFixed(2)}}</p>
+                <p class="pill mb-5" data-text="Bank">{{bank | currency}}</p>
             </div>
             <div class="col">
                 <Players :active="activePlayer"></Players>
@@ -11,7 +11,7 @@ Vue.component('round-cycle', {
             <div class="col d-flex flex-column align-items-center">
                 <p class="pill mb-5" data-text="Round">{{sharedState.round}}</p>
                 <Timer class="mb-5" @complete="endRound"></Timer>
-                <p class="pill mb-5" data-text="Kitty">&pound;{{sharedState.kitty.toFixed(2)}}</p>
+                <p class="pill mb-5" data-text="Kitty">{{sharedState.kitty | currency}}</p>
             </div>
 
             <Modal :title="modalTitles[roundState]" :display="['summary','eliminate'].includes(roundState)">

@@ -6,7 +6,7 @@ Vue.component('Chain', {
                 class="pill mb-3"
                 :class="{active:link.active}"
             >
-                &pound;{{link.value.toFixed(2)}}
+                {{link.value | currency}}
             </li>
         </ul>
     `,

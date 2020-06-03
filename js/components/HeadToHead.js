@@ -3,7 +3,7 @@ Vue.component('head-to-head', {
     template: `
         <div class="row">
             <div class="col-8 offset-2 text-center">
-                <h1 class="display-4 mb-0">&pound;{{kitty.toFixed(2)}}</h1>
+                <h1 class="display-4 mb-0">{{kitty | currency}}</h1>
                 <p class="mb-5 h4" style="text-transform:uppercase">Kitty</p>
                 <div class="row">
 

@@ -91,6 +91,7 @@ Vue.component('round-cycle', {
 
             this.scores[this.activePlayerName].correct++;
             this.scores[this.activePlayerName].total++;
+            this.scores[this.activePlayerName].contribution += this.linkValues[this.answerStreak];
 
             this.incrementAnswerStreak();
             this.nextPlayer();
@@ -99,6 +100,7 @@ Vue.component('round-cycle', {
             this.logHistory();
 
             this.scores[this.activePlayerName].total++;
+            this.scores[this.activePlayerName].contribution -= this.linkValues[this.answerStreak];
 
             this.resetAnswerStreak();
             this.nextPlayer();
@@ -153,6 +155,7 @@ Vue.component('round-cycle', {
                 this.scores[player] = {
                     correct: 0,
                     total: 0,
+                    contribution: 0,
                 };
             }
 
@@ -238,7 +241,7 @@ Vue.component('round-cycle', {
             this.bank = 0;
             this.sharedState.round++;
 
-            this.activePlayer = this.sharedState.remainingPlayers.indexOf(this.sharedState.strongestPlayer);
+            this.activePlayer = this.sharedState.remainingPlayers.indexOf(this.sharedState.strongestLink);
             // if the strongest player happens to have been eliminated
             // then fall back to whoever is first in the list
             if (this.activePlayer === -1) {
@@ -265,7 +268,7 @@ Vue.component('round-cycle', {
     },
 
     created: function () {
-        this.activePlayer = this.sharedState.remainingPlayers.indexOf(this.sharedState.strongestPlayer);
+        this.activePlayer = this.sharedState.remainingPlayers.indexOf(this.sharedState.strongestLink);
         document.addEventListener('keyup', this.keyPress);
     },
     beforeDestroy: function () {

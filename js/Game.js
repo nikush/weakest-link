@@ -22,7 +22,8 @@ const Game = {
         maxPlayers: 9,
         players: {},
         remainingPlayers: [],
-        strongestPlayer: null,
+        strongestLink: null,
+        weakestLink: null,
     },
 
     setPlayers: function (names) {
@@ -32,12 +33,13 @@ const Game = {
                 questions: {
                     total: 0,
                     correct: 0,
-                }
+                },
+                contribution: 0,
             };
         }
         this.state.remainingPlayers = names;
         this.state.round = (this.state.maxPlayers - this.state.remainingPlayers.length) + 1;
-        this.state.strongestPlayer = Array.from(names).sort()[0];
+        this.state.strongestLink = Array.from(names).sort()[0];
     },
 
     startGame: function () {

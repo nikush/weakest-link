@@ -31,8 +31,4 @@ Vue.component('Sound', {
         EventBus.$on('audio:mute', this.mute);
         EventBus.$on('audio:unmute', this.unmute);
     },
-    mounted: function () {
-        // TODO: pass this in using props
-        this.$el.volume = 0;
-    },
 });

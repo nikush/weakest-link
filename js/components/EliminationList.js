@@ -85,7 +85,7 @@ Vue.component('elimination-list', {
                 return a.percent - b.percent;
             }).reverse();
 
-            this.sharedState.strongestPlayer = rankedPlayers[0].name;
+            this.sharedState.strongestLink = rankedPlayers[0].name;
 
             return rankedPlayers;
         },

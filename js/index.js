@@ -9,14 +9,9 @@ import Names from './components/Names.js';
 import RoundCycle from './components/RoundCycle.js';
 import Sound from './components/Sound.js';
 
-const _currencyFormatter = new Intl.NumberFormat(
-    'en-GB',
-    {
-        style: 'currency',
-        currency: 'GBP',
-    }
-);
-Vue.filter('currency', (number) => _currencyFormatter.format(number));
+import CurrencyFormatter from './filters/Currency.js';
+
+Vue.filter('currency', CurrencyFormatter);
 
 var app = new Vue({
     el: '#app',

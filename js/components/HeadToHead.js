@@ -1,5 +1,5 @@
-Vue.component('head-to-head', {
-    props: ['players', 'kitty', 'strongestPlayer'],
+export default {
+    props: ['players', 'kitty', 'strongestLink'],
     template: `
         <div class="row">
             <div class="col-8 offset-2 text-center">
@@ -38,10 +38,10 @@ Vue.component('head-to-head', {
         },
         toggleScore: function (playerIndex, scoreIndex) {
             const currentScore = this.playerScores[playerIndex].scores[scoreIndex];;
-            Vue.set(this.playerScores[playerIndex].scores, scoreIndex, !currentScore);
+            this.$set(this.playerScores[playerIndex].scores, scoreIndex, !currentScore);
         },
         strong: function(name) {
-            if (name == this.strongestPlayer) {
+            if (name == this.strongestLink) {
                 return name + " 🏅";
             }
 
@@ -57,4 +57,4 @@ Vue.component('head-to-head', {
             }
         });
     },
-});
+};

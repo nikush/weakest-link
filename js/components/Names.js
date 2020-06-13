@@ -1,4 +1,4 @@
-Vue.component('Names', {
+export default {
     props: ['min', 'max'],
     template: `
         <div class="card shadow-sm bg-dark">
@@ -44,4 +44,4 @@ Vue.component('Names', {
             this.$emit('submit', this.sanitisedNames);
         },
     },
-});
+};

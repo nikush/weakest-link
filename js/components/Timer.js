@@ -1,4 +1,6 @@
-Vue.component('Timer', {
+import EventBus from '../EventBus.js';
+
+export default {
     template: `<p class="pill" data-text="Time">{{durationFormatted}}</p>`,
     data: function () {
         return {
@@ -45,4 +47,4 @@ Vue.component('Timer', {
         EventBus.$on('timer:pause', this.pauseTimer);
         EventBus.$on('timer:resume', this.resumeTimer);
     }
-});
+};

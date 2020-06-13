@@ -1,4 +1,6 @@
-Vue.component('Players', {
+import Game from '../Game.js';
+
+export default {
     props: ['active'],
     template: `
         <ul class="players list-unstyled">
@@ -19,7 +21,7 @@ Vue.component('Players', {
             const activePlayerName = this.sharedState.remainingPlayers[this.active];
             let playerList = [];
 
-            for (playerName of this.sharedState.players) {
+            for (let playerName of this.sharedState.players) {
                 // crap name, but it's a separate object that vue isn't tracking
                 // for reactive changes
                 let _player = {name:playerName};
@@ -36,4 +38,4 @@ Vue.component('Players', {
             return playerList;
         },
     },
-});
+};

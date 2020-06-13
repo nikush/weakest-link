@@ -1,20 +1,37 @@
-Vue.component('round-cycle', {
+import Game from '../Game.js';
+import EventBus from '../EventBus.js';
+import Chain from './Chain.js';
+import EliminationList from './EliminationList.js';
+import Modal from './Modal.js';
+import Players from './Players.js';
+import RoundSummary from './RoundSummary.js';
+import Timer from './Timer.js';
+
+export default {
+    components: {
+        Chain,
+        EliminationList,
+        Modal,
+        Players,
+        RoundSummary,
+        Timer,
+    },
     template: `
         <div class="row"">
             <div class="col d-flex flex-column align-items-center">
-                <Chain class="mb-4" :links="linkValues" :progress="answerStreak"></Chain>
+                <chain class="mb-4" :links="linkValues" :progress="answerStreak"></chain>
                 <p class="pill mb-5" data-text="Bank">{{bank | currency}}</p>
             </div>
             <div class="col">
-                <Players :active="activePlayer"></Players>
+                <players :active="activePlayer"></players>
             </div>
             <div class="col d-flex flex-column align-items-center">
                 <p class="pill mb-5" data-text="Round">{{sharedState.round}}</p>
-                <Timer class="mb-5" @complete="endRound"></Timer>
+                <timer class="mb-5" @complete="endRound"></timer>
                 <p class="pill mb-5" data-text="Kitty">{{sharedState.kitty | currency}}</p>
             </div>
 
-            <Modal :title="modalTitles[roundState]" :display="['summary','eliminate'].includes(roundState)">
+            <modal :title="modalTitles[roundState]" :display="['summary','eliminate'].includes(roundState)">
                 <round-summary v-if="roundState === 'summary'"
                     :round="sharedState.round"
                     :kitty="sharedState.kitty"
@@ -29,7 +46,7 @@ Vue.component('round-cycle', {
                     :scores="scores"
                 >
                 </elimination-list>
-            </Modal>
+            </modal>
         </div>
     `,
     data: function () {
@@ -151,7 +168,7 @@ Vue.component('round-cycle', {
             this.resetAnswerStreak();
 
             this.scores = {};
-            for (player of this.sharedState.remainingPlayers) {
+            for (let player of this.sharedState.remainingPlayers) {
                 this.scores[player] = {
                     correct: 0,
                     total: 0,
@@ -213,10 +230,10 @@ Vue.component('round-cycle', {
                 // scores is reactive so deep clone it without the reactive references
                 scores: JSON.parse(JSON.stringify(this.scores)),
             };
-            Vue.set(this, 'history', newHistory);
+            this.$set(this, 'history', newHistory);
         },
         clearHistory: function () {
-            Vue.set(this, 'history', {});
+            this.$set(this, 'history', {});
         },
         undoLastAction: function () {
             if (Object.keys(this.history).length === 0) {
@@ -274,4 +291,4 @@ Vue.component('round-cycle', {
     beforeDestroy: function () {
         document.removeEventListener('keyup', this.keyPress);
     },
-});
+};

@@ -1,4 +1,4 @@
-Vue.component('Modal', {
+export default {
     props: {
         title: '',
         display: false,
@@ -20,4 +20,4 @@ Vue.component('Modal', {
             <div class="modal-backdrop fade" :class="{show:display,'d-none':!display}"></div>
         </div>
     `,
-});
+};

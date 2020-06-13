@@ -1,4 +1,4 @@
-const Game = {
+export default {
     state: {
         rounds: [
             { time: 180, track: 'Round 1 - 9 people' },

@@ -1,4 +1,4 @@
-Vue.component('round-summary', {
+export default {
     props: ['round','kitty','bank', 'isFinal'],
     template: `
         <div>
@@ -16,4 +16,4 @@ Vue.component('round-summary', {
             </button>
         </div>
     `,
-});
+};

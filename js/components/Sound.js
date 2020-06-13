@@ -1,4 +1,6 @@
-Vue.component('Sound', {
+import EventBus from '../EventBus.js';
+
+export default {
     template: `
         <audio autoplay :src="src"></audio>
     `,
@@ -31,4 +33,4 @@ Vue.component('Sound', {
         EventBus.$on('audio:mute', this.mute);
         EventBus.$on('audio:unmute', this.unmute);
     },
-});
+};

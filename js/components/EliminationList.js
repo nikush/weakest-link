@@ -1,4 +1,6 @@
-Vue.component('elimination-list', {
+import Game from '../Game.js';
+
+export default {
     props: ['players', 'scores'],
     template: `
         <div>
@@ -68,7 +70,7 @@ Vue.component('elimination-list', {
         formattedScores: function () {
             let mappedScores = [];
 
-            for (player in this.scores) {
+            for (let player in this.scores) {
                 mappedScores.push({
                     name: player,
                     correct: this.scores[player].correct,
@@ -96,4 +98,4 @@ Vue.component('elimination-list', {
             return this.formattedScores[this.formattedScores.length-1];
         },
     },
-});
+};

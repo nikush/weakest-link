@@ -1,4 +1,7 @@
-Vue.component('Controls', {
+import Game from '../Game.js';
+import EventBus from '../EventBus.js';
+
+export default {
     template: `
         <div class="card shadow mb-4 bg-dark">
             <div class="card-body">
@@ -28,4 +31,4 @@ Vue.component('Controls', {
             this.sharedState.muted = !this.sharedState.muted;
         },
     },
-});
+};

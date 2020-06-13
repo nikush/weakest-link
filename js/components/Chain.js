@@ -1,4 +1,4 @@
-Vue.component('Chain', {
+export default {
     props: ['links', 'progress'],
     template: `
         <ul class="pill-list list-unstyled mb-0">
@@ -33,4 +33,4 @@ Vue.component('Chain', {
             return Math.min(this.progress, this.links.length-1);
         },
     },
-});
+};

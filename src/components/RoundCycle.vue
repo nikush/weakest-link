@@ -1,11 +1,46 @@
+<template>
+    <div class="row">
+        <div class="col d-flex flex-column align-items-center">
+            <chain class="mb-4" :links="linkValues" :progress="answerStreak"></chain>
+            <p class="pill mb-5" data-text="Bank">{{bank | currency}}</p>
+        </div>
+        <div class="col">
+            <players :active="activePlayer"></players>
+        </div>
+        <div class="col d-flex flex-column align-items-center">
+            <p class="pill mb-5" data-text="Round">{{sharedState.round}}</p>
+            <timer class="mb-5" @complete="endRound"></timer>
+            <p class="pill mb-5" data-text="Kitty">{{sharedState.kitty | currency}}</p>
+        </div>
+
+        <modal :title="modalTitles[roundState]" :display="['summary','eliminate'].includes(roundState)">
+            <round-summary v-if="roundState === 'summary'"
+                :round="sharedState.round"
+                :kitty="sharedState.kitty"
+                :bank="bank"
+                :is-final="sharedState.round === sharedState.rounds.length"
+                @click="proceedToNextRound"
+            >
+            </round-summary>
+            <elimination-list v-if="roundState === 'eliminate'"
+                @selected="eliminatePlayer"
+                :players="sharedState.remainingPlayers"
+                :scores="scores"
+            >
+            </elimination-list>
+        </modal>
+    </div>
+</template>
+
+<script>
 import Game from '../Game.js';
 import EventBus from '../EventBus.js';
-import Chain from './Chain.js';
-import EliminationList from './EliminationList.js';
-import Modal from './Modal.js';
-import Players from './Players.js';
-import RoundSummary from './RoundSummary.js';
-import Timer from './Timer.js';
+import Chain from './Chain.vue';
+import EliminationList from './EliminationList.vue';
+import Modal from './Modal.vue';
+import Players from './Players.vue';
+import RoundSummary from './RoundSummary.vue';
+import Timer from './Timer.vue';
 
 export default {
     components: {
@@ -16,39 +51,6 @@ export default {
         RoundSummary,
         Timer,
     },
-    template: `
-        <div class="row"">
-            <div class="col d-flex flex-column align-items-center">
-                <chain class="mb-4" :links="linkValues" :progress="answerStreak"></chain>
-                <p class="pill mb-5" data-text="Bank">{{bank | currency}}</p>
-            </div>
-            <div class="col">
-                <players :active="activePlayer"></players>
-            </div>
-            <div class="col d-flex flex-column align-items-center">
-                <p class="pill mb-5" data-text="Round">{{sharedState.round}}</p>
-                <timer class="mb-5" @complete="endRound"></timer>
-                <p class="pill mb-5" data-text="Kitty">{{sharedState.kitty | currency}}</p>
-            </div>
-
-            <modal :title="modalTitles[roundState]" :display="['summary','eliminate'].includes(roundState)">
-                <round-summary v-if="roundState === 'summary'"
-                    :round="sharedState.round"
-                    :kitty="sharedState.kitty"
-                    :bank="bank"
-                    :is-final="sharedState.round === sharedState.rounds.length"
-                    @click="proceedToNextRound"
-                >
-                </round-summary>
-                <elimination-list v-if="roundState === 'eliminate'"
-                    @selected="eliminatePlayer"
-                    :players="sharedState.remainingPlayers"
-                    :scores="scores"
-                >
-                </elimination-list>
-            </modal>
-        </div>
-    `,
     data: function () {
         return {
             sharedState: Game.state,
@@ -292,3 +294,4 @@ export default {
         document.removeEventListener('keyup', this.keyPress);
     },
 };
+</script>

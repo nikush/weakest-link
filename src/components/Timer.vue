@@ -1,7 +1,11 @@
+<template>
+    <p class="pill" data-text="Time">{{durationFormatted}}</p>
+</template>
+
+<script>
 import EventBus from '../EventBus.js';
 
 export default {
-    template: `<p class="pill" data-text="Time">{{durationFormatted}}</p>`,
     data: function () {
         return {
             duration: 0,
@@ -48,3 +52,4 @@ export default {
         EventBus.$on('timer:resume', this.resumeTimer);
     }
 };
+</script>

@@ -1,9 +1,11 @@
+<template>
+    <audio autoplay :src="src"></audio>
+</template>
+
+<script>
 import EventBus from '../EventBus.js';
 
 export default {
-    template: `
-        <audio autoplay :src="src"></audio>
-    `,
     data: function () {
         return {
             src: null,
@@ -34,3 +36,4 @@ export default {
         EventBus.$on('audio:unmute', this.unmute);
     },
 };
+</script>

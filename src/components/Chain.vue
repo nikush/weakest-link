@@ -1,15 +1,17 @@
+<template>
+    <ul class="pill-list list-unstyled mb-0">
+        <li v-for="link in linksSorted"
+            class="pill mb-3"
+            :class="{active:link.active}"
+        >
+            {{link.value | currency}}
+        </li>
+    </ul>
+</template>
+
+<script>
 export default {
     props: ['links', 'progress'],
-    template: `
-        <ul class="pill-list list-unstyled mb-0">
-            <li v-for="link in linksSorted"
-                class="pill mb-3"
-                :class="{active:link.active}"
-            >
-                {{link.value | currency}}
-            </li>
-        </ul>
-    `,
     data: function () {
         return {
         }
@@ -34,3 +36,4 @@ export default {
         },
     },
 };
+</script>

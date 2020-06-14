@@ -3,11 +3,11 @@ import Vue from 'vue';
 import EventBus from './EventBus.js';
 import Game from './Game.js';
 
-import Controls from './components/Controls.js';
-import HeadToHead from './components/HeadToHead.js';
-import Names from './components/Names.js';
-import RoundCycle from './components/RoundCycle.js';
-import Sound from './components/Sound.js';
+import Controls from './components/Controls.vue';
+import HeadToHead from './components/HeadToHead.vue';
+import Names from './components/Names.vue';
+import RoundCycle from './components/RoundCycle.vue';
+import Sound from './components/Sound.vue';
 
 import CurrencyFormatter from './filters/Currency.js';
 

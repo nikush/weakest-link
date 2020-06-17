@@ -1,10 +1,9 @@
 {
   "private": true,
-  "type": "module",
   "scripts": {
-    "test": "jest",
-    "start": "webpack-dev-server --config=webpack.config.cjs",
-    "build": "webpack --config=webpack.config.cjs"
+    "build": "webpack",
+    "start": "webpack-dev-server",
+    "test": "jest"
   },
   "dependencies": {
     "vue": "^2.6.11"
@@ -12,7 +11,12 @@
   "devDependencies": {
     "@babel/core": "^7.10.2",
     "@babel/preset-env": "^7.10.2",
+    "@vue/cli": "^4.4.4",
+    "@vue/cli-plugin-unit-jest": "^4.4.4",
+    "@vue/test-utils": "^1.0.3",
+    "babel-jest": "^26.0.1",
     "babel-loader": "^8.1.0",
+    "jest": "^26.0.1",
     "vue-loader": "^15.9.2",
     "vue-template-compiler": "^2.6.11",
     "webpack": "^4.43.0",

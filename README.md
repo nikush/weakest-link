@@ -16,6 +16,10 @@ Start the server
 
 And visit http://localhost:8081
 
+Run the tests
+
+    docker-compose exec node npm run test
+
 
 ## TODO
 - Add unit tests

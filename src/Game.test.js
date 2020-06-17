@@ -1,14 +1,8 @@
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
+import Game from './Game.js';
 
-// sibling-module.js is a CommonJS module.
-const siblingModule = require('./Game.js');
-console.log(siblingModule);
-
-
-//import Game from './Game.js';
-
-console.log(Game.state);
-test('adds 1 + 2 to equal 3', () => {
-  expect('yo').toBe('yo');
+test('min players is 2', () => {
+    expect(Game.state.minPlayers).toBe(2);
 });
+
+test.todo('sets the players');
+test.todo('starts the game');

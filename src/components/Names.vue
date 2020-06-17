@@ -9,7 +9,7 @@
             </div>
             <button class="btn btn-block btn-primary"
                 @click="submit"
-                :disabled="sanitisedNames.length < 2"
+                :disabled="nonEmptyNames.length < min"
             >Start Game</button>
         </div>
     </div>
@@ -25,10 +25,10 @@ export default {
     },
     computed: {
         nonEmptyNames: function () {
-            return this.players.filter(player => player.name);
+            return this.trimmedNames.filter(player => player);
         },
-        sanitisedNames: function () {
-            return this.nonEmptyNames.map(player => player.name.trim());
+        trimmedNames: function () {
+            return this.players.map(player => player.name ? player.name.trim() : '');
         },
     },
     methods: {
@@ -43,7 +43,7 @@ export default {
             }
         },
         submit: function () {
-            this.$emit('submit', this.sanitisedNames);
+            this.$emit('submit', this.nonEmptyNames);
         },
     },
 };

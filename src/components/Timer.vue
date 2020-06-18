@@ -3,8 +3,6 @@
 </template>
 
 <script>
-import EventBus from '../EventBus.js';
-
 export default {
     data: function () {
         return {
@@ -16,22 +14,22 @@ export default {
         tick: function () {
             this.duration--;
             if (this.duration == 0) {
-                this.stopTimer();
+                this.stop();
                 this.$emit('complete');
             }
         },
-        stopTimer: function () {
-            this.pauseTimer();
+        stop: function () {
+            this.pause();
             this.duration = 0;
         },
-        startTimer: function (duration) {
+        start: function (duration) {
             this.duration = duration;
-            this.resumeTimer();
+            this.resume();
         },
-        pauseTimer: function () {
+        pause: function () {
             clearInterval(this.interval);
         },
-        resumeTimer: function () {
+        resume: function () {
             this.interval = setInterval(this.tick, 1000);
         }
     },
@@ -45,11 +43,5 @@ export default {
             return `${mins}:${seconds}`;
         }
     },
-    created: function () {
-        EventBus.$on('timer:start', this.startTimer);
-        EventBus.$on('timer:stop', this.stopTimer);
-        EventBus.$on('timer:pause', this.pauseTimer);
-        EventBus.$on('timer:resume', this.resumeTimer);
-    }
 };
 </script>

@@ -9,7 +9,7 @@
         </div>
         <div class="col d-flex flex-column align-items-center">
             <p class="pill mb-5" data-text="Round">{{sharedState.round}}</p>
-            <timer class="mb-5" @complete="endRound"></timer>
+            <timer class="mb-5" ref="timer" @complete="endRound"></timer>
             <p class="pill mb-5" data-text="Kitty">{{sharedState.kitty | currency}}</p>
         </div>
 
@@ -29,6 +29,8 @@
             >
             </elimination-list>
         </modal>
+
+        <sound></sound>
     </div>
 </template>
 
@@ -41,6 +43,7 @@ import Modal from './Modal.vue';
 import Players from './Players.vue';
 import RoundSummary from './RoundSummary.vue';
 import Timer from './Timer.vue';
+import Sound from './Sound.vue';
 
 export default {
     components: {
@@ -50,6 +53,7 @@ export default {
         Players,
         RoundSummary,
         Timer,
+        Sound,
     },
     data: function () {
         return {
@@ -147,7 +151,7 @@ export default {
                 this.endRound();
 
                 // interrupt the timer and audio
-                EventBus.$emit('timer:stop');
+                this.$refs.timer.stop();
                 this.playTrack(this.sharedState.roundWinTrackName);
             }
         },
@@ -179,17 +183,17 @@ export default {
             }
 
             const currentRound = this.sharedState.rounds[this.sharedState.round-1];
-            EventBus.$emit('timer:start', currentRound.time);
+            this.$refs.timer.start(currentRound.time);
             this.playTrack(currentRound.track);
         },
         pauseRound: function () {
             this.roundState = 'paused';
-            EventBus.$emit('timer:pause');
+            this.$refs.timer.pause();
             EventBus.$emit('audio:pause');
         },
         resumeRound: function () {
             this.roundState = 'active';
-            EventBus.$emit('timer:resume');
+            this.$refs.timer.resume();
             EventBus.$emit('audio:resume');
         },
         // called by timer "complete" event and bankAnswerStreak()

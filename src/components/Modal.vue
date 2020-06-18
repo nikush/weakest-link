@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="modal fade xd-block" :class="{show:display, 'd-block':display}">
+        <div class="modal fade" :class="{show:display, 'd-block':display}">
             <div class="modal-dialog">
                 <div class="modal-content bg-dark">
                     <div v-if="title" class="modal-header border-bottom-0">

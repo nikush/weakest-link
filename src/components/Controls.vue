@@ -2,7 +2,7 @@
     <div class="card shadow mb-4 bg-dark">
         <div class="card-body">
             <button class="btn btn-outline-secondary btn-block mb-3" @click="toggleSounds">
-                {{sharedState.muted?'Unmute':'Mute'}} Sounds
+                {{muted?'Unmute':'Mute'}} Sounds
             </button>
             <table class="table table-dark mb-0">
                 <tbody>
@@ -18,19 +18,16 @@
 </template>
 
 <script>
-import Game from '../Game.js';
-import EventBus from '../EventBus.js';
-
 export default {
     data: function () {
         return {
-            sharedState: Game.state,
+            muted: false,
         }
     },
     methods: {
         toggleSounds: function () {
-            EventBus.$emit(this.sharedState.muted?'audio:unmute':'audio:mute');
-            this.sharedState.muted = !this.sharedState.muted;
+            this.muted = !this.muted;
+            this.$emit('muted', this.muted);
         },
     },
 };

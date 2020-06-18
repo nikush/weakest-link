@@ -30,7 +30,7 @@
 
             <div class="container">
 
-                <controls v-if="showControls" class="w-50 mx-auto"></controls>
+                <controls v-if="showControls" @muted="toggleSounds" class="w-50 mx-auto"></controls>
 
                 <div class="row mb-4" v-if="sharedState.gameState == 'names'">
                     <div class="col col-4 offset-4">
@@ -47,6 +47,8 @@
                 </div>
 
             </div>
+
+            <sound ref="sound"></sound>
 
         </div>
     </body>

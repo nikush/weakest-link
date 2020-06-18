@@ -3,8 +3,6 @@
 </template>
 
 <script>
-import EventBus from '../EventBus.js';
-
 export default {
     data: function () {
         return {
@@ -27,13 +25,6 @@ export default {
         unmute: function () {
             this.$el.volume = 1;
         },
-    },
-    created: function () {
-        EventBus.$on('audio:play', this.play);
-        EventBus.$on('audio:pause', this.pause);
-        EventBus.$on('audio:resume', this.resume);
-        EventBus.$on('audio:mute', this.mute);
-        EventBus.$on('audio:unmute', this.unmute);
     },
 };
 </script>

@@ -29,21 +29,17 @@
             >
             </elimination-list>
         </modal>
-
-        <sound></sound>
     </div>
 </template>
 
 <script>
 import Game from '../Game.js';
-import EventBus from '../EventBus.js';
 import Chain from './Chain.vue';
 import EliminationList from './EliminationList.vue';
 import Modal from './Modal.vue';
 import Players from './Players.vue';
 import RoundSummary from './RoundSummary.vue';
 import Timer from './Timer.vue';
-import Sound from './Sound.vue';
 
 export default {
     components: {
@@ -53,7 +49,6 @@ export default {
         Players,
         RoundSummary,
         Timer,
-        Sound,
     },
     data: function () {
         return {
@@ -189,12 +184,12 @@ export default {
         pauseRound: function () {
             this.roundState = 'paused';
             this.$refs.timer.pause();
-            EventBus.$emit('audio:pause');
+            this.$parent.$refs.sound.pause();
         },
         resumeRound: function () {
             this.roundState = 'active';
             this.$refs.timer.resume();
-            EventBus.$emit('audio:resume');
+            this.$parent.$refs.sound.resume();
         },
         // called by timer "complete" event and bankAnswerStreak()
         endRound: function () {
@@ -225,7 +220,7 @@ export default {
         },
 
         playTrack: function (trackName) {
-            EventBus.$emit('audio:play', `./audio/${trackName}.mp3`);
+            this.$parent.$refs.sound.play(`./audio/${trackName}.mp3`);
         },
 
         logHistory: function () {

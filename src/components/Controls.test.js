@@ -1,13 +1,17 @@
 import { shallowMount } from '@vue/test-utils';
 import Controls from './Controls.vue';
-import EventBus from '../EventBus.js';
-import Game from '../Game.js';
 
-test('toggles the muted state when clicked', () => {
-    expect(Game.state.muted).toBe(false);
-
+test('toggles the muted state when clicked', async () => {
     const wrapper = shallowMount(Controls);
-    wrapper.find('button').trigger('click');
+    expect(wrapper.get('button').text()).toBe('Mute Sounds');
 
-    expect(Game.state.muted).toBe(true);
+    wrapper.get('button').trigger('click');
+    await wrapper.vm.$nextTick();
+    expect(wrapper.get('button').text()).toBe('Unmute Sounds');
+    expect(wrapper.emitted().muted[0]).toEqual([true]);
+
+    wrapper.get('button').trigger('click');
+    await wrapper.vm.$nextTick();
+    expect(wrapper.get('button').text()).toBe('Mute Sounds');
+    expect(wrapper.emitted().muted[1]).toEqual([false]);
 });

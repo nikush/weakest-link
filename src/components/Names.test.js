@@ -11,7 +11,7 @@ test('dynamically adds more input fields as names are entered', async () => {
     const wrapper = factory();
     expect(wrapper.findAll('input').length).toBe(1);
 
-    wrapper.find('input').setValue('foo');
+    wrapper.get('input').setValue('foo');
     await wrapper.vm.$nextTick();
 
     expect(wrapper.findAll('input').length).toBe(2);
@@ -68,15 +68,15 @@ test('empty values are filtered from the list of names', () => {
 
 test('CTA button is disabled until the minimum number of players is reached', async () => {
     const wrapper = factory();
-    expect(wrapper.find('button').attributes('disabled')).toBe('disabled');
+    expect(wrapper.get('button').attributes('disabled')).toBe('disabled');
 
     wrapper.setData({players: [{name:'Alex'},{name:null}]});
     await wrapper.vm.$nextTick();
-    expect(wrapper.find('button').attributes('disabled')).toBe('disabled');
+    expect(wrapper.get('button').attributes('disabled')).toBe('disabled');
 
     wrapper.setData({players: [{name:'Alex'},{name:'Bruce'}]});
     await wrapper.vm.$nextTick();
-    expect(wrapper.find('button').attributes('disabled')).toBeUndefined();
+    expect(wrapper.get('button').attributes('disabled')).toBeUndefined();
 });
 
 test('emits the provided names', async () => {
@@ -84,7 +84,7 @@ test('emits the provided names', async () => {
     wrapper.setData({players: [{name:' Alex'},{name:' '},{name:'Bruce '},{name:null}]});
     await wrapper.vm.$nextTick();
 
-    wrapper.find('button').trigger('click');
+    wrapper.get('button').trigger('click');
     await wrapper.vm.$nextTick();
 
     expect(wrapper.emitted().submit[0]).toEqual([['Alex','Bruce']]);

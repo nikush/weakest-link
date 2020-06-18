@@ -12,10 +12,6 @@
 <script>
 export default {
     props: ['links', 'progress'],
-    data: function () {
-        return {
-        }
-    },
     computed: {
         linksSorted: function () {
             let linkObjs = this.links.map((link, index) => {

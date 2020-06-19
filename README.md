@@ -22,9 +22,9 @@ Run the tests
 
 
 ## TODO
-- Add unit tests
 - Implement new strongest link logic
-- Stop using the EventBus, there's got to be a better way
+  - Create a 'Player' object to contain the logic for score tracking and comparing
+- Get rid of the global Game object
 - Try to get to the bottom of the NaN bug
 - Stop using GitHub pages
 - Warn before refreshing the page

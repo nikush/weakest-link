@@ -3,7 +3,8 @@
   "scripts": {
     "build": "webpack",
     "start": "webpack-dev-server",
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "jest --watchAll"
   },
   "dependencies": {
     "vue": "^2.6.11"

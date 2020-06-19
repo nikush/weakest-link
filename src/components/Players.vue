@@ -9,32 +9,23 @@
 </template>
 
 <script>
-import Game from '../Game.js';
-
 export default {
-    props: ['active'],
-    data: function () {
-        return {
-            sharedState: Game.state,
-        };
-    },
+    props: ['allPlayers', 'remainingPlayers', 'active'],
     computed: {
         formattedPlayers: function () {
-            const activePlayerName = this.sharedState.remainingPlayers[this.active];
+            const activePlayerName = this.remainingPlayers[this.active];
             let playerList = [];
 
-            for (let playerName of this.sharedState.players) {
-                // crap name, but it's a separate object that vue isn't tracking
-                // for reactive changes
-                let _player = {name:playerName};
+            for (let playerName of this.allPlayers) {
+                let player = {name:playerName};
 
                 if (playerName == activePlayerName) {
-                    _player.active = true;
+                    player.active = true;
                 }
-                if (!this.sharedState.remainingPlayers.includes(playerName)) {
-                    _player.eliminated = true;
+                if (!this.remainingPlayers.includes(playerName)) {
+                    player.eliminated = true;
                 }
-                playerList.push(_player);
+                playerList.push(player);
             }
 
             return playerList;

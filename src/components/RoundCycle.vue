@@ -5,7 +5,11 @@
             <p class="pill mb-5" data-text="Bank">{{bank | currency}}</p>
         </div>
         <div class="col">
-            <players :active="activePlayer"></players>
+            <players
+                :all-players="sharedState.players"
+                :remaining-players="sharedState.remainingPlayers"
+                :active="activePlayer"
+            ></players>
         </div>
         <div class="col d-flex flex-column align-items-center">
             <p class="pill mb-5" data-text="Round">{{sharedState.round}}</p>

@@ -12,7 +12,7 @@ Install dependencies
 
 Start the server
 
-    docker-composer up -d
+    docker-compose up -d
 
 And visit http://localhost:8081
 
@@ -24,11 +24,10 @@ Run the tests
 ## TODO
 - Break down the round cycle component further
 - Get history working with new PlayerList class
-- Move styles into their respective components and reduce the size of app.css
-- Stop using GitHub pages
 - Show the time on the clock before the round starts
 - Animations! Make it look sleek
 - Warn before refreshing the page
 - Try to get to the bottom of the NaN bug
+- Move styles into their respective components and reduce the size of app.css
 - Add a question/answer pool so that the players can read the question
 - Put in an easter egg when people vote for my name

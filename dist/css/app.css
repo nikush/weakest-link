@@ -32,9 +32,6 @@ body {
     box-shadow: 0 7px 0 0 #630505, 0 10px 0 0 #630505;
 }
 
-.pill.active ~ .pill {
-}
-
 .pill-list .pill:not(:first-child):not(.active){
     color: #bbb;
 }

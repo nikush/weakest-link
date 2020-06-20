@@ -175,6 +175,34 @@ describe('scoring', () => {
         expect(ranked[1].name).toBe('Alex');
     });
 
+    test('reset the scores', () => {
+        const alex = new Player('Alex');
+        alex.correct = 1;
+        alex.incorrect = 2;
+        alex.banked = 5;
+        alex.contribution = 10;
+        const bruce = new Player('Bruce');
+        bruce.incorrect = 1;
+        const chris = new Player('Chris');
+        chris.correct = 1;
+        chris.incorrect = 1;
+
+        const list = new PlayerList();
+        list.add(alex);
+        list.add(bruce);
+        list.add(chris);
+
+        list.resetScores();
+
+        expect(list.list[0].correct).toBe(0);
+        expect(list.list[0].incorrect).toBe(0);
+        expect(list.list[0].banked).toBe(0);
+        expect(list.list[0].contribution).toBe(0);
+        expect(list.list[1].incorrect).toBe(0);
+        expect(list.list[2].correct).toBe(0);
+        expect(list.list[2].incorrect).toBe(0);
+    });
+
 });
 
 test('eliminate a player by name', () => {
@@ -190,6 +218,7 @@ test('eliminate a player by name', () => {
     // highlight the strongest player after elimination
     expect(list.list[2].active).toBe(true);
     expect(list.activeIndex).toBe(1);
-});
 
-test.todo('who is the active player if the strongest player was eliminated');
+    // and reset the score
+    expect(list.list[2].correct).toBe(0);
+});

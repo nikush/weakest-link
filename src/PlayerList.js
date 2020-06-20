@@ -101,6 +101,13 @@ class PlayerList {
         }
 
         this.highlightStrongestPlayer();
+        this.resetScores();
+    }
+
+    resetScores() {
+        for (let player of this.list) {
+            player.resetScoring();
+        }
     }
 }
 

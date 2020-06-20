@@ -5,11 +5,7 @@
             <p class="pill mb-5" data-text="Bank">{{bank | currency}}</p>
         </div>
         <div class="col">
-            <players
-                :all-players="sharedState.players"
-                :remaining-players="sharedState.remainingPlayers"
-                :active="activePlayer"
-            ></players>
+            <players :players="sharedState.playerList.all()"></players>
         </div>
         <div class="col d-flex flex-column align-items-center">
             <p class="pill mb-5" data-text="Round">{{sharedState.round}}</p>
@@ -28,8 +24,7 @@
             </round-summary>
             <elimination-list v-if="roundState === 'eliminate'"
                 @selected="eliminatePlayer"
-                :players="sharedState.remainingPlayers"
-                :scores="scores"
+                :players="sharedState.playerList.getRemainingPlayersRanked()"
             >
             </elimination-list>
         </modal>
@@ -111,6 +106,10 @@ export default {
         questionCorrect: function () {
             this.logHistory();
 
+            this.sharedState.playerList.playerAnsweredCorrectly(this.linkValues[this.answerStreak]);
+            this.sharedState.playerList.highlightNextPlayer();
+
+            // deprecated
             this.scores[this.activePlayerName].correct++;
             this.scores[this.activePlayerName].total++;
             this.scores[this.activePlayerName].contribution += this.linkValues[this.answerStreak];
@@ -121,6 +120,10 @@ export default {
         questionIncorrect: function () {
             this.logHistory();
 
+            this.sharedState.playerList.playerAnsweredIncorrectly(this.linkValues[this.answerStreak]);
+            this.sharedState.playerList.highlightNextPlayer();
+
+            // deprecated
             this.scores[this.activePlayerName].total++;
             this.scores[this.activePlayerName].contribution -= this.linkValues[this.answerStreak];
 
@@ -141,6 +144,7 @@ export default {
             const maxValue = Math.min(this.answerStreak, this.linkValues.length);
             const acquiredValue = this.linkValues[maxValue-1] || 0;
 
+            this.sharedState.playerList.playerBanked(acquiredValue);
             this.bank += acquiredValue;
             this.resetAnswerStreak();
 
@@ -257,6 +261,8 @@ export default {
             const i = this.sharedState.remainingPlayers.indexOf(player);
             this.sharedState.remainingPlayers.splice(i, 1);
 
+            this.sharedState.playerList.eliminatePlayerByName(player);
+
             this.roundState = 'inactive';
 
             this.sharedState.kitty += this.bank;
@@ -290,6 +296,8 @@ export default {
     },
 
     created: function () {
+        this.sharedState.playerList.highlightFirstPlayerAlphabetically();
+        // deprecated
         this.activePlayer = this.sharedState.remainingPlayers.indexOf(this.sharedState.strongestLink);
         document.addEventListener('keyup', this.keyPress);
     },

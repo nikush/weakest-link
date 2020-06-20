@@ -24,6 +24,8 @@ Run the tests
 ## TODO
 - Get rid of the global Game object
 - Break down the round cycle component further
+- Get history working with new PlayerList class
+- Move styles into their respective components and reduce the size of app.css
 - Stop using GitHub pages
 - Show the time on the clock before the round starts
 - Animations! Make it look sleek

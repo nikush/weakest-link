@@ -1,15 +1,18 @@
-import { shallowMount } from '@vue/test-utils';
+import { mount, shallowMount } from '@vue/test-utils';
 import Players from './Players.vue';
+import Player from '../Player.js';
 
 function factory(propsData) {
-    return shallowMount(Players, {propsData});
+    return mount(Players, {propsData});
 }
 
 test('displays all players', () => {
     const wrapper = factory({
-        allPlayers: ['Alex','Bruce','Chris'],
-        remainingPlayers: ['Alex','Bruce','Chris'],
-        active: null,
+        players: [
+            new Player('Alex'),
+            new Player('Bruce'),
+            new Player('Chris'),
+        ],
     });
 
     expect(wrapper.findAll('li').length).toBe(3);
@@ -17,37 +20,30 @@ test('displays all players', () => {
 });
 
 test('highlights the active player', async () => {
-    const wrapper = factory({
-        allPlayers: ['Alex','Bruce','Chris'],
-        remainingPlayers: ['Alex','Bruce','Chris'],
-        active: 0,
-    });
+    const alex = new Player('Alex');
+    const bruce = new Player('Bruce');
+    const chris = new Player('Chris');
+
+    alex.active = true;
+    let wrapper = factory({players:[alex,bruce,chris]});
     expect(wrapper.get('li.active').text()).toBe('Alex');
 
-    wrapper.setProps({active:1});
-    await wrapper.vm.$nextTick();
+    alex.active = false;
+    wrapper = factory({players:[alex,bruce,chris]});
+    expect(wrapper.find('li.active').exists()).toBe(false);
+
+    bruce.active = true;
+    wrapper = factory({players:[alex,bruce,chris]});
     expect(wrapper.get('li.active').text()).toBe('Bruce');
 });
 
 test('flags eliminated players', () => {
-    const wrapper = factory({
-        allPlayers: ['Alex','Bruce','Chris'],
-        remainingPlayers: ['Alex','Chris'],
-        active: null,
-    });
+    const alex = new Player('Alex');
+    const bruce = new Player('Bruce');
+    const chris = new Player('Chris');
+    bruce.eliminated = true;
+
+    let wrapper = factory({players:[alex,bruce,chris]});
 
     expect(wrapper.get('li.eliminated').text()).toBe('Bruce');
-});
-
-test('skips highlighting eliminated players', async () => {
-    const wrapper = factory({
-        allPlayers: ['Alex','Bruce','Chris'],
-        remainingPlayers: ['Alex','Chris'],
-        active: 0,
-    });
-    expect(wrapper.get('li.active').text()).toBe('Alex');
-
-    wrapper.setProps({active:1});
-    await wrapper.vm.$nextTick();
-    expect(wrapper.get('li.active').text()).toBe('Chris');
 });

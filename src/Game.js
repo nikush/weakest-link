@@ -1,3 +1,5 @@
+import PlayerList from './PlayerList.js';
+
 export default {
     state: {
         rounds: [
@@ -20,6 +22,9 @@ export default {
 
         minPlayers: 2,
         maxPlayers: 9,
+        playerList: null,
+
+        // deprecated
         players: [],
         remainingPlayers: [],
         strongestLink: null,
@@ -27,10 +32,14 @@ export default {
     },
 
     setPlayers: function (names) {
+        this.state.playerList = PlayerList.fromNames(names);
+
+        // deprecated
         this.state.players = names;
         this.state.remainingPlayers = Array.from(names);
-        this.state.round = (this.state.maxPlayers - this.state.remainingPlayers.length) + 1;
         this.state.strongestLink = Array.from(names).sort()[0];
+
+        this.state.round = (this.state.maxPlayers - this.state.remainingPlayers.length) + 1;
     },
 
     startGame: function () {

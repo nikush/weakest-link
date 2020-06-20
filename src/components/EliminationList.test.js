@@ -1,6 +1,7 @@
 import { createLocalVue, shallowMount } from '@vue/test-utils';
 import EliminationList from './EliminationList.vue';
 import formatter from '../filters/Currency.js';
+import Player from '../Player.js';
 
 const localVue = createLocalVue();
 localVue.filter('currency', formatter)
@@ -9,12 +10,11 @@ function factory () {
     return shallowMount(EliminationList, {
         localVue,
         propsData: {
-            players: ['Alex','Bruce','Chris'],
-            scores: {
-                'Alex': {correct:0,total:0,contribution:0},
-                'Bruce': {correct:0,total:0,contribution:0},
-                'Chris': {correct:0,total:0,contribution:0},
-            },
+            players: [
+                new Player('Chris'),
+                new Player('Alex'),
+                new Player('Bruce'),
+            ],
         }
     });
 }

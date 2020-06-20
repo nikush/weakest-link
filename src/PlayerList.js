@@ -71,10 +71,6 @@ class PlayerList {
         const originalContribution = player.contribution;
         player.correct++;
         player.contribution += value;
-
-        if (isNaN(player.contribution)) {
-            console.warn('player contribution isNaN after:', originalContribution, value);
-        }
     }
 
     playerAnsweredIncorrectly(value) {
@@ -82,10 +78,6 @@ class PlayerList {
         const originalContribution = player.contribution;
         player.incorrect++;
         player.contribution -= value;
-
-        if (isNaN(player.contribution)) {
-            console.warn('player contribution isNaN after:', originalContribution, value);
-        }
     }
 
     playerBanked(value) {

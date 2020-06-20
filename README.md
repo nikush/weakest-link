@@ -27,7 +27,6 @@ Run the tests
 - Show the time on the clock before the round starts
 - Animations! Make it look sleek
 - Warn before refreshing the page
-- Try to get to the bottom of the NaN bug
 - Move styles into their respective components and reduce the size of app.css
 - Add a question/answer pool so that the players can read the question
 - Put in an easter egg when people vote for my name

@@ -178,10 +178,18 @@ describe('scoring', () => {
 });
 
 test('eliminate a player by name', () => {
-    const list = PlayerList.fromNames(['Alex','Bruce','Chrise']);
+    const list = PlayerList.fromNames(['Alex','Bruce','Chris']);
+    list.highlightFirstPlayerAlphabetically();
+    list.list[2].correct++;
     expect(list.list[1].eliminated).toBe(false);
 
     list.eliminatePlayerByName('Bruce');
 
     expect(list.list[1].eliminated).toBe(true);
+
+    // highlight the strongest player after elimination
+    expect(list.list[2].active).toBe(true);
+    expect(list.activeIndex).toBe(1);
 });
+
+test.todo('who is the active player if the strongest player was eliminated');

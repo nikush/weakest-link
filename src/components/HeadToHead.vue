@@ -25,7 +25,7 @@
 
 <script>
 export default {
-    props: ['players', 'kitty', 'strongestLink'],
+    props: ['players', 'kitty'],
     data: function () {
         return {
             playerScores: [],
@@ -43,7 +43,8 @@ export default {
             this.$set(this.playerScores[playerIndex].scores, scoreIndex, !currentScore);
         },
         strong: function(name) {
-            if (name == this.strongestLink) {
+            const strongestPlayer = this.players.getRemainingPlayersRanked()[0];
+            if (name == strongestPlayer.name) {
                 return name + " 🏅";
             }
 
@@ -52,9 +53,9 @@ export default {
     },
 
     created: function () {
-        this.playerScores = this.players.map((player) => {
+        this.playerScores = this.players.remainingPlayers().map((player) => {
             return {
-                name: player,
+                name: player.name,
                 scores: [null, null, null, null, null],
             }
         });

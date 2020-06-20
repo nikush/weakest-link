@@ -52,6 +52,12 @@ class PlayerList {
         remainingPlayers[this.activeIndex].active = true;
     }
 
+    highlightStrongestPlayer() {
+        const strongestPlayer = this.getRemainingPlayersRanked()[0];
+        strongestPlayer.active = true;
+        this.activeIndex = this.remainingPlayers().indexOf(strongestPlayer);
+    }
+
     remainingPlayers() {
         return this.list.filter(player => !player.eliminated);
     }
@@ -83,12 +89,18 @@ class PlayerList {
     }
 
     eliminatePlayerByName(name) {
+        // remove highlight from current player
+        const remainingPlayers = this.remainingPlayers();
+        remainingPlayers[this.activeIndex].active = false;
+
         for (const player of this.remainingPlayers()) {
             if (player.name == name) {
                 player.eliminated = true;
                 break;
             }
         }
+
+        this.highlightStrongestPlayer();
     }
 }
 

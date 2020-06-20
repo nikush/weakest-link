@@ -5,26 +5,26 @@
             <p class="pill mb-5" data-text="Bank">{{bank | currency}}</p>
         </div>
         <div class="col">
-            <players :players="sharedState.playerList.all()"></players>
+            <players :players="players.all()"></players>
         </div>
         <div class="col d-flex flex-column align-items-center">
-            <p class="pill mb-5" data-text="Round">{{sharedState.round}}</p>
+            <p class="pill mb-5" data-text="Round">{{round}}</p>
             <timer class="mb-5" ref="timer" @complete="endRound"></timer>
-            <p class="pill mb-5" data-text="Kitty">{{sharedState.kitty | currency}}</p>
+            <p class="pill mb-5" data-text="Kitty">{{kitty | currency}}</p>
         </div>
 
         <modal :title="modalTitles[roundState]" :display="['summary','eliminate'].includes(roundState)">
             <round-summary v-if="roundState === 'summary'"
-                :round="sharedState.round"
-                :kitty="sharedState.kitty"
+                :round="round"
+                :kitty="kitty"
                 :bank="bank"
-                :is-final="sharedState.round === sharedState.rounds.length"
+                :is-final="isFinalRound"
                 @click="proceedToNextRound"
             >
             </round-summary>
             <elimination-list v-if="roundState === 'eliminate'"
                 @selected="eliminatePlayer"
-                :players="sharedState.playerList.getRemainingPlayersRanked()"
+                :players="players.getRemainingPlayersRanked()"
             >
             </elimination-list>
         </modal>
@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import Game from '../Game.js';
+import GameEnumeration from '../GameEnumeration.js';
 import Chain from './Chain.vue';
 import EliminationList from './EliminationList.vue';
 import Modal from './Modal.vue';
@@ -49,15 +49,15 @@ export default {
         RoundSummary,
         Timer,
     },
+    props: ['players'],
     data: function () {
         return {
-            sharedState: Game.state,
             linkValues: [0.2,0.5,1,2,3,4.5,6,8,10],
             answerStreak: null,
-            activePlayer: 0,
+            round: 1,
             bank: 0,
+            kitty: 0,
 
-            scores: {},
 
             history: {},
 
@@ -106,36 +106,18 @@ export default {
         questionCorrect: function () {
             this.logHistory();
 
-            this.sharedState.playerList.playerAnsweredCorrectly(this.linkValues[this.answerStreak]);
-            this.sharedState.playerList.highlightNextPlayer();
-
-            // deprecated
-            this.scores[this.activePlayerName].correct++;
-            this.scores[this.activePlayerName].total++;
-            this.scores[this.activePlayerName].contribution += this.linkValues[this.answerStreak];
+            this.players.playerAnsweredCorrectly(this.linkValues[this.answerStreak]);
+            this.players.highlightNextPlayer();
 
             this.incrementAnswerStreak();
-            this.nextPlayer();
         },
         questionIncorrect: function () {
             this.logHistory();
 
-            this.sharedState.playerList.playerAnsweredIncorrectly(this.linkValues[this.answerStreak]);
-            this.sharedState.playerList.highlightNextPlayer();
-
-            // deprecated
-            this.scores[this.activePlayerName].total++;
-            this.scores[this.activePlayerName].contribution -= this.linkValues[this.answerStreak];
+            this.players.playerAnsweredIncorrectly(this.linkValues[this.answerStreak]);
+            this.players.highlightNextPlayer();
 
             this.resetAnswerStreak();
-            this.nextPlayer();
-        },
-        nextPlayer: function () {
-            if (this.activePlayer == this.sharedState.remainingPlayers.length -1) {
-                this.activePlayer = 0;
-            } else {
-                this.activePlayer++;
-            }
         },
 
         bankAnswerStreak: function () {
@@ -144,7 +126,7 @@ export default {
             const maxValue = Math.min(this.answerStreak, this.linkValues.length);
             const acquiredValue = this.linkValues[maxValue-1] || 0;
 
-            this.sharedState.playerList.playerBanked(acquiredValue);
+            this.players.playerBanked(acquiredValue);
             this.bank += acquiredValue;
             this.resetAnswerStreak();
 
@@ -155,7 +137,7 @@ export default {
 
                 // interrupt the timer and audio
                 this.$refs.timer.stop();
-                this.playTrack(this.sharedState.roundWinTrackName);
+                this.playTrack(GameEnumeration.roundWinTrackName);
             }
         },
 
@@ -176,16 +158,7 @@ export default {
             this.roundState = 'active';
             this.resetAnswerStreak();
 
-            this.scores = {};
-            for (let player of this.sharedState.remainingPlayers) {
-                this.scores[player] = {
-                    correct: 0,
-                    total: 0,
-                    contribution: 0,
-                };
-            }
-
-            const currentRound = this.sharedState.rounds[this.sharedState.round-1];
+            const currentRound = GameEnumeration.rounds[this.round-1];
             this.$refs.timer.start(currentRound.time);
             this.playTrack(currentRound.track);
         },
@@ -201,7 +174,7 @@ export default {
         },
         // called by timer "complete" event and bankAnswerStreak()
         endRound: function () {
-            if (this.sharedState.round == this.sharedState.rounds.length) {
+            if (this.round == GameEnumeration.rounds.length) {
                 this.bank *= 3;
             }
 
@@ -210,18 +183,15 @@ export default {
             this.clearAnswerStreak();
 
             this.clearHistory();
-
-            if (this.sharedState.round > this.sharedState.rounds.length) {
-                this.sharedState.gameState = 'ended';
-            }
         },
 
         proceedToNextRound: function () {
-            if (this.sharedState.round == this.sharedState.rounds.length) {
+            if (this.round == GameEnumeration.rounds.length) {
                 // hack because right now the kitty is only updated after elimination
                 // which doesn't happen for the final round because there is no elimination
-                this.sharedState.kitty += this.bank;
-                this.sharedState.gameState = 'head_to_head';
+                this.kitty += this.bank;
+
+                this.$emit('complete', this.kitty);
             } else {
                 this.roundState = 'eliminate';
             }
@@ -235,9 +205,6 @@ export default {
             const newHistory = {
                 answerStreak: this.answerStreak,
                 bank: this.bank,
-                activePlayer: this.activePlayer,
-                // scores is reactive so deep clone it without the reactive references
-                scores: JSON.parse(JSON.stringify(this.scores)),
             };
             this.$set(this, 'history', newHistory);
         },
@@ -251,30 +218,18 @@ export default {
 
             this.answerStreak = this.history.answerStreak;
             this.bank = this.history.bank;
-            this.activePlayer = this.history.activePlayer;
-            this.scores = this.history.scores;
 
             this.clearHistory();
         },
 
         eliminatePlayer: function (player) {
-            const i = this.sharedState.remainingPlayers.indexOf(player);
-            this.sharedState.remainingPlayers.splice(i, 1);
-
-            this.sharedState.playerList.eliminatePlayerByName(player);
+            this.players.eliminatePlayerByName(player);
 
             this.roundState = 'inactive';
 
-            this.sharedState.kitty += this.bank;
+            this.kitty += this.bank;
             this.bank = 0;
-            this.sharedState.round++;
-
-            this.activePlayer = this.sharedState.remainingPlayers.indexOf(this.sharedState.strongestLink);
-            // if the strongest player happens to have been eliminated
-            // then fall back to whoever is first in the list
-            if (this.activePlayer === -1) {
-                this.activePlayer = 0;
-            }
+            this.round++;
         },
 
         keyPress: function (event) {
@@ -290,17 +245,17 @@ export default {
     },
 
     computed: {
-        activePlayerName: function () {
-            return this.sharedState.remainingPlayers[this.activePlayer];
-        },
+        isFinalRound: function () {
+            return this.round === GameEnumeration.rounds.length
+        }
     },
 
     created: function () {
-        this.sharedState.playerList.highlightFirstPlayerAlphabetically();
-        // deprecated
-        this.activePlayer = this.sharedState.remainingPlayers.indexOf(this.sharedState.strongestLink);
+        this.players.highlightFirstPlayerAlphabetically();
         document.addEventListener('keyup', this.keyPress);
+        this.round = (GameEnumeration.maxPlayers - this.players.length) + 1;
     },
+
     beforeDestroy: function () {
         document.removeEventListener('keyup', this.keyPress);
     },

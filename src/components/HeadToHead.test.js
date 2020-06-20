@@ -1,17 +1,25 @@
 import { createLocalVue, shallowMount } from '@vue/test-utils';
 import formatter from '../filters/Currency.js';
 import HeadToHead from './HeadToHead.vue';
+import PlayerList from '../PlayerList';
+import Player from '../Player';
 
 const localVue = createLocalVue();
 localVue.filter('currency', formatter)
 
 function factory () {
+    const alex = new Player('Alex');
+    const bruce = new Player('Bruce');
+    bruce.correct++;
+    const players = new PlayerList();
+    players.add(alex);
+    players.add(bruce);
+
     return shallowMount(HeadToHead, {
         localVue,
         propsData: {
-            players: ['Alex','Bruce'],
+            players,
             kitty: 1.23,
-            strongestLink: 'Bruce',
         }
     });
 }

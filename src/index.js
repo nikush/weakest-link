@@ -1,12 +1,13 @@
 import Vue from 'vue';
 
-import Game from './Game.js';
+import GameEnumeration from './GameEnumeration.js';
 
 import Controls from './components/Controls.vue';
 import HeadToHead from './components/HeadToHead.vue';
 import Names from './components/Names.vue';
 import RoundCycle from './components/RoundCycle.vue';
 import Sound from './components/Sound.vue';
+import PlayerList from './PlayerList.js';
 
 import CurrencyFormatter from './filters/Currency.js';
 
@@ -22,13 +23,18 @@ var app = new Vue({
         Sound,
     },
     data: {
-        sharedState: Game.state,
+        gameState: 'names', // names, round, head_to_head
+
         showControls: false,
+        players: null,
+        kitty: null,
+        minPlayers: GameEnumeration.minPlayers,
+        maxPlayers: GameEnumeration.maxPlayers,
     },
     methods: {
         submitNames: function (names) {
-            Game.setPlayers(names);
-            Game.startGame();
+            this.players = PlayerList.fromNames(names);
+            this.gameState = 'round';
         },
         toggleSounds: function (muted) {
             if (muted) {
@@ -37,5 +43,9 @@ var app = new Vue({
                 this.$refs.sound.unmute();
             }
         },
+        roundsComplete(kitty) {
+            this.kitty = kitty;
+            this.gameState = 'head_to_head';
+        }
     },
 })

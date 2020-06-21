@@ -20,6 +20,11 @@
 
 <script>
 export default {
-    props: ['round', 'kitty', 'bank', 'isFinal'],
+    props: {
+        round: Number,
+        kitty: Number,
+        bank: Number,
+        isFinal: Boolean,
+    },
 };
 </script>

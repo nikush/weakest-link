@@ -19,8 +19,8 @@
 <script>
 export default {
     props: {
-        title: '',
-        display: false,
+        title: String,
+        display: Boolean,
     },
 };
 </script>

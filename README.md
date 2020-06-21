@@ -22,10 +22,10 @@ Run the tests
 
 
 ## TODO
-- Add props validation to every component
 - Organise/restructure/rename files
 - Get history working with new PlayerList class
 - Show the time on the clock before the round starts
+- Swap out webpack for rollup
 - Animations! Make it look sleek
 - Warn before refreshing the page
 - Move styles into their respective components and reduce the size of app.css

@@ -24,6 +24,7 @@
 import GameEnumeration from '../GameEnumeration.js';
 import EliminationList from './EliminationList.vue';
 import Modal from './Modal.vue';
+import PlayerList from '../PlayerList.js';
 import Round from './Round.vue';
 import RoundSummary from './RoundSummary.vue';
 
@@ -34,7 +35,9 @@ export default {
         Round,
         RoundSummary,
     },
-    props: ['players'],
+    props: {
+        players: PlayerList,
+    },
     data: function () {
         return {
             // todo: change this to reflect that it is now used for displaying the modal

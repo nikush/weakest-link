@@ -17,7 +17,10 @@
 
 <script>
 export default {
-    props: ['min', 'max'],
+    props: {
+        min: Number,
+        max: Number,
+    },
     data: function () {
         return {
             players: [{name:null}],

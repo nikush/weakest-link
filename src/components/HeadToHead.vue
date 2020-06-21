@@ -24,8 +24,13 @@
 </template>
 
 <script>
+import PlayerList from '../PlayerList.js';
+
 export default {
-    props: ['players', 'kitty'],
+    props: {
+        players: PlayerList,
+        kitty: Number,
+    },
     data: function () {
         return {
             playerScores: [],

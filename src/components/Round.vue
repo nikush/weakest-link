@@ -19,6 +19,7 @@
 import GameEnumeration from '../GameEnumeration.js';
 import Chain from './Chain.vue';
 import RoundLogic from '../RoundLogic.js';
+import PlayerList from '../PlayerList.js';
 import Players from './Players.vue';
 import Timer from './Timer.vue';
 
@@ -29,7 +30,9 @@ export default {
         Timer,
     },
 
-    props: ['players'],
+    props: {
+        players: PlayerList,
+    },
 
     data: function () {
         return {

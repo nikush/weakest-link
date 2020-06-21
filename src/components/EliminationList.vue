@@ -56,7 +56,9 @@
 
 <script>
 export default {
-    props: ['players'],
+    props: {
+        players: Array
+    },
     data: function () {
         return {
             selectedPlayer: '',

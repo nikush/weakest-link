@@ -135,7 +135,7 @@ export default {
         endRound: function () {
             const summary = this.roundLogic.endRound();
 
-            this.$emit('complete', summary.round, summary.bank, summary.kitty);
+            this.$emit('complete', summary);
 
             this.roundState = 'inactive';
 

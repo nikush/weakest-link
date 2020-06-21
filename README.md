@@ -23,6 +23,7 @@ Run the tests
 
 ## TODO
 - Organise/restructure/rename files
+- Address todos
 - Get history working with new PlayerList class
 - Show the time on the clock before the round starts
 - Swap out webpack for rollup

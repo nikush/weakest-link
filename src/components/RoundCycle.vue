@@ -4,9 +4,9 @@
 
         <modal :title="modalTitles[roundState]" :display="['summary','eliminate'].includes(roundState)">
             <round-summary v-if="roundState === 'summary'"
-                :round="roundData.round"
-                :kitty="roundData.kitty"
-                :bank="roundData.bank"
+                :round="roundSummary.round"
+                :kitty="roundSummary.kitty"
+                :bank="roundSummary.bank"
                 :is-final="isFinalRound"
                 @click="proceedToNextRound"
             >
@@ -44,7 +44,7 @@ export default {
             roundState: null, // null, summary, eliminate
 
             // data about the previous round for the summary
-            roundData: null,
+            roundSummary: null,
 
             modalTitles: {
                 summary: 'Round Summary',
@@ -54,14 +54,14 @@ export default {
     },
 
     methods: {
-        roundComplete: function (round, bank, kitty) {
-            this.roundData = {round, bank, kitty},
+        roundComplete: function (summary) {
+            this.roundSummary = summary;
             this.roundState = 'summary';
         },
         proceedToNextRound: function () {
-            if (this.roundData.round == GameEnumeration.rounds.length) {
+            if (this.isFinalRound) {
                 // hacky but it will do
-                this.$emit('complete', this.roundData.kitty + this.roundData.bank);
+                this.$emit('complete', this.roundSummary.kitty + this.roundSummary.bank);
             } else {
                 this.roundState = 'eliminate';
             }
@@ -99,7 +99,7 @@ export default {
 
     computed: {
         isFinalRound: function () {
-            return this.roundData.round === GameEnumeration.rounds.length
+            return this.roundSummary.round === GameEnumeration.rounds.length
         }
     },
 };

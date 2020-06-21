@@ -22,7 +22,8 @@ Run the tests
 
 
 ## TODO
-- Break down the round cycle component further
+- Add props validation to every component
+- Organise/restructure/rename files
 - Get history working with new PlayerList class
 - Show the time on the clock before the round starts
 - Animations! Make it look sleek

@@ -4,39 +4,47 @@
 
 <script>
 export default {
+    props: {
+        duration: Number,
+        run: Boolean,
+    },
     data: function () {
         return {
-            duration: 0,
+            countDown: 0,
             interval: null,
         }
     },
     methods: {
         tick: function () {
-            this.duration--;
-            if (this.duration == 0) {
-                this.stop();
+            this.countDown--;
+            if (this.countDown == 0) {
+                this.pause();
                 this.$emit('complete');
             }
         },
-        stop: function () {
-            this.pause();
-            this.duration = 0;
-        },
-        start: function (duration) {
-            this.duration = duration;
-            this.resume();
+        start: function () {
+            this.interval = setInterval(this.tick, 1000);
         },
         pause: function () {
             clearInterval(this.interval);
         },
-        resume: function () {
-            this.interval = setInterval(this.tick, 1000);
-        }
+    },
+    watch: {
+        duration: function (newValue, oldValue) {
+            this.countDown = this.duration;
+        },
+        run: function(newValue) {
+            if (newValue === true) {
+                this.start();
+            } else {
+                this.pause();
+            }
+        },
     },
     computed: {
         durationFormatted: function () {
-            let seconds = this.duration % 60;
-            let mins = Math.floor(this.duration / 60);
+            let seconds = this.countDown % 60;
+            let mins = Math.floor(this.countDown / 60);
             if (seconds < 10) {
                 seconds = "0" + seconds;
             }

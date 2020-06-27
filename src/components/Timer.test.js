@@ -5,79 +5,67 @@ beforeEach(() => {
     jest.useFakeTimers();
 });
 
-test('formats the time value', () => {
+test('formats the time value', async () => {
     const wrapper = shallowMount(Timer);
 
-    wrapper.setData({duration:0});
+    await wrapper.setProps({duration:0});
     expect(wrapper.vm.durationFormatted).toBe('0:00');
 
-    wrapper.setData({duration:1});
+    await wrapper.setProps({duration:1});
     expect(wrapper.vm.durationFormatted).toBe('0:01');
 
-    wrapper.setData({duration:10});
+    await wrapper.setProps({duration:10});
     expect(wrapper.vm.durationFormatted).toBe('0:10');
 
-    wrapper.setData({duration:60});
+    await wrapper.setProps({duration:60});
     expect(wrapper.vm.durationFormatted).toBe('1:00');
 
-    wrapper.setData({duration:90});
+    await wrapper.setProps({duration:90});
     expect(wrapper.vm.durationFormatted).toBe('1:30');
 });
 
-test('can start the timer', () => {
+test('can start the timer', async () => {
     const wrapper = shallowMount(Timer);
-    expect(wrapper.vm.$data.duration).toBe(0);
+    expect(wrapper.vm.$data.countDown).toBe(0);
     expect(wrapper.vm.$data.interval).toBeNull();
 
-    wrapper.vm.start(10);
-    expect(wrapper.vm.$data.duration).toBe(10);
+    await wrapper.setProps({duration: 10, run: true});
+    expect(wrapper.vm.$data.countDown).toBe(10);
     expect(wrapper.vm.$data.interval).not.toBeNull();
 
     jest.advanceTimersByTime(1000);
-    expect(wrapper.vm.$data.duration).toBe(9);
+    expect(wrapper.vm.$data.countDown).toBe(9);
 });
 
-test('can pause the timer', () => {
+test('can pause the timer', async () => {
     const wrapper = shallowMount(Timer);
 
-    wrapper.vm.start(10);
+    await wrapper.setProps({duration: 10, run: true});
     jest.advanceTimersByTime(1000);
-    expect(wrapper.vm.$data.duration).toBe(9);
+    expect(wrapper.vm.$data.countDown).toBe(9);
 
     // timer is paused so duration shouldn't change
-    wrapper.vm.pause();
+    await wrapper.setProps({run: false});
     jest.advanceTimersByTime(1000);
-    expect(wrapper.vm.$data.duration).toBe(9);
+    expect(wrapper.vm.$data.countDown).toBe(9);
 });
 
-test('can resume the timer', () => {
+test('can resume the timer', async () => {
     const wrapper = shallowMount(Timer);
 
-    wrapper.vm.start(10);
-    wrapper.vm.pause();
+    await wrapper.setProps({duration: 10, run: false});
 
-    wrapper.vm.resume();
+    await wrapper.setProps({run: true});
     jest.advanceTimersByTime(1000);
-    expect(wrapper.vm.$data.duration).toBe(9);
+    expect(wrapper.vm.$data.countDown).toBe(9);
 });
 
-test('can stop the timer', () => {
+test('emits the completed event', async () => {
     const wrapper = shallowMount(Timer);
 
-    wrapper.vm.start(10);
-    wrapper.vm.stop();
-    expect(wrapper.vm.$data.duration).toBe(0);
-
-    jest.advanceTimersByTime(1000);
-    expect(wrapper.vm.$data.duration).toBe(0);
-});
-
-test('emits the completed event', () => {
-    const wrapper = shallowMount(Timer);
-
-    wrapper.vm.start(3);
+    await wrapper.setProps({duration:3, run:true});
     jest.advanceTimersByTime(3000);
-    expect(wrapper.vm.$data.duration).toBe(0);
+    expect(wrapper.vm.$data.countDown).toBe(0);
 
     expect(wrapper.emitted().complete.length).toBe(1);
 });

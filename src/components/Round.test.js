@@ -62,7 +62,5 @@ describe('keyboard input', () => {
 
 });
 
-// todo: rewrite timer and sound compenent so that I am no longer calling their
-// methods externally, and us props instead
 test.todo('plays the correct audio tracks');
 test.todo('calls the appropriate methods on the round logic object');

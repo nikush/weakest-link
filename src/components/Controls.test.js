@@ -5,13 +5,9 @@ test('toggles the muted state when clicked', async () => {
     const wrapper = shallowMount(Controls);
     expect(wrapper.get('button').text()).toBe('Mute Sounds');
 
-    wrapper.get('button').trigger('click');
-    await wrapper.vm.$nextTick();
-    expect(wrapper.get('button').text()).toBe('Unmute Sounds');
-    expect(wrapper.emitted().muted[0]).toEqual([true]);
+    await wrapper.get('button').trigger('click');
+    expect(wrapper.emitted().toggle).toBeTruthy();
 
-    wrapper.get('button').trigger('click');
-    await wrapper.vm.$nextTick();
-    expect(wrapper.get('button').text()).toBe('Mute Sounds');
-    expect(wrapper.emitted().muted[1]).toEqual([false]);
+    await wrapper.setProps({muted:true});
+    expect(wrapper.get('button').text()).toBe('Unmute Sounds');
 });

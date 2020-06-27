@@ -25,8 +25,8 @@ Run the tests
 - Organise/restructure/rename files
 - Address todos
 - Get history working with new PlayerList class
-- Show the time on the clock before the round starts
 - Swap out webpack for rollup
+- Look at https://uidesigndaily.com/ to improve on the UI
 - Animations! Make it look sleek
 - Warn before refreshing the page
 - Move styles into their respective components and reduce the size of app.css

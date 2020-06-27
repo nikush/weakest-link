@@ -10,7 +10,7 @@
                     <tr> <td><kbd>space</kbd></td> <td>correct answer, step chain forward</td> </tr>
                     <tr> <td><kbd>backspace</kbd></td> <td>incorrect answer, break chain</td> </tr>
                     <tr> <td><kbd>enter</kbd>/<kbd>b</kbd></td> <td>bank</td> </tr>
-                    <tr> <td><kbd>z</kbd></td> <td>undo the last correct/incorrect answer/bank</td> </tr>
+                    <!-- <tr> <td><kbd>z</kbd></td> <td>undo the last correct/incorrect answer/bank</td> </tr> -->
                 </tbody>
             </table>
         </div>

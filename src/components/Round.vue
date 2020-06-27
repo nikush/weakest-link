@@ -9,7 +9,7 @@
         </div>
         <div class="col d-flex flex-column align-items-center">
             <p class="pill mb-5" data-text="Round">{{roundLogic.round}}</p>
-            <timer class="mb-5" ref="timer" @complete="endRound"></timer>
+            <timer class="mb-5" :duration="roundLogic.timerDuration" :run="roundLogic.timerRun" @complete="endRound"></timer>
             <p class="pill mb-5" data-text="Kitty">{{roundLogic.kitty | currency}}</p>
         </div>
     </div>
@@ -33,12 +33,12 @@ export default {
     props: {
         players: PlayerList,
     },
-
     data: function () {
         return {
             roundLogic: new RoundLogic(),
-
             roundState: 'inactive', // inactive, active, paused
+
+            audio: new Audio(),
 
             history: {},
 
@@ -52,11 +52,11 @@ export default {
                     'Backspace': this.questionIncorrect,
                     'Enter': this.bankAnswerStreak,
                     'KeyB': this.bankAnswerStreak,
-                    'KeyZ': this.undoLastAction,
+                    //'KeyZ': this.undoLastAction,
                 },
                 'paused': {
                     'KeyS': this.toggleGameState,
-                    'KeyZ': this.undoLastAction,
+                    //'KeyZ': this.undoLastAction,
                 },
             },
         };
@@ -79,7 +79,6 @@ export default {
 
             this.roundLogic.resetAnswerStreak();
         },
-
         bankAnswerStreak: function () {
             //this.logHistory();
 
@@ -88,16 +87,15 @@ export default {
             this.roundLogic.bankProgress();
 
             if (this.roundLogic.hasBankedMaximumValue()) {
-                this.endRound();
-
                 // interrupt the timer and audio
-                this.$refs.timer.stop();
+                this.endRound();
                 this.playTrack(GameEnumeration.roundWinTrackName);
             }
         },
 
         playTrack: function (trackName) {
-            this.$root.$refs.sound.play(`./audio/${trackName}.mp3`);
+            this.audio.src = `./audio/${trackName}.mp3`;
+            this.audio.play();
         },
 
         toggleGameState: function () {
@@ -117,26 +115,24 @@ export default {
             this.roundState = 'active';
             this.roundLogic.resetAnswerStreak();
 
+            this.roundLogic.timerRun = true;
             const currentRound = GameEnumeration.rounds[this.roundLogic.round-1];
-            this.$refs.timer.start(currentRound.time);
             this.playTrack(currentRound.track);
         },
         pauseRound: function () {
             this.roundState = 'paused';
-            this.$refs.timer.pause();
-            this.$parent.$refs.sound.pause();
+            this.roundLogic.timerRun = false;
+            this.audio.pause();
         },
         resumeRound: function () {
             this.roundState = 'active';
-            this.$refs.timer.resume();
-            this.$parent.$refs.sound.resume();
+            this.roundLogic.timerRun = true;
+            this.audio.play();
         },
         // called by timer "complete" event and bankAnswerStreak()
         endRound: function () {
             const summary = this.roundLogic.endRound();
-
             this.$emit('complete', summary);
-
             this.roundState = 'inactive';
 
             //this.clearHistory();
@@ -154,7 +150,7 @@ export default {
         },
     },
 
-    created: function () {
+    mounted: function () {
         this.roundLogic.setRoundForNumberOfPlayers(this.players.length);
         this.players.highlightFirstPlayerAlphabetically();
         document.addEventListener('keyup', this.keyPress);

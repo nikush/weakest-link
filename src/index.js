@@ -6,7 +6,6 @@ import Controls from './components/Controls.vue';
 import HeadToHead from './components/HeadToHead.vue';
 import Names from './components/Names.vue';
 import RoundCycle from './components/RoundCycle.vue';
-import Sound from './components/Sound.vue';
 import PlayerList from './PlayerList.js';
 
 import CurrencyFormatter from './filters/Currency.js';
@@ -20,7 +19,6 @@ var app = new Vue({
         HeadToHead,
         Names,
         RoundCycle,
-        Sound,
     },
     data: {
         gameState: 'names', // names, round, head_to_head

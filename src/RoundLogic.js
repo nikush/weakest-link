@@ -4,9 +4,13 @@ export default class {
     constructor() {
         this.linkValues = [0.2, 0.5, 1, 2, 3, 4.5, 6, 8, 10];
         this.answerStreak = null;
+
         this.round = 0;
         this.bank = 0;
         this.kitty = 0;
+
+        this.timerDuration = 0;
+        this.timerRun = false;
     }
 
     incrementAnswerStreak() {
@@ -62,10 +66,23 @@ export default class {
         this.bank = 0;
         this.round++;
 
+        this.timerRun = false;
+        this.setTime();
+
         return summary;
     }
 
     setRoundForNumberOfPlayers(numPlayers) {
         this.round = (GameEnumeration.maxPlayers - numPlayers) + 1;
+        this.setTime();
+    }
+
+    setTime() {
+        const currentRound = GameEnumeration.rounds[this.round-1];
+        if (currentRound) {
+            this.timerDuration = currentRound.time;
+        } else {
+            this.timerDuration = 0;
+        }
     }
 }

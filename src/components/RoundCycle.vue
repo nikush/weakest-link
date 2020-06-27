@@ -1,6 +1,6 @@
 <template>
     <div>
-        <round :players="players" @complete="roundComplete"></round>
+        <round :players="players" @complete="roundComplete" :muted="muted"></round>
 
         <modal :title="modalTitles[roundState]" :display="['summary','eliminate'].includes(roundState)">
             <round-summary v-if="roundState === 'summary'"
@@ -37,6 +37,7 @@ export default {
     },
     props: {
         players: PlayerList,
+        muted: Boolean,
     },
     data: function () {
         return {

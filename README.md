@@ -22,9 +22,9 @@ Run the tests
 
 
 ## TODO
+- Get history working with new PlayerList class
 - Organise/restructure/rename files
 - Address todos
-- Get history working with new PlayerList class
 - Swap out webpack for rollup
 - Look at https://uidesigndaily.com/ to improve on the UI
 - Animations! Make it look sleek

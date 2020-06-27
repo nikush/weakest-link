@@ -30,7 +30,7 @@
 
             <div class="container">
 
-                <controls v-if="showControls" @muted="toggleSounds" class="w-50 mx-auto"></controls>
+                <controls v-if="showControls" :muted="muted" @toggle="toggleSounds" class="w-50 mx-auto"></controls>
 
                 <div class="row mb-4" v-if="gameState == 'names'">
                     <div class="col col-4 offset-4">
@@ -39,7 +39,7 @@
                 </div>
 
                 <div v-if="gameState == 'round'">
-                    <round-cycle :players="players" @complete="roundsComplete"></round-cycle>
+                    <round-cycle :players="players" @complete="roundsComplete" :muted="muted"></round-cycle>
                 </div>
 
                 <div v-if="gameState == 'head_to_head'">

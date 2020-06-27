@@ -1,7 +1,7 @@
 <template>
     <div class="card shadow mb-4 bg-dark">
         <div class="card-body">
-            <button class="btn btn-outline-secondary btn-block mb-3" @click="toggleSounds">
+            <button class="btn btn-outline-secondary btn-block mb-3" @click="$emit('toggle')">
                 {{muted?'Unmute':'Mute'}} Sounds
             </button>
             <table class="table table-dark mb-0">
@@ -19,15 +19,10 @@
 
 <script>
 export default {
-    data: function () {
-        return {
-            muted: false,
-        }
-    },
-    methods: {
-        toggleSounds: function () {
-            this.muted = !this.muted;
-            this.$emit('muted', this.muted);
+    props: {
+        muted: {
+            type: Boolean,
+            default: false,
         },
     },
 };

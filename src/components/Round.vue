@@ -32,6 +32,7 @@ export default {
 
     props: {
         players: PlayerList,
+        muted: Boolean,
     },
     data: function () {
         return {
@@ -60,6 +61,12 @@ export default {
                 },
             },
         };
+    },
+
+    watch: {
+        muted: function (newValue) {
+            this.audio.volume = (newValue ? 0 : 1);
+        },
     },
 
     methods: {
@@ -151,6 +158,7 @@ export default {
     },
 
     mounted: function () {
+        this.audio.volume = (this.muted ? 0 : 1);
         this.roundLogic.setRoundForNumberOfPlayers(this.players.length);
         this.players.highlightFirstPlayerAlphabetically();
         document.addEventListener('keyup', this.keyPress);

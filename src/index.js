@@ -28,18 +28,16 @@ var app = new Vue({
         kitty: null,
         minPlayers: GameEnumeration.minPlayers,
         maxPlayers: GameEnumeration.maxPlayers,
+
+        muted: false,
     },
     methods: {
         submitNames: function (names) {
             this.players = PlayerList.fromNames(names);
             this.gameState = 'round';
         },
-        toggleSounds: function (muted) {
-            if (muted) {
-                this.$refs.sound.mute();
-            } else {
-                this.$refs.sound.unmute();
-            }
+        toggleSounds: function () {
+            this.muted = !this.muted;
         },
         roundsComplete(kitty) {
             this.kitty = kitty;

@@ -1,7 +1,7 @@
 import RoundCycle from './RoundCycle.vue';
 import { shallowMount } from '@vue/test-utils';
-import PlayerList from '../PlayerList.js';
-import Player from '../Player.js';
+import PlayerList from '../classes/PlayerList.js';
+import Player from '../classes/Player.js';
 import Round from './Round.vue';
 import Modal from './Modal.vue';
 import RoundSummary from './RoundSummary.vue';

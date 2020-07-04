@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import PlayerList from '../PlayerList.js';
+import PlayerList from '../classes/PlayerList.js';
 
 export default {
     props: {

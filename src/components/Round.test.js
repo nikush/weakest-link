@@ -1,8 +1,8 @@
 import { createLocalVue, shallowMount } from '@vue/test-utils';
 import Round from './Round.vue';
-import RoundLogic from '../RoundLogic.js';
-import PlayerList from '../PlayerList.js';
-import Player from '../Player.js';
+import RoundLogic from '../classes/RoundLogic.js';
+import PlayerList from '../classes/PlayerList.js';
+import Player from '../classes/Player.js';
 import Chain from './Chain.vue';
 import Players from './Players.vue';
 import Timer from './Timer.vue';

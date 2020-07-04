@@ -16,10 +16,10 @@
 </template>
 
 <script>
-import GameEnumeration from '../GameEnumeration.js';
+import GameEnumeration from '../classes/GameEnumeration.js';
 import Chain from './Chain.vue';
-import RoundLogic from '../RoundLogic.js';
-import PlayerList from '../PlayerList.js';
+import RoundLogic from '../classes/RoundLogic.js';
+import PlayerList from '../classes/PlayerList.js';
 import Players from './Players.vue';
 import Timer from './Timer.vue';
 

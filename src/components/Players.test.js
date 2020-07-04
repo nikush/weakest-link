@@ -1,6 +1,6 @@
 import { mount, shallowMount } from '@vue/test-utils';
 import Players from './Players.vue';
-import Player from '../Player.js';
+import Player from '../classes/Player.js';
 
 function factory(propsData) {
     return mount(Players, {propsData});

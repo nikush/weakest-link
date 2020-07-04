@@ -1,7 +1,7 @@
 import { createLocalVue, shallowMount } from '@vue/test-utils';
 import EliminationList from './EliminationList.vue';
 import formatter from '../filters/Currency.js';
-import Player from '../Player.js';
+import Player from '../classes/Player.js';
 
 const localVue = createLocalVue();
 localVue.filter('currency', formatter)

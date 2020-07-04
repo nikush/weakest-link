@@ -1,12 +1,12 @@
 import Vue from 'vue';
 
-import GameEnumeration from './GameEnumeration.js';
+import GameEnumeration from './classes/GameEnumeration.js';
 
 import Controls from './components/Controls.vue';
 import HeadToHead from './components/HeadToHead.vue';
 import Names from './components/Names.vue';
 import RoundCycle from './components/RoundCycle.vue';
-import PlayerList from './PlayerList.js';
+import PlayerList from './classes/PlayerList.js';
 
 import CurrencyFormatter from './filters/Currency.js';
 

@@ -21,10 +21,10 @@
 </template>
 
 <script>
-import GameEnumeration from '../GameEnumeration.js';
+import GameEnumeration from '../classes/GameEnumeration.js';
 import EliminationList from './EliminationList.vue';
 import Modal from './Modal.vue';
-import PlayerList from '../PlayerList.js';
+import PlayerList from '../classes/PlayerList.js';
 import Round from './Round.vue';
 import RoundSummary from './RoundSummary.vue';
 

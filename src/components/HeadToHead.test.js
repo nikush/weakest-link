@@ -1,8 +1,8 @@
 import { createLocalVue, shallowMount } from '@vue/test-utils';
 import formatter from '../filters/Currency.js';
 import HeadToHead from './HeadToHead.vue';
-import PlayerList from '../PlayerList';
-import Player from '../Player';
+import PlayerList from '../classes/PlayerList.js';
+import Player from '../classes/Player.js';
 
 const localVue = createLocalVue();
 localVue.filter('currency', formatter)

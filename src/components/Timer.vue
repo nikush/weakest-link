@@ -3,10 +3,11 @@
 </template>
 
 <script>
+import EventBus from '../classes/EventBus.js';
+
 export default {
     props: {
         duration: Number,
-        run: Boolean,
     },
     data: function () {
         return {
@@ -33,13 +34,6 @@ export default {
         duration: function (newValue, oldValue) {
             this.countDown = this.duration;
         },
-        run: function(newValue) {
-            if (newValue === true) {
-                this.start();
-            } else {
-                this.pause();
-            }
-        },
     },
     computed: {
         durationFormatted: function () {
@@ -50,6 +44,10 @@ export default {
             }
             return `${mins}:${seconds}`;
         }
+    },
+    created() {
+        EventBus.$on('timer:start', this.start);
+        EventBus.$on('timer:pause', this.pause);
     },
 };
 </script>

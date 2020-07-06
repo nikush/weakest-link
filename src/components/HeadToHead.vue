@@ -28,7 +28,6 @@ import PlayerList from '../classes/PlayerList.js';
 
 export default {
     props: {
-        players: PlayerList,
         kitty: Number,
     },
     data: function () {
@@ -48,7 +47,7 @@ export default {
             this.$set(this.playerScores[playerIndex].scores, scoreIndex, !currentScore);
         },
         strong: function(name) {
-            const strongestPlayer = this.players.getRemainingPlayersRanked()[0];
+            const strongestPlayer = this.$store.getters['scores/remainingContestantsRanked'][0];
             if (name == strongestPlayer.name) {
                 return name + " 🏅";
             }
@@ -58,7 +57,7 @@ export default {
     },
 
     created: function () {
-        this.playerScores = this.players.remainingPlayers().map((player) => {
+        this.playerScores = this.$store.getters['scores/remainingContestants'].map((player) => {
             return {
                 name: player.name,
                 scores: [null, null, null, null, null],

@@ -1,4 +1,5 @@
 export default {
+    linkValues: [0.2, 0.5, 1, 2, 3, 4.5, 6, 8, 10],
     rounds: [
         { time: 180, track: 'Round 1 - 9 people' },
         { time: 170, track: 'Round 2 - 8 people' },

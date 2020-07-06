@@ -12,21 +12,18 @@
 
             <controls v-if="showControls" :muted="muted" @toggle="toggleSounds" class="w-50 mx-auto"></controls>
 
-            <div class="row mb-4" v-if="gameState == 'names'">
+            <div class="row mb-4" v-if="gameScreen == 'names'">
                 <div class="col col-4 offset-4">
                     <names @submit="submitNames" :min="minPlayers" :max="maxPlayers"></names>
                 </div>
             </div>
 
-            <div v-if="gameState == 'round'">
-                <round-cycle :players="players" @complete="roundsComplete" :muted="muted"></round-cycle>
+            <div v-if="gameScreen == 'round'">
+                <round-cycle @complete="roundsComplete"></round-cycle>
             </div>
 
-            <div v-if="gameState == 'head_to_head'">
-                <head-to-head
-                    :players="players"
-                    :kitty="kitty"
-                ></head-to-head>
+            <div v-if="gameScreen == 'head_to_head'">
+                <head-to-head :kitty="kitty"></head-to-head>
             </div>
 
         </div>
@@ -34,6 +31,7 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex';
 import GameEnumeration from '../classes/GameEnumeration.js';
 import Controls from './Controls.vue';
 import HeadToHead from './HeadToHead.vue';
@@ -50,11 +48,7 @@ export default({
     },
     data: function () {
         return {
-            gameState: 'names', // names, round, head_to_head
-
             showControls: false,
-            players: null,
-            kitty: null,
             minPlayers: GameEnumeration.minPlayers,
             maxPlayers: GameEnumeration.maxPlayers,
 
@@ -63,16 +57,23 @@ export default({
     },
     methods: {
         submitNames: function (names) {
-            this.players = PlayerList.fromNames(names);
-            this.gameState = 'round';
+            this['scores/setContestants']({ contestantNames: names });
+            this.setGameScreen({ screen: 'round' });
         },
         toggleSounds: function () {
             this.muted = !this.muted;
         },
-        roundsComplete(kitty) {
-            this.kitty = kitty;
-            this.gameState = 'head_to_head';
-        }
+        roundsComplete() {
+            this.setGameScreen({ screen: 'head_to_head' });
+        },
+        ...mapMutations([
+            'scores/setContestants',
+            'setGameScreen',
+        ]),
     },
+    computed: mapState({
+        gameScreen: 'gameScreen',
+        kitty: 'kitty',
+    }),
 })
 </script>

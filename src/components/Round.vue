@@ -1,21 +1,23 @@
 <template>
     <div class="row">
         <div class="col d-flex flex-column align-items-center">
-            <chain class="mb-4" :links="roundLogic.linkValues" :progress="roundLogic.answerStreak"></chain>
-            <p class="pill mb-5" data-text="Bank">{{roundLogic.bank | currency}}</p>
+            <chain class="mb-4" :links="linkValues" :progress="answerStreak"></chain>
+            <p class="pill mb-5" data-text="Bank">{{bank | currency}}</p>
         </div>
         <div class="col">
-            <players :players="players.all()"></players>
+            <players :players="contestants"></players>
         </div>
         <div class="col d-flex flex-column align-items-center">
-            <p class="pill mb-5" data-text="Round">{{roundLogic.round}}</p>
-            <timer class="mb-5" :duration="roundLogic.timerDuration" :run="roundLogic.timerRun" @complete="endRound"></timer>
-            <p class="pill mb-5" data-text="Kitty">{{roundLogic.kitty | currency}}</p>
+            <p class="pill mb-5" data-text="Round">{{round}}</p>
+            <timer class="mb-5" :duration="timerDuration" @complete="endRound"></timer>
+            <p class="pill mb-5" data-text="Kitty">{{kitty | currency}}</p>
         </div>
     </div>
 </template>
 
 <script>
+import { mapState, mapGetters, mapMutations } from 'vuex';
+import EventBus from '../classes/EventBus.js';
 import GameEnumeration from '../classes/GameEnumeration.js';
 import Chain from './Chain.vue';
 import RoundLogic from '../classes/RoundLogic.js';
@@ -31,17 +33,15 @@ export default {
     },
 
     props: {
-        players: PlayerList,
         muted: Boolean,
     },
     data: function () {
         return {
-            roundLogic: new RoundLogic(),
-            roundState: 'inactive', // inactive, active, paused
+            linkValues: GameEnumeration.linkValues,
 
             audio: new Audio(),
 
-            history: {},
+            history: [],
 
             stateKeyMap: {
                 'inactive': {
@@ -53,14 +53,28 @@ export default {
                     'Backspace': this.questionIncorrect,
                     'Enter': this.bankAnswerStreak,
                     'KeyB': this.bankAnswerStreak,
-                    //'KeyZ': this.undoLastAction,
+                    'KeyZ': this.undoLastAction,
                 },
                 'paused': {
                     'KeyS': this.toggleGameState,
-                    //'KeyZ': this.undoLastAction,
+                    'KeyZ': this.undoLastAction,
                 },
             },
         };
+    },
+
+    computed: {
+        ...mapState({
+            kitty: state => state.kitty,
+            round: state => state.round.round,
+            roundState: state => state.round.state,
+            bank: state => state.round.bank,
+            answerStreak: state => state.round.answerStreak,
+            timerDuration: state => state.round.timerDuration,
+        }),
+        ...mapGetters('scores', [
+            'contestants',
+        ]),
     },
 
     watch: {
@@ -73,30 +87,36 @@ export default {
         questionCorrect: function () {
             //this.logHistory();
 
-            this.players.playerAnsweredCorrectly(this.roundLogic.getCurrentLinkIndex());
-            this.players.highlightNextPlayer();
-
-            this.roundLogic.incrementAnswerStreak();
+            this.$store.commit(
+                'scores/contestantAnsweredCorrectly',
+                this.$store.getters['round/currentValueInChain']
+            );
+            this.$store.commit('scores/highlightNextContestant');
+            this.$store.commit('round/incrementAnswerStreak');
         },
         questionIncorrect: function () {
             //this.logHistory();
 
-            this.players.playerAnsweredIncorrectly(this.roundLogic.getCurrentLinkIndex());
-            this.players.highlightNextPlayer();
-
-            this.roundLogic.resetAnswerStreak();
+            this.$store.commit(
+                'scores/contestantAnsweredIncorrectly',
+                this.$store.getters['round/currentValueInChain']
+            );
+            this.$store.commit('scores/highlightNextContestant');
+            this.$store.commit('round/resetAnswerStreak');
         },
         bankAnswerStreak: function () {
             //this.logHistory();
 
-            const acquiredValue = this.roundLogic.getAcquiredValueInChain();
-            this.players.playerBanked(acquiredValue);
-            this.roundLogic.bankProgress();
+            this.$store.commit(
+                'scores/contestantBanked',
+                this.$store.getters['round/acquiredValueInChain']
+            );
+            this.$store.dispatch('round/bank');
 
-            if (this.roundLogic.hasBankedMaximumValue()) {
-                // interrupt the timer and audio
-                this.endRound();
+
+            if (this.$store.getters['round/hasBankedMaxValue']) {
                 this.playTrack(GameEnumeration.roundWinTrackName);
+                this.endRound();
             }
         },
 
@@ -119,28 +139,38 @@ export default {
             }
         },
         startRound: function () {
-            this.roundState = 'active';
-            this.roundLogic.resetAnswerStreak();
+            this.$store.commit('round/setRoundState', 'active');
+            this.$store.commit('round/resetAnswerStreak');
+            EventBus.$emit('timer:start');
 
-            this.roundLogic.timerRun = true;
-            const currentRound = GameEnumeration.rounds[this.roundLogic.round-1];
+            const currentRound = GameEnumeration.rounds[this.round-1];
             this.playTrack(currentRound.track);
         },
         pauseRound: function () {
-            this.roundState = 'paused';
-            this.roundLogic.timerRun = false;
+            this.$store.commit('round/setRoundState', 'paused');
+            EventBus.$emit('timer:pause');
+
             this.audio.pause();
         },
         resumeRound: function () {
-            this.roundState = 'active';
-            this.roundLogic.timerRun = true;
+            this.$store.commit('round/setRoundState', 'active');
+            EventBus.$emit('timer:start');
+
             this.audio.play();
         },
         // called by timer "complete" event and bankAnswerStreak()
         endRound: function () {
-            const summary = this.roundLogic.endRound();
+            this.$store.commit('round/applyFinalRoundMultiplyer');
+            const summary = {
+                round: this.round,
+                bank: this.bank,
+                kitty: this.kitty,
+            };
+            this.$store.commit('addToKitty', {amount: this.bank});
+            this.$store.commit('round/clearBank');
+
+            this.$store.dispatch('round/endRound');
             this.$emit('complete', summary);
-            this.roundState = 'inactive';
 
             //this.clearHistory();
         },
@@ -155,12 +185,31 @@ export default {
                 currentKeyMap[event.code]();
             }
         },
+
+        logHistory: function () {
+            const state = {
+                answerStreak: this.roundLogic.answerStreak,
+                bank: this.roundLogic.bank,
+            };
+            this.history.push(state);
+        },
+
+        undoLastAction: function () {
+            if (this.history.length === 0) {
+                return;
+            }
+
+            const lastState = this.history.pop();
+            this.roundLogic.answerStreak = lastState.answerStreak;
+            this.roundLogic.bank = lastState.bank;
+        },
     },
 
     mounted: function () {
+        this.$store.commit('round/setRoundForNumberOfContestants', this.contestants.length);
+        this.$store.dispatch('scores/highlightFirstNameAlphabetically');
+
         this.audio.volume = (this.muted ? 0 : 1);
-        this.roundLogic.setRoundForNumberOfPlayers(this.players.length);
-        this.players.highlightFirstPlayerAlphabetically();
         document.addEventListener('keyup', this.keyPress);
     },
 

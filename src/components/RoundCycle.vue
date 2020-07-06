@@ -1,6 +1,6 @@
 <template>
     <div>
-        <round :players="players" @complete="roundComplete" :muted="muted"></round>
+        <round @complete="roundComplete" :muted="muted"></round>
 
         <modal :title="modalTitles[roundState]" :display="['summary','eliminate'].includes(roundState)">
             <round-summary v-if="roundState === 'summary'"
@@ -13,7 +13,7 @@
             </round-summary>
             <elimination-list v-if="roundState === 'eliminate'"
                 @selected="eliminatePlayer"
-                :players="players.getRemainingPlayersRanked()"
+                :players="remainingContestantsRanked"
             >
             </elimination-list>
         </modal>
@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import GameEnumeration from '../classes/GameEnumeration.js';
 import EliminationList from './EliminationList.vue';
 import Modal from './Modal.vue';
@@ -36,7 +37,6 @@ export default {
         RoundSummary,
     },
     props: {
-        players: PlayerList,
         muted: Boolean,
     },
     data: function () {
@@ -61,8 +61,7 @@ export default {
         },
         proceedToNextRound: function () {
             if (this.isFinalRound) {
-                // hacky but it will do
-                this.$emit('complete', this.roundSummary.kitty + this.roundSummary.bank);
+                this.$emit('complete');
             } else {
                 this.roundState = 'eliminate';
             }
@@ -92,7 +91,9 @@ export default {
         */
 
         eliminatePlayer: function (player) {
-            this.players.eliminatePlayerByName(player);
+            this.$store.commit('scores/eliminatePlayerByName', player);
+            this.$store.dispatch('scores/highlightStrongestLink')
+            this.$store.commit('scores/resetScores')
 
             this.roundState = null;
         },
@@ -101,7 +102,10 @@ export default {
     computed: {
         isFinalRound: function () {
             return this.roundSummary.round === GameEnumeration.rounds.length
-        }
+        },
+        ...mapGetters('scores', [
+            'remainingContestantsRanked'
+        ]),
     },
 };
 </script>

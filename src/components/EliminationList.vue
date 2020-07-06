@@ -17,7 +17,7 @@
                 <tbody>
                     <tr>
                         <td>{{strongestLink.name}}</td>
-                        <td>{{strongestLink.correct}}<small class="text-muted">/{{strongestLink.total}}</small></td>
+                        <td>{{strongestLink.correct}}<small class="text-muted">/{{strongestLink.correct+strongestLink.incorrect}}</small></td>
                         <td style="width:1px" class="text-right">{{strongestLink.banked | currency}}</td>
                         <td style="width:1px"><small class="text-muted">Banked</small></td>
                     </tr>
@@ -30,7 +30,7 @@
                 <tbody>
                     <tr>
                         <td>{{weakestLink.name}}</td>
-                        <td>{{weakestLink.correct}}<small class="text-muted">/{{weakestLink.total}}</small></td>
+                        <td>{{weakestLink.correct}}<small class="text-muted">/{{weakestLink.correct+weakestLink.incorrect}}</small></td>
                         <td style="width:1px" class="text-right">{{weakestLink.banked | currency}}</td>
                         <td style="width:1px"><small class="text-muted">Banked</small></td>
                     </tr>
@@ -44,7 +44,7 @@
                     <tr v-for="(player,index) in players">
                         <th style="width:1px" class="text-muted">{{index+1}}</th>
                         <td>{{player.name}}</td>
-                        <td>{{player.correct}}<small class="text-muted">/{{player.total}}</small></td>
+                        <td>{{player.correct}}<small class="text-muted">/{{player.correct+player.incorrect}}</small></td>
                         <td style="width:1px" class="text-right">{{player.banked | currency}}</td>
                         <td style="width:1px"><small class="text-muted">Banked</small></td>
                     </tr>

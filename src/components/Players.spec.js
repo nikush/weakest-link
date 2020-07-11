@@ -1,6 +1,5 @@
 import { mount, shallowMount } from '@vue/test-utils';
 import Players from './Players.vue';
-import Player from '../classes/Player.js';
 
 function factory(propsData) {
     return mount(Players, {propsData});
@@ -9,9 +8,9 @@ function factory(propsData) {
 test('displays all players', () => {
     const wrapper = factory({
         players: [
-            new Player('Alex'),
-            new Player('Bruce'),
-            new Player('Chris'),
+            {name:'Alex'},
+            {name:'Bruce'},
+            {name:'Chris'},
         ],
     });
 
@@ -20,9 +19,9 @@ test('displays all players', () => {
 });
 
 test('highlights the active player', async () => {
-    const alex = new Player('Alex');
-    const bruce = new Player('Bruce');
-    const chris = new Player('Chris');
+    const alex = {name:'Alex'};
+    const bruce = {name:'Bruce'};
+    const chris = {name:'Chris'};
 
     alex.active = true;
     let wrapper = factory({players:[alex,bruce,chris]});
@@ -38,9 +37,9 @@ test('highlights the active player', async () => {
 });
 
 test('flags eliminated players', () => {
-    const alex = new Player('Alex');
-    const bruce = new Player('Bruce');
-    const chris = new Player('Chris');
+    const alex = {name:'Alex'};
+    const bruce = {name:'Bruce'};
+    const chris = {name:'Chris'};
     bruce.eliminated = true;
 
     let wrapper = factory({players:[alex,bruce,chris]});

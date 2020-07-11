@@ -24,8 +24,6 @@
 </template>
 
 <script>
-import PlayerList from '../classes/PlayerList.js';
-
 export default {
     props: {
         kitty: Number,

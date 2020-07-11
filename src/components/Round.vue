@@ -20,8 +20,6 @@ import { mapState, mapGetters, mapMutations } from 'vuex';
 import EventBus from '../classes/EventBus.js';
 import GameEnumeration from '../classes/GameEnumeration.js';
 import Chain from './Chain.vue';
-import RoundLogic from '../classes/RoundLogic.js';
-import PlayerList from '../classes/PlayerList.js';
 import Players from './Players.vue';
 import Timer from './Timer.vue';
 

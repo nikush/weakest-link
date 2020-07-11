@@ -4,7 +4,7 @@ const state = () => ({
 });
 
 const getters = {
-    contestants (state, getters, rootState, rootGetters) {
+    contestants (state) {
         return state.contestants;
     },
 
@@ -142,6 +142,7 @@ function sortContestants(a, b) {
     return 0;
 }
 
+export { getters, mutations, actions, sortContestants };
 export default {
     namespaced: true,
     state,

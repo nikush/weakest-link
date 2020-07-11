@@ -35,11 +35,7 @@ const mutations = {
 
         // TODO: maybe extract this to its own mutation
         const currentRound = GameEnumeration.rounds[state.round-1];
-        if (currentRound) {
-            state.timerDuration = currentRound.time;
-        } else {
-            state.timerDuration = 0;
-        }
+        state.timerDuration = currentRound.time;
     },
 
     incrementRound (state) {
@@ -56,6 +52,14 @@ const mutations = {
 
     addToBank(state, payload) {
         state.bank += payload.amount;
+    },
+    bankProgress (state, amount) {
+        state.bank += amount;
+
+        const maxLinkValue = GameEnumeration.linkValues[GameEnumeration.linkValues.length-1];
+        if (state.bank > maxLinkValue) {
+            state.bank = maxLinkValue;
+        }
     },
     clearBank (state) {
         state.bank = 0;
@@ -75,15 +79,6 @@ const mutations = {
     clearAnswerStreak(state) {
         state.answerStreak = null;
     },
-
-    bankProgress (state, amount) {
-        state.bank += amount;
-
-        const maxLinkValue = GameEnumeration.linkValues[GameEnumeration.linkValues.length-1];
-        if (state.bank > maxLinkValue) {
-            state.bank = maxLinkValue;
-        }
-    },
 };
 
 const actions = {
@@ -102,6 +97,7 @@ const actions = {
     },
 };
 
+export { getters, mutations, actions };
 export default {
     namespaced: true,
     state,

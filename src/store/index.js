@@ -5,6 +5,16 @@ import scores from './modules/scores.js';
 
 Vue.use(Vuex);
 
+const mutations = {
+    addToKitty(state, payload) {
+        state.kitty += payload.amount;
+    },
+    setGameScreen(state, payload) {
+        state.gameScreen = payload.screen;
+    },
+};
+
+export { mutations };
 export default new Vuex.Store({
     state: {
         kitty: 0,

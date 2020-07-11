@@ -41,7 +41,6 @@ import Controls from './Controls.vue';
 import HeadToHead from './HeadToHead.vue';
 import Names from './Names.vue';
 import RoundCycle from './RoundCycle.vue';
-import PlayerList from '../classes/PlayerList.js';
 
 export default({
     components: {

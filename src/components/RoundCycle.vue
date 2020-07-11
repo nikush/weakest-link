@@ -27,7 +27,6 @@ import { mapGetters } from 'vuex';
 import GameEnumeration from '../classes/GameEnumeration.js';
 import EliminationList from './EliminationList.vue';
 import Modal from './Modal.vue';
-import PlayerList from '../classes/PlayerList.js';
 import Round from './Round.vue';
 import RoundSummary from './RoundSummary.vue';
 
@@ -66,29 +65,6 @@ export default {
                 this.roundState = 'eliminate';
             }
         },
-
-        /*
-        logHistory: function () {
-            const newHistory = {
-                answerStreak: this.answerStreak,
-                bank: this.bank,
-            };
-            this.$set(this, 'history', newHistory);
-        },
-        clearHistory: function () {
-            this.$set(this, 'history', {});
-        },
-        undoLastAction: function () {
-            if (Object.keys(this.history).length === 0) {
-                return;
-            }
-
-            this.answerStreak = this.history.answerStreak;
-            this.bank = this.history.bank;
-
-            this.clearHistory();
-        },
-        */
 
         eliminatePlayer: function (player) {
             this.$store.commit('scores/eliminatePlayerByName', player);

@@ -11,7 +11,7 @@ export default {
     },
     data: function () {
         return {
-            countDown: 0,
+            countDown: this.duration || 0,
             interval: null,
         }
     },

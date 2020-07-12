@@ -22,12 +22,16 @@ Run the tests
 
 
 ## TODO
-- Get history working with new PlayerList class
+- Get history working again
 - Address todos
 - Swap out webpack for rollup
 - Look at https://uidesigndaily.com/ to improve on the UI
 - Animations! Make it look sleek
-- Warn before refreshing the page
 - Move styles into their respective components and reduce the size of app.css
+- Bring in tailwind
+
+### Nice to haves
+- Use constants for store mutations and actions
+- Warn before refreshing the page
 - Add a question/answer pool so that the players can read the question
 - Put in an easter egg when people vote for my name

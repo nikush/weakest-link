@@ -10,7 +10,7 @@
 
         <div class="container">
 
-            <controls v-if="showControls" :muted="muted" @toggle="toggleSounds" class="w-50 mx-auto"></controls>
+            <controls v-if="showControls" class="w-50 mx-auto"></controls>
 
             <div class="row mb-4" v-if="gameScreen == 'names'">
                 <div class="col col-4 offset-4">
@@ -51,17 +51,16 @@ export default({
             showControls: false,
             minPlayers: GameEnumeration.minPlayers,
             maxPlayers: GameEnumeration.maxPlayers,
-
-            muted: false,
         }
     },
+    computed: mapState({
+        gameScreen: 'gameScreen',
+        kitty: 'kitty',
+    }),
     methods: {
         submitNames: function (names) {
             this['scores/setContestants']({ contestantNames: names });
             this.setGameScreen({ screen: 'round' });
-        },
-        toggleSounds: function () {
-            this.muted = !this.muted;
         },
         roundsComplete() {
             this.setGameScreen({ screen: 'head_to_head' });
@@ -71,9 +70,5 @@ export default({
             'setGameScreen',
         ]),
     },
-    computed: mapState({
-        gameScreen: 'gameScreen',
-        kitty: 'kitty',
-    }),
 })
 </script>

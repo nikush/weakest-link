@@ -8,8 +8,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         kitty: 0,
-        //muted: false,
-        //strongestLink: null
+        muted: false,
         gameScreen: 'names', // names, round, head_to_head
     },
     mutations: {
@@ -18,6 +17,9 @@ export default new Vuex.Store({
         },
         setGameScreen(state, payload) {
             state.gameScreen = payload.screen;
+        },
+        toggleMuted (state) {
+            state.muted = !state.muted;
         },
     },
     modules: {

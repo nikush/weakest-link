@@ -1,6 +1,6 @@
 <template>
     <div>
-        <round @complete="roundComplete" :muted="muted"></round>
+        <round @complete="roundComplete"></round>
 
         <modal :title="modalTitles[roundState]" :display="['summary','eliminate'].includes(roundState)">
             <round-summary v-if="roundState === 'summary'"
@@ -35,9 +35,6 @@ export default {
         Modal,
         Round,
         RoundSummary,
-    },
-    props: {
-        muted: Boolean,
     },
     data: function () {
         return {

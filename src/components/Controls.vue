@@ -1,7 +1,7 @@
 <template>
     <div class="card shadow mb-4 bg-dark">
         <div class="card-body">
-            <button class="btn btn-outline-secondary btn-block mb-3" @click="$emit('toggle')">
+            <button class="btn btn-outline-secondary btn-block mb-3" @click="toggleMuted">
                 {{muted?'Unmute':'Mute'}} Sounds
             </button>
             <table class="table table-dark mb-0">
@@ -18,12 +18,10 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex';
+
 export default {
-    props: {
-        muted: {
-            type: Boolean,
-            default: false,
-        },
-    },
+    computed: mapState(['muted']),
+    methods: mapMutations(['toggleMuted']),
 };
 </script>

@@ -32,9 +32,6 @@ export default {
         Timer,
     },
 
-    props: {
-        muted: Boolean,
-    },
     data: function () {
         return {
             linkValues: GameEnumeration.linkValues,
@@ -75,6 +72,7 @@ export default {
         ...mapGetters('scores', [
             'contestants',
         ]),
+        ...mapState({muted:'muted'}),
     },
 
     watch: {

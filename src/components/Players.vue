@@ -15,3 +15,21 @@ export default {
     },
 };
 </script>
+
+<style>
+.players > li {
+    background-color: hsla(0, 0%, 100%, 0.1);
+    border-width: medium;
+    border-style: solid;
+    border-color: transparent;
+    text-transform: capitalize;
+    text-align: center;
+}
+.players > li.eliminated {
+    opacity: 0.4;
+    text-decoration: line-through;
+}
+.players > li.active {
+    border-color: rgba(255,255,255,0.5);
+}
+</style>

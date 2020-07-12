@@ -27,10 +27,10 @@ Run the tests
 - Swap out webpack for rollup
 - Look at https://uidesigndaily.com/ to improve on the UI
 - Animations! Make it look sleek
-- Move styles into their respective components and reduce the size of app.css
 - Bring in tailwind
 
 ### Nice to haves
+- Preload audio to avoid delays during playback
 - Use constants for store mutations and actions
 - Warn before refreshing the page
 - Add a question/answer pool so that the players can read the question

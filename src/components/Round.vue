@@ -216,3 +216,37 @@ export default {
     },
 }
 </script>
+
+<style>
+.pill {
+    font-weight: bold;
+    font-size: 30px;
+    background-color: #487EC1;
+    width: 120px;
+    text-align: center;
+    border-radius: 75px / 20px;
+    padding: 3px 10px;
+    box-shadow: 0 7px 0 0 #2A4E7A, 0 10px 0 0 #2A4E7A;
+    text-shadow: 0px 1px 2px black;
+    text-transform: uppercase;
+    transition: all 0.5s;
+
+    line-height: 1;
+}
+.pill[data-text]::after {
+    content: attr(data-text);
+    display: block;
+    position: absolute;
+    width: 120px;
+    margin-left: -10px;
+    font-size: 80%;
+}
+.pill.active {
+    background-color: #820009;
+    box-shadow: 0 7px 0 0 #630505, 0 10px 0 0 #630505;
+}
+
+.pill-list .pill:not(:first-child):not(.active){
+    color: #bbb;
+}
+</style>

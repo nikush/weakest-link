@@ -20,12 +20,6 @@ module.exports = {
     plugins:    [
         new VueLoaderPlugin(),
     ],
-    resolve: {
-        alias: {
-            'vue$': 'vue/dist/vue.esm.js'
-        },
-        extensions: ['*', '.js', '.vue', '.json']
-    },
     module: {
         rules: [
             {
@@ -41,7 +35,14 @@ module.exports = {
                         presets: ['@babel/preset-env']
                     }
                 }
-            }
+            },
+            {
+                test: /\.css$/,
+                use: [
+                    'vue-style-loader',
+                    'css-loader'
+                ]
+            },
         ]
     },
 };

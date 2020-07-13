@@ -10,21 +10,25 @@
 
         <div class="container">
 
-            <controls v-if="showControls" class="w-50 mx-auto"></controls>
+            <transition>
+                <controls v-if="showControls"></controls>
+            </transition>
 
-            <div class="row mb-4" v-if="gameScreen == 'names'">
-                <div class="col col-4 offset-4">
-                    <names @submit="submitNames" :min="minPlayers" :max="maxPlayers"></names>
+            <transition mode="out-in" appear>
+                <div class="row mb-4" v-if="gameScreen == 'names'" key="names">
+                    <div class="col col-4 offset-4">
+                        <names @submit="submitNames" :min="minPlayers" :max="maxPlayers"></names>
+                    </div>
                 </div>
-            </div>
 
-            <div v-if="gameScreen == 'round'">
-                <round-cycle @complete="roundsComplete"></round-cycle>
-            </div>
+                <div v-if="gameScreen == 'round'" key="round-cycle">
+                    <round-cycle @complete="roundsComplete"></round-cycle>
+                </div>
 
-            <div v-if="gameScreen == 'head_to_head'">
-                <head-to-head :kitty="kitty"></head-to-head>
-            </div>
+                <div v-if="gameScreen == 'head_to_head'" key="head-to-head">
+                    <head-to-head :kitty="kitty"></head-to-head>
+                </div>
+            </transition>
 
         </div>
     </div>
@@ -72,3 +76,13 @@ export default({
     },
 })
 </script>
+
+<style>
+.v-enter-active, .v-leave-active {
+    transition: all 0.3s ease;
+}
+.v-enter, .v-leave-to {
+    opacity: 0;
+    transform: scale(0.95);
+}
+</style>

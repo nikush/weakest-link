@@ -22,11 +22,11 @@ Run the tests
 
 
 ## TODO
+- Animations! Make it look sleek
 - Get history working again
 - Address todos
 - Swap out webpack for rollup
 - Look at https://uidesigndaily.com/ to improve on the UI
-- Animations! Make it look sleek
 - Bring in tailwind
 
 ### Nice to haves

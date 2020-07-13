@@ -3,19 +3,21 @@
         <round @complete="roundComplete"></round>
 
         <modal :title="modalTitles[roundState]" :display="['summary','eliminate'].includes(roundState)">
-            <round-summary v-if="roundState === 'summary'"
-                :round="roundSummary.round"
-                :kitty="roundSummary.kitty"
-                :bank="roundSummary.bank"
-                :is-final="isFinalRound"
-                @click="proceedToNextRound"
-            >
-            </round-summary>
-            <elimination-list v-if="roundState === 'eliminate'"
-                @selected="eliminatePlayer"
-                :players="remainingContestantsRanked"
-            >
-            </elimination-list>
+            <transition mode="out-in">
+                <round-summary v-if="roundState === 'summary'"
+                    :round="roundSummary.round"
+                    :kitty="roundSummary.kitty"
+                    :bank="roundSummary.bank"
+                    :is-final="isFinalRound"
+                    @click="proceedToNextRound"
+                >
+                </round-summary>
+                <elimination-list v-if="roundState === 'eliminate'"
+                    @selected="eliminatePlayer"
+                    :players="remainingContestantsRanked"
+                >
+                </elimination-list>
+            </transition>
         </modal>
     </div>
 </template>
@@ -58,6 +60,7 @@ export default {
         },
         proceedToNextRound: function () {
             if (this.isFinalRound) {
+                this.roundState = null;
                 this.$emit('complete');
             } else {
                 this.roundState = 'eliminate';

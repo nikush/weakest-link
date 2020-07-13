@@ -1,7 +1,7 @@
 <template>
-    <div class="card shadow mb-4 bg-dark">
+    <div class="card shadow bg-dark position-absolute mx-auto">
         <div class="card-body">
-            <button class="btn btn-outline-secondary btn-block mb-3" @click="toggleMuted">
+            <button class="btn btn-secondary btn-block mb-3" @click="toggleMuted">
                 {{muted?'Unmute':'Mute'}} Sounds
             </button>
             <table class="table table-dark mb-0">
@@ -25,3 +25,12 @@ export default {
     methods: mapMutations(['toggleMuted']),
 };
 </script>
+
+<style scoped>
+.card {
+    width: 400px;
+    left: 0;
+    right: 0;
+    z-index: 100;
+}
+</style>

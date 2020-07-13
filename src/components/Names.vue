@@ -4,9 +4,11 @@
             Players
         </div>
         <div class="card-body">
-            <div class="form-group" v-for="(player,index) in players">
-                <input v-model="player.name" :key="index" type="text" class="form-control" @input="addField"/>
-            </div>
+            <transition-group>
+                <div class="form-group" v-for="(player,index) in players" :key="index">
+                    <input v-model="player.name" type="text" class="form-control" @input="addField"/>
+                </div>
+            </transition-group>
             <button class="btn btn-block btn-primary"
                 @click="submit"
                 :disabled="nonEmptyNames.length < min"
@@ -51,3 +53,13 @@ export default {
     },
 };
 </script>
+
+<style scoped>
+.v-enter-active, .v-leave-active {
+    transition: all 0.3s ease;
+}
+.v-enter, .v-leave-to {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+}
+</style>

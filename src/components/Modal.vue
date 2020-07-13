@@ -1,7 +1,7 @@
 <template>
-    <div>
-        <div class="modal fade" :class="{show:display, 'd-block':display}">
-            <div class="modal-dialog">
+    <transition>
+        <div class="modal show d-block" v-if="display">
+            <div class="modal-dialog shadow-lg">
                 <div class="modal-content bg-dark">
                     <div v-if="title" class="modal-header border-bottom-0">
                         <h5 class="modal-title">{{title}}</h5>
@@ -12,8 +12,7 @@
                 </div>
             </div>
         </div>
-        <div class="modal-backdrop fade" :class="{show:display,'d-none':!display}"></div>
-    </div>
+    </transition>
 </template>
 
 <script>

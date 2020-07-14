@@ -12,6 +12,9 @@ const mutations = {
     setGameScreen(state, payload) {
         state.gameScreen = payload.screen;
     },
+    toggleMuted (state) {
+        state.muted = !state.muted;
+    },
 };
 
 export { mutations };
@@ -21,17 +24,7 @@ export default new Vuex.Store({
         muted: false,
         gameScreen: 'names', // names, round, head_to_head
     },
-    mutations: {
-        addToKitty(state, payload) {
-            state.kitty += payload.amount;
-        },
-        setGameScreen(state, payload) {
-            state.gameScreen = payload.screen;
-        },
-        toggleMuted (state) {
-            state.muted = !state.muted;
-        },
-    },
+    mutations,
     modules: {
         round,
         scores,

@@ -24,12 +24,15 @@ export default {
     border-color: transparent;
     text-transform: capitalize;
     text-align: center;
+    transition: all 0.3s;
 }
 .players > li.eliminated {
     opacity: 0.4;
     text-decoration: line-through;
 }
 .players > li.active {
-    border-color: rgba(255,255,255,0.5);
+    background-color: hsla(0, 0%, 100%, 0.2);
+    border-color: hsla(0, 0%, 100%, 0.5);
+    transform: scale(1.1);
 }
 </style>
